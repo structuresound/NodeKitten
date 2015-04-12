@@ -57,15 +57,18 @@
 #include "NKFrameBuffer.h"
 
 //// SHADERS
-
 #include "NKShaderProgram.h"
 #include "NKShaderManager.h"
 #include "NKShaderModule.h"
 #include "NKShaderTools.h"
+
 // ROOT VIEW
 #include "NKView.h"
-// OTHERS VIEWS SHOULD BE INCLUDED IN PLATFORM SPECIFIC EXAMPLES
 
+// EXAMPLES
+#include "ExampleScene.h"
+
+// OTHERS VIEWS SHOULD BE INCLUDED IN PLATFORM SPECIFIC EXAMPLES
 #if (TARGET_IOS || TARGET_OSX)
 #include "NKAppleDeviceTools.h"
 #endif

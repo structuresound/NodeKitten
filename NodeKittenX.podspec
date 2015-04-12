@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 s.name             = "NodeKittenX"
 s.version          = "0.1.0"
 s.summary          = "experimental GL(es)2 based UI Framework"
-s.homepage         = "https://github.com/<GITHUB_USERNAME>/NodeKitten"
+s.homepage         = "https://github.com/structuresound/NodeKittenX"
 s.license          = "MIT"
 s.author           = { "structuresound" => "leif@structuresound.com" }
 
@@ -20,7 +20,10 @@ s.requires_arc = true
 s.ios.frameworks = "UIKit", "MapKit"
 s.osx.frameworks = "AppKit"
 
-s.source_files = "blocks/leif/NodeKittenX/*.{h}","blocks/leif/NodeKittenX/Platform/Cocoa/*.{h,mm,cpp}","blocks/leif/NodeKittenX/Event/*.{h,cpp}","blocks/leif/NodeKittenX/Node/*.{h,cpp}","blocks/leif/NodeKittenX/Shader/*.{h,cpp}","blocks/leif/NodeKittenX/Texture/*.{h,cpp}","blocks/leif/NodeKittenX/Types/*.{h,cpp}","blocks/leif/NodeKittenX/Utils/*.{h,cpp}","blocks/leif/NodeKittenX/View/NKView.{h,cpp}"
+s.source_files = "blocks/leif/NodeKittenX/*.{h}","blocks/leif/NodeKittenX/Platform/Cocoa/*.{h,mm,cpp}","blocks/leif/NodeKittenX/Event/*.{h,cpp}","blocks/leif/NodeKittenX/Node/*.{h,cpp}","blocks/leif/NodeKittenX/Shader/*.{h,cpp}","blocks/leif/NodeKittenX/Texture/*.{h,cpp}","blocks/leif/NodeKittenX/Types/*.{h,cpp}","blocks/leif/NodeKittenX/Utils/*.{h,cpp}","blocks/leif/NodeKittenX/View/NKView.{h,cpp}","blocks/leif/NodeKittenX/Examples/*.{h,cpp}"
+
+s.resource_bundles = {"NodeKittenX" => "blocks/leif/NodeKittenX//Examples/Assets/*.{png,jpg}"}
+s.ios.resource_bundle = {"NodeKittenX" => "blocks/leif/NodeKittenX//Examples/Assets/*.{png,jpg}"}
 
 s.subspec "zlib" do |ss|
 ss.source_files = "deps/leif/zlib/*.{h,c}"
