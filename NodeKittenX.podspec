@@ -20,7 +20,7 @@ s.requires_arc = true
 s.ios.frameworks = "UIKit", "MapKit"
 s.osx.frameworks = "AppKit"
 
-s.source_files = "blocks/leif/NodeKittenX/*.{h}","blocks/leif/NodeKittenX/Apple/*.{h,mm}","blocks/leif/NodeKittenX/Apple/*.{h,cpp}","blocks/leif/NodeKittenX/Event/*.{h,cpp}","blocks/leif/NodeKittenX/Node/*.{h,cpp}","blocks/leif/NodeKittenX/Shader/*.{h,cpp}","blocks/leif/NodeKittenX/Texture/*.{h,cpp}","blocks/leif/NodeKittenX/Types/*.{h,cpp}","blocks/leif/NodeKittenX/Utils/*.{h,cpp}","blocks/leif/NodeKittenX/View/NKView.{h,cpp}"
+s.source_files = "blocks/leif/NodeKittenX/*.{h}","blocks/leif/NodeKittenX/Platform/Cocoa/*.{h,mm,cpp}","blocks/leif/NodeKittenX/Event/*.{h,cpp}","blocks/leif/NodeKittenX/Node/*.{h,cpp}","blocks/leif/NodeKittenX/Shader/*.{h,cpp}","blocks/leif/NodeKittenX/Texture/*.{h,cpp}","blocks/leif/NodeKittenX/Types/*.{h,cpp}","blocks/leif/NodeKittenX/Utils/*.{h,cpp}","blocks/leif/NodeKittenX/View/NKView.{h,cpp}"
 
 s.subspec "zlib" do |ss|
 ss.source_files = "deps/leif/zlib/*.{h,c}"
