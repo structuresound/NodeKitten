@@ -20,7 +20,7 @@ Roadmap is:
 
 To use this project inside an XCode project use CocoaPods
 
-pod 'NodeKittenX' ~> '0.1.0'
+pod 'NodeKittenX', '~> 0.1.0'
 
 There are many places to insert a view, including interface builder, here is a programmatic example.
 
