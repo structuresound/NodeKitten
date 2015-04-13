@@ -35,13 +35,19 @@ for osx use NKNSView
 
 To use this project with SDL on X86 or ARM Mac/Win/Linux use biicode and point to the NodeKittenX block
 
+#status
+OSX - pass
+RaspberryPi - fail
+Linux64 - untested
+Windows - untested
+
 make a new biicode project
 ```
-bii init <your_project>
+bii init prj_name
 ```
 or use with CLION IDE
 ```
-bii init -lClion <your_project>
+bii init -l clion prj_name
 ```
 then add this as a main file
 (the include statements will automatically tell the BIICODE dep manager where to find the NodeKittenX Block)
