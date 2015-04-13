@@ -10,13 +10,13 @@
 Pod::Spec.new do |s|
 
 s.name             = "NodeKittenX"
-s.version          = "0.1.0"
+s.version          = "0.1.1"
 s.summary          = "experimental GL(es) framework written in c++11"
 s.homepage         = "https://github.com/structuresound/NodeKittenX"
 s.license          = "MIT"
 s.author           = { "structuresound" => "leif@structuresound.com" }
 s.source           = {:git => 'git://github.com/structuresound/NodeKittenX.git',
-                      :tag => '0.1.0'
+                      :tag => '0.1.1'
                      }
 s.ios.deployment_target = "6.0"
 s.osx.deployment_target = "10.9"
