@@ -23,15 +23,15 @@ s.osx.deployment_target = "10.9"
 
 s.source_files = "blocks/leif/NodeKittenX/*.{h}","blocks/leif/NodeKittenX/Platform/Cocoa/*.{h,mm,cpp}","blocks/leif/NodeKittenX/Event/*.{h,cpp}","blocks/leif/NodeKittenX/Node/*.{h,cpp}","blocks/leif/NodeKittenX/Shader/*.{h,cpp}","blocks/leif/NodeKittenX/Texture/*.{h,cpp}","blocks/leif/NodeKittenX/Types/*.{h,cpp}","blocks/leif/NodeKittenX/Utils/*.{h,cpp}","blocks/leif/NodeKittenX/View/NKView.{h,cpp}","blocks/leif/NodeKittenX/Examples/*.{h,cpp}"
 
-s.subspec "png" do |ss|
-ss.source_files = "deps/leif/png/*.{h,c}"
-ss.subspec "zlib" do |sss|
-sss.source_files = "deps/leif/zlib/*.{h,c}"
-end
+s.subspec "picojpeg" do |picojpeg|
+picojpeg.source_files = "deps/leif/picojpeg/*.{h,c,cpp}"
 end
 
-s.subspec "picojpeg" do |ss|
-ss.source_files = "deps/leif/picojpeg/*.{h,c,cpp}"
+s.subspec "png" do |png|
+    png.source_files = "deps/leif/png/*.{h,c}"
+    png.subspec "zlib" do |zlib|
+        zlib.source_files = "deps/leif/zlib/*.{h,c}"
+    end
 end
 
 s.ios.frameworks = "UIKit"
