@@ -2,9 +2,12 @@
 
 NodeKittenX is an experimental cross-platform openGL toolkit
 
-It is designed to be light-weight and be embedded in native platform tools, rather than being its own platform.
+It is designed to be light-weight and be embedded into a GL Context, rather than a windowing platform.
 
-Traditional platform abstraction is provided through SDL.
+NodeKitten Views come in a couple flavors so far
+1. Cocoa
+2. SDL
+3. Emscripten (SDL)
 
 Modern platform abstraction is provided through native hooks ie on iOS use NKUIView
 
@@ -35,13 +38,14 @@ for osx use NKNSView
 
 To use this project with SDL on X86 or ARM Mac/Win/Linux use biicode and point to the NodeKittenX block
 
-#status
-'''
+#build status
+```
 OSX - pass
+Emscripten - running (see structuresound.com/nodeKitten) but not fully implemented
 RaspberryPi - fail (some invalid gl commands need abstracted)
 Linux64 - untested
 Windows - untested
-'''
+```
 
 make a new biicode project
 ```
