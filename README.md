@@ -36,10 +36,12 @@ for osx use NKNSView
 To use this project with SDL on X86 or ARM Mac/Win/Linux use biicode and point to the NodeKittenX block
 
 #status
+'''
 OSX - pass
-RaspberryPi - fail
+RaspberryPi - fail (some invalid gl commands need abstracted)
 Linux64 - untested
 Windows - untested
+'''
 
 make a new biicode project
 ```
