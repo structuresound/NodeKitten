@@ -203,6 +203,7 @@ extern char STATIC_ASSERTION__##msg[(expr)?1:2]
 #ifndef __MACOSX_CORE__
 #define __MACOSX_CORE__
 #endif
+
 #include <unistd.h>
 #include <ApplicationServices/ApplicationServices.h>
 
@@ -224,6 +225,7 @@ extern char STATIC_ASSERTION__##msg[(expr)?1:2]
 #define NK_USE_WEBGL 0
 
 #import <OpenGL/OpenGL.h>
+
 #if NK_USE_GL3
 #import <OpenGL/gl3.h>
 #import <OpenGL/gl3ext.h>

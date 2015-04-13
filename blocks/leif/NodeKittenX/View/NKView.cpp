@@ -26,10 +26,8 @@ void NKView::setScene(shared_ptr<NKSceneNode>scene){
         _scene.reset();
     }
     
-    _scene = move(scene);
-    
+    _scene = scene;
     _scene->setView(this);
-    
     _scene->moveToView();
     
     lastTime = Time::getCurrentTime();

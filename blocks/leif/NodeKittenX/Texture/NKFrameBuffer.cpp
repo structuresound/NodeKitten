@@ -169,11 +169,13 @@ void NKFrameBuffer::addSecondRenderTexture() {
 void NKFrameBuffer::bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, glName);
+    nkGetGLError();
 }
 
 void NKFrameBuffer::bindPing() {
     glBindFramebuffer(GL_FRAMEBUFFER, glName);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture->glName, 0);
+    nkGetGLError();
 }
 
 void NKFrameBuffer::bindPong() {
@@ -182,6 +184,7 @@ void NKFrameBuffer::bindPong() {
     }
     glBindFramebuffer(GL_FRAMEBUFFER, glName);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture->glName, 0);
+    nkGetGLError();
 }
 
 void NKFrameBuffer::clear() {

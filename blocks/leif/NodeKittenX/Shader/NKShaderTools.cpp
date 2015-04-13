@@ -41,7 +41,7 @@ std::string nksString(NKS_ENUM name) {
         case NKS_F1_BONE_WEIGHT:
             return "boneWeight";
             
-        // GL VAR TYPES
+            // GL VAR TYPES
             
         case NKS_VARIABLE_ATTRIBUTE:
             return "attribute";
@@ -96,7 +96,7 @@ std::string nksString(NKS_ENUM name) {
             
         case NKS_V3_EYE_DIRECTION:
             return "eyeDirection";
-        // UNIFORMS
+            // UNIFORMS
             
         case NKS_M16_MVP:
             return "modelViewProjectionMatrix";
@@ -117,7 +117,7 @@ std::string nksString(NKS_ENUM name) {
             return "numPasses";
         case NKS_INT_CURRENT_PASS:
             return "currentPass";
-        
+            
         case NKS_LIGHT:
             return "light[4]";
         case NKS_I1_NUM_LIGHTS:
@@ -174,12 +174,12 @@ std::string nksString(NKS_ENUM name) {
             return "#extension GL_EXT_gpu_shader4 : enable";
 #endif
             
-        // DEFAULT SHADERS
+            // DEFAULT SHADERS
         case NKS_PASSTHROUGH_TEXTURE_SHADER:
             return "passThroughTextureShader";
         case NKS_PASSTHROUGH_UNIFORM_SHADER:
             return "passThroughColorShader";
-        // MODULES
+            // MODULES
             
         case NKS_FALSE_COLOR_DARK_COLOR:
             return "falseColor_darkColor";
@@ -215,7 +215,7 @@ string shaderStringWithDirective(string name, string directive){
 }
 
 //string shaderStringWithArray(vector<string>& array){
-//    
+//
 //    for (string& o : array) {
 //        if ([o isKindOfClass:[NKShaderVariable class]]) {
 //            [ms appendString:[(NKShaderVariable*)o nameString]];
@@ -230,7 +230,7 @@ string shaderStringWithDirective(string name, string directive){
 //            }
 //        }
 //    }
-//    
+//
 //    return ms;
 //}
 //
@@ -251,7 +251,7 @@ string shaderStringWithDirective(string name, string directive){
 
 
 string NKShaderFunction::functionString() {
-
+    
     string functionString = String::format("%s %s (%s inputColor){ \n" ,nks(returnType).c_str(),name.c_str(),nks(inputType).c_str());
     
     functionString += function;
@@ -285,7 +285,7 @@ string NKShaderVariable::nameString() {
         default:
             return "NKS_ERROR";
     }
-
+    
 }
 
 
@@ -299,26 +299,26 @@ string NKShaderVariable::declarationStringForSection(NKS_ENUM section) {
     
 #if NK_USE_GL3
     
-    if (_variable == NKS_VARIABLE_VARYING) {
+    if (variable == NKS_VARIABLE_VARYING) {
         
         switch (section) {
             case NKS_VERTEX_SHADER:
-                dec = [@"out" mutableCopy];
+                dec = "out";
                 break;
                 
             case NKS_FRAGMENT_SHADER:
-                dec = [@"in" mutableCopy];
+                dec = "in";
                 break;
                 
             default:
                 break;
         }
     }
-    else if (_variable == NKS_VARIABLE_ATTRIBUTE) {
-        dec = [[NSString stringWithFormat:@"layout (location = %d) in",_name] mutableCopy];
+    else if (variable == NKS_VARIABLE_ATTRIBUTE) {
+        dec = "layout (location = "+nksf("%d",name)+") in";
     }
     else {
-        dec = [nks(_variable) mutableCopy];
+        dec = nks(variable);
     }
     
 #else
@@ -339,7 +339,6 @@ string NKShaderVariable::declarationStringForSection(NKS_ENUM section) {
 
 #pragma mark - BINDING UNIFORMS
 
-
 void NKShaderVariable::bindI1(I1t data) {
     glUniform1i(glLocation, data);
     nkGetGLError();
@@ -351,29 +350,17 @@ void NKShaderVariable::bindF1(F1t data) {
 }
 
 void NKShaderVariable::bindV2(V2t data) {
-#ifdef NK_USE_ARB_EXT
-    glUniform2fvARB(glLocation, 1, data.v);
-#else
     glUniform2fv(glLocation, 1, data.v);
-#endif
     nkGetGLError();
 }
 
 void NKShaderVariable::bindV3(V3t data) {
-#ifdef NK_USE_ARB_EXT
-    glUniform3fvARB(glLocation, 1, data.v);
-#else
     glUniform3fv(glLocation, 1, data.v);
-#endif
     nkGetGLError();
 }
 
 void NKShaderVariable::bindV4(V4t data) {
-#ifdef NK_USE_ARB_EXT
-    glUniform4fvARB(glLocation, 1, data.v);
-#else
     glUniform4fv(glLocation, 1, data.v);
-#endif
     nkGetGLError();
 }
 
@@ -388,11 +375,7 @@ void NKShaderVariable::bindM16(M16t data) {
 }
 
 void NKShaderVariable::bindV4Array(V4t* data, int count) {
-#ifdef NK_USE_ARB_EXT
-    glUniform4fvARB(glLocation, count, data->v); glUniform4fv(glLocation, count, data->v);
-#else
     glUniform4fv(glLocation, count, data->v);
-#endif
     nkGetGLError();
 }
 
@@ -407,20 +390,20 @@ void NKShaderVariable::bindM16Array(M16t *data, int count){
 }
 
 void NKShaderVariable::bindLightProperties(NKLightProperties& data, int index){
-        int numUniforms = 11;
-        int base = glLocation + (index*numUniforms);
-        glUniform3fv(base+0, 1, data.position.v);
-        glUniform3fv(base+1, 1, data.color.v);
-        glUniform3fv(base+2, 1, data.halfVector.v);
-        glUniform3fv(base+3, 1, data.coneDirection.v);
-        
-        glUniform1fv(base+4, 1, &data.spotCosCutoff);
-        glUniform1fv(base+5, 1, &data.spotExponent);
-        glUniform1fv(base+6, 1, &data.ambient);
-        glUniform1fv(base+7, 1, &data.linearAttenuation);
-        glUniform1fv(base+8, 1, &data.quadraticAttenuation);
-        
-        glUniform1i(base+9, data.isLocal);
-        glUniform1i(base+10, data.isSpot);
+    int numUniforms = 11;
+    int base = glLocation + (index*numUniforms);
+    glUniform3fv(base+0, 1, data.position.v);
+    glUniform3fv(base+1, 1, data.color.v);
+    glUniform3fv(base+2, 1, data.halfVector.v);
+    glUniform3fv(base+3, 1, data.coneDirection.v);
+    
+    glUniform1fv(base+4, 1, &data.spotCosCutoff);
+    glUniform1fv(base+5, 1, &data.spotExponent);
+    glUniform1fv(base+6, 1, &data.ambient);
+    glUniform1fv(base+7, 1, &data.linearAttenuation);
+    glUniform1fv(base+8, 1, &data.quadraticAttenuation);
+    
+    glUniform1i(base+9, data.isLocal);
+    glUniform1i(base+10, data.isSpot);
 }
 

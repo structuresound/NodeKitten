@@ -21,6 +21,17 @@ NKS_STRING_CONST NKS_GLSL_VERSION = "";// \n";
 NKS_STRING_CONST NKS_GLSL_VERSION = "";// \n";
 #endif
 
+#ifdef NK_USE_ARB_EXT
+#define glUniform1i glUniform1i
+#define glUniform1f glUniform1fARB
+#define glUniform1fv glUniform1fvARB
+#define glUniform2fv glUniform2fvARB
+#define glUniform3fv glUniform3fvARB
+#define glUniform4fv glUniform4fvARB
+#define glUniformMatrix3fv glUniformMatrix3fvARB
+#define glUniformMatrix4fv glUniformMatrix4fvARB
+#endif
+
 // SHADER DICT KEYS
 
 NKS_STRING_CONST NKS_EXTENSIONS = "extensions";

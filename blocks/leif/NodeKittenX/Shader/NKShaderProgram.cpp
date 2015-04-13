@@ -91,7 +91,7 @@ NKShaderProgram::NKShaderProgram(string name_, vector<NKShaderModule> modules_, 
     name = name_;
     _batchSize = batchSize;
     
-    _uniforms.push_back(nksua(NKS_PRECISION_MEDIUM, NKS_TYPE_M16, NKS_M16_MVP, batchSize));
+    _uniforms.push_back(nksua(NKS_PRECISION_HIGH, NKS_TYPE_M16, NKS_M16_MVP, batchSize));
     
     // INSTANCE ID's for batch
     
@@ -118,7 +118,7 @@ NKShaderProgram::NKShaderProgram(string name_, NKS_COLOR_MODE colorMode, U1t num
     _batchSize = batchSize;
     _colorMode = colorMode;
     
-    _uniforms.push_back(nksua(NKS_PRECISION_MEDIUM, NKS_TYPE_M16, NKS_M16_MVP, batchSize));
+    _uniforms.push_back(nksua(NKS_PRECISION_HIGH, NKS_TYPE_M16, NKS_M16_MVP, batchSize));
     
     // INSTANCE ID's for batch
     
@@ -492,18 +492,7 @@ bool NKShaderProgram::load()
     for (auto& v : _attributes) {
         glEnableVertexAttribArray(v.name);
         glBindAttribLocation(glName, v.name, v.nameString().c_str());
-        //numAttributes++;
     }
-    
-    //#endif
-    
-    // ALL
-    
-    //    for (int i = 0; i < vertexAttributeState.size(); i++) {
-    //        string name = "a_"+nks((NKS_ENUM)i);
-    //        glEnableVertexAttribArray(i);
-    //        glBindAttribLocation(glName, i, name.c_str());
-    //    }
     
     GetGLError();
     

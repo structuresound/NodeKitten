@@ -454,20 +454,22 @@ shared_ptr<NKFrameBuffer> genEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawa
     NSLog(@"%@ loaded", self);
 }
 
+-(instancetype)initWithFrame:(NSRect)frameRect {
+    if (self = [super initWithFrame:frameRect]) {
+        [self awakeFromNib];
+        [self becomeFirstResponder];
+    }
+    return self;
+}
+
 -(instancetype)initWithCoder:(NSCoder *)aDecoder {
-    
     self = [super initWithCoder:aDecoder];
     
     if (self) {
-        
-        
-        //NSLog(@"NKView initWith Coder");
-        //self = [self initWithFrame:self.frame shareContext:nil];
         [self becomeFirstResponder];
     }
     
     return self;
-    
 }
 
 - (void) update
@@ -476,12 +478,7 @@ shared_ptr<NKFrameBuffer> genEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawa
     [super update];
 }
 
-- (void) awakeFromNib
-{
-    NSLog(@"awake from nib");
-    
-    _nkView = new NKView(V2Make(self.visibleRect.size.width, self.visibleRect.size.height));
-    
+- (NSOpenGLPixelFormat*)pixelFormat {
     NSLog(@"pixel flags: %d %d %d %d %d %d",				NSOpenGLPFADoubleBuffer,
           NSOpenGLPFADepthSize, 24,NSOpenGLPFAOpenGLProfile,
           NSOpenGLProfileVersion3_2Core, 0 );
@@ -507,20 +504,25 @@ shared_ptr<NKFrameBuffer> genEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawa
     {
         NSLog(@"No OpenGL pixel format");
     }
+    return pf;
+}
+
+
+- (void) awakeFromNib
+{
+    NSLog(@"awake from nib");
     
-    
+    NSOpenGLPixelFormat *pf = [self pixelFormat];
     
     NSOpenGLContext* context = [[NSOpenGLContext alloc] initWithFormat:pf shareContext:nil];
     
     
-#ifdef NK_GL_DEBUG
     // When we're using a CoreProfile context, crash if we call a legacy OpenGL function
     // This will make it much more obvious where and when such a function call is made so
     // that we can remove such calls.
     // Without this we'd simply get GL_INVALID_OPERATION error for calling legacy functions
     // but it would be more difficult to see where that function was called.
-    //CGLEnable([context CGLContextObj], kCGLCECrashOnRemovedFunctions);
-#endif
+    CGLEnable([context CGLContextObj], kCGLCECrashOnRemovedFunctions);
     
     [self setPixelFormat:pf];
     [self setOpenGLContext:context];
@@ -545,7 +547,7 @@ shared_ptr<NKFrameBuffer> genEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawa
     NSLog(@"NK GLView awake %1.0f %1.0f", self.visibleRect.size.width, self.visibleRect.size.height);
     NSLog(@"NK GLView using GL Version: %d.%d", maj, min);
     
-    GetGLError();
+    nkGetGLError();
     
     [self startAnimation];
 }
@@ -569,7 +571,9 @@ shared_ptr<NKFrameBuffer> genEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawa
     if (animating) return;
     animating = true;
 
-    _mscale = 1.;
+    _mscale = [[NSScreen mainScreen] backingScaleFactor];
+    
+    _nkView = new NKView(V2Make(self.frame.size.width * _mscale, self.frame.size.height * _mscale));
     
 #if USE_CV_DISPLAY_LINK
     // Create a display link capable of being used with all active displays
@@ -644,7 +648,12 @@ shared_ptr<NKFrameBuffer> genEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawa
     // Get the view size in Points
     NSRect viewRectPoints = [self bounds];
     
+    if (!_nkView){
+        _nkView = new NKView(V2Make(self.frame.size.width * _mscale, self.frame.size.height * _mscale));
+    }
+    if (_nkView) {
     _nkView->setSize(V2Make(self.bounds.size.width, self.bounds.size.height));
+    }
     
 #if SUPPORT_RETINA_RESOLUTION
     
@@ -744,6 +753,9 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
         [displayTimer invalidate];
     }
 #endif
+    if (_nkView){
+        delete _nkView;
+    }
 }
 
 -(void)keyDown:(NSEvent *)theEvent {

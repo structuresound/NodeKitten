@@ -53,11 +53,13 @@ void NKTexture::bind() { // GL 1
 //
 void NKTexture::unbind() { // GL 1
     glBindTexture(target, 0);
+    nkGetGLError();
 }
 
 void NKTexture::enableAndBind(int tLocation){
     glActiveTexture(GL_TEXTURE0+tLocation);
     glBindTexture(target, glName);
+    nkGetGLError();
 }
 
 void NKTexture::bindToUniform(GLuint uLocation){
@@ -109,6 +111,8 @@ NKTexture::NKTexture(string filename, bool relative_path, U1t flags, U1t filter,
         target = GL_TEXTURE_2D;
         
         allocate(flags, filter, anistropicFilter, cube);
+        
+        nkGetGLError();
         
         if( texelArray )
         {
@@ -211,6 +215,7 @@ void NKTexture::loadPng(NKFile &file)
     
     switch( png_color_type )
     {
+#if !NK_USE_GL3
         case PNG_COLOR_TYPE_GRAY:
         {
             bytes			 = 1;
@@ -228,7 +233,7 @@ void NKTexture::loadPng(NKFile &file)
             
             break;
         }
-            
+#endif
         case PNG_COLOR_TYPE_RGB:
         {
             bytes			 = 3;
@@ -409,6 +414,7 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
 #endif
     }
     
+    nkGetGLError();
     
     if( anisotropic_filter )
     {
@@ -426,6 +432,7 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
                         anisotropic_filter );
     }
     
+    nkGetGLError();
     
     if( flags & TEXTURE_MIPMAP )
     {
@@ -464,6 +471,9 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
                 break;
             }
         }
+        
+        nkGetGLError();
+        
     }
     else
     {
@@ -485,6 +495,8 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
                 break;
             }
         }
+        
+        nkGetGLError();
     }
     
     
@@ -529,6 +541,8 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
             
             ++i;
         }
+        
+        nkGetGLError();
     }
     else
     {

@@ -12,8 +12,18 @@ shared_ptr<NKTexture> moonTex;
 shared_ptr<NKTexture> skyTex;
 shared_ptr<NKTexture> skyTex2;
 
+int onView = 0;
+
 void ExampleScene::moveToView() {
 
+    if (onView) {
+        // moved to view twice?
+        assert(0);
+    }
+    onView = 1;
+    
+    nkLog("move to view: example scene \n");
+    
     if (!moonTex) {
         moonTex = NKTexture::textureWithImageFile("moon.png");
         skyTex = NKTexture::textureWithImageFile("outdoors.jpg");
@@ -145,8 +155,6 @@ void ExampleScene::moveToView() {
 
     camera->setPosition(V3Make(1.,1.,2.0));
 
-    nkLog("move to view: example scene \n");
-
     auto sky = NKMeshNode::meshNodeWithPrimitive(NKPrimitiveSphere, skyTex, NKColor("lightblue"), V3MakeF(10.0));
     sky->setShader(NKShaderProgram::shaderNamed("sky", NKS_COLOR_MODE_UNIFORM, 1, 0));
     sky->setCullFace(NKCullFaceBack);
@@ -156,7 +164,7 @@ void ExampleScene::moveToView() {
     auto ground = NKMeshNode::meshNodeWithPrimitive(NKPrimitivePlane, nullptr, NKColor(1.0, .5), V3Make(20, 20, 1));
 
     //auto ground = NKMeshNode::meshNodeWithVbo(NKVertexBuffer::planeWithSubdivisions(4, 4), 0, nullptr, NKColor(1,.5), V3Make(20, 20, 1));
-    ground->setPosition(V3t{0,-2,0});
+    ground->setPosition(V3t{0,-1,0});
     ground->setOrientationEuler(V3Make(-90, 0, 0));
 
     //ground->setShader(NKShaderProgram::shaderNamed("vertexColor",NKS_COLOR_MODE_VERTEX,0,0,0));

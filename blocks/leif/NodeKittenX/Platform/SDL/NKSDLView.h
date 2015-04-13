@@ -5,9 +5,8 @@
 #ifndef NODEKITTENX_NKSDLVIEW_H
 #define NODEKITTENX_NKSDLVIEW_H
 
-#include "SDL.h"
 #include "NKView.h"
-
+#include "miguel/sdl2/include/SDL.h"
 
 class NKSDLView : public NKView {
 

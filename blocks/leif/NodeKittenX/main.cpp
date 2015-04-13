@@ -1,10 +1,15 @@
-#include "NodeKitten.h"
+#include "ExampleScene.h"
+#include "NKSDLView.h"
 
-// This is a dummy file for biicode
+NKSDLView *sdlView;
 
 int main(int, char**){
 
-    return 0;
+    sdlView = new NKSDLView(800,600);
+
+    sdlView->setup();
+    sdlView->setScene(make_shared<ExampleScene>(V2t{800,600}));
+
+    return sdlView->loop();
 
 }
-

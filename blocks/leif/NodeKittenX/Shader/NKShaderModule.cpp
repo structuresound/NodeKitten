@@ -23,10 +23,10 @@ NKShaderModule NKShaderModule::colorModule(NKS_COLOR_MODE colorMode, int batchSi
         return module;
     }
     
-    module.varyings.push_back(nksv(NKS_PRECISION_MEDIUM, NKS_TYPE_V4, NKS_V4_COLOR));
+    module.varyings.push_back(nksv(NKS_PRECISION_LOW, NKS_TYPE_V4, NKS_V4_COLOR));
     
     if (colorMode == NKS_COLOR_MODE_UNIFORM) {
-        module.uniforms.push_back(nksua(NKS_PRECISION_MEDIUM, NKS_TYPE_V4, NKS_V4_COLOR, batchSize));
+        module.uniforms.push_back(nksua(NKS_PRECISION_LOW, NKS_TYPE_V4, NKS_V4_COLOR, batchSize));
     }
     
     if (colorMode == NKS_COLOR_MODE_UNIFORM) {
@@ -108,7 +108,7 @@ NKShaderModule NKShaderModule::textureModule(int numTex) {
     }
     
     else if (numTex) {
-        module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_SAMPLER_2D, NKS_S2D_TEXTURE));
+        module.uniforms.push_back(nksu(NKS_PRECISION_MEDIUM, NKS_TYPE_SAMPLER_2D, NKS_S2D_TEXTURE));
         module.varyings.push_back(nksv(NKS_PRECISION_MEDIUM, NKS_TYPE_V2, NKS_V2_TEXCOORD));
         
         module.vertexMain.push_back("v_texCoord0 = a_texCoord0;");
@@ -123,7 +123,7 @@ NKShaderModule NKShaderModule::textureModule(int numTex) {
     if (module.hasUniformNamed(NKS_S2D_TEXTURE)) {
         
 #if NK_USE_GL3
-        texFunction.function = @"return inputColor * texture(u_texture,v_texCoord0);";
+        texFunction.function = "return inputColor * texture(u_texture,v_texCoord0);";
 #else
         if (module.uniformNamed(NKS_S2D_TEXTURE).type == NKS_TYPE_SAMPLER_2D_RECT) {
             texFunction.function = "vec4 textureColor = texture2DRect(u_texture,v_texCoord0); if (textureColor.a < .1) discard; return textureColor * inputColor;";
@@ -225,17 +225,17 @@ NKShaderModule NKShaderModule::lightModule(bool highQuality, int batchSize){
     module.uniforms.push_back(nksu(NKS_PRECISION_NONE, NKS_TYPE_INT, NKS_I1_NUM_LIGHTS));
     module.uniforms.push_back(nksu(NKS_PRECISION_NONE, NKS_STRUCT_LIGHT, NKS_LIGHT));
     
-    module.uniforms.push_back(nksua(NKS_PRECISION_MEDIUM, NKS_TYPE_M16, NKS_M16_MV, batchSize));
+    module.uniforms.push_back(nksua(NKS_PRECISION_HIGH, NKS_TYPE_M16, NKS_M16_MV, batchSize));
     module.uniforms.push_back(nksua(NKS_PRECISION_MEDIUM, NKS_TYPE_M9, NKS_M9_NORMAL, batchSize));
     
     module.varyings.push_back(nksv(NKS_PRECISION_MEDIUM, NKS_TYPE_V3, NKS_V3_NORMAL));
-    module.varyings.push_back(nksv(NKS_PRECISION_MEDIUM, NKS_TYPE_V3, NKS_V3_EYE_DIRECTION));
+    module.varyings.push_back(nksv(NKS_PRECISION_HIGH, NKS_TYPE_V3, NKS_V3_EYE_DIRECTION));
     
-    module.varyings.push_back(nksv(NKS_PRECISION_LOW, NKS_TYPE_V3, NKS_V3_LIGHT_HALF_VECTOR));
-    module.varyings.push_back(nksv(NKS_PRECISION_LOW, NKS_TYPE_F1, NKS_F1_ATTENUATION));
+    module.varyings.push_back(nksv(NKS_PRECISION_HIGH, NKS_TYPE_V3, NKS_V3_LIGHT_HALF_VECTOR));
+    module.varyings.push_back(nksv(NKS_PRECISION_MEDIUM, NKS_TYPE_F1, NKS_F1_ATTENUATION));
     
-    module.varyings.push_back(nksv(NKS_PRECISION_MEDIUM, NKS_TYPE_V4, NKS_V4_POSITION));
-    module.varyings.push_back(nksv(NKS_PRECISION_LOW, NKS_TYPE_V3, NKS_V3_LIGHT_DIRECTION));
+    module.varyings.push_back(nksv(NKS_PRECISION_HIGH, NKS_TYPE_V4, NKS_V4_POSITION));
+    module.varyings.push_back(nksv(NKS_PRECISION_HIGH, NKS_TYPE_V3, NKS_V3_LIGHT_DIRECTION));
     
     //module.outputColor = nksi(NKS_PRECISION_LOW, NKS_TYPE_V4, NKS_V4_LIGHT_COLOR);
     
@@ -398,7 +398,7 @@ NKShaderModule NKShaderModule::falseColorModule(F1t intensity, NKColor darkColor
     
     module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_V4, NKS_FALSE_COLOR_DARK_COLOR));
     module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_V4, NKS_FALSE_COLOR_LIGHT_COLOR));
-    module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_F1, NKS_FALSE_COLOR_INTENSITY));
+    module.uniforms.push_back(nksu(NKS_PRECISION_MEDIUM, NKS_TYPE_F1, NKS_FALSE_COLOR_INTENSITY));
     
     
     NKShaderFunction falseColor;
@@ -438,8 +438,8 @@ NKShaderModule NKShaderModule::swirl(F1t intensity, V2t size) {
     
     module.name = "SWIRL";
     
-    module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_F1, NKS_CURRENT_TIME));
-    module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_V2, NKS_SIZE));
+    module.uniforms.push_back(nksu(NKS_PRECISION_HIGH, NKS_TYPE_F1, NKS_CURRENT_TIME));
+    module.uniforms.push_back(nksu(NKS_PRECISION_HIGH, NKS_TYPE_V2, NKS_SIZE));
 //    module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_V4, NKS_FALSE_COLOR_DARK_COLOR));
 //    module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_V4, NKS_FALSE_COLOR_LIGHT_COLOR));
 //    module.uniforms.push_back(nksu(NKS_PRECISION_LOW, NKS_TYPE_F1, NKS_FALSE_COLOR_INTENSITY));

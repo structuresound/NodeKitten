@@ -1665,7 +1665,6 @@ static inline M16t M16Multiply(M16t matrixLeft, M16t matrixRight)
     // [ 3 7 11 15 ]   [ 3 7 11 15 ]
     
 #if defined(__ARM_NEON__)
-#warning ARM_NEON
     float32x4x4_t iMatrixLeft = *(float32x4x4_t *)&matrixLeft;
     float32x4x4_t iMatrixRight = *(float32x4x4_t *)&matrixRight;
     float32x4x4_t m;
@@ -1693,8 +1692,6 @@ static inline M16t M16Multiply(M16t matrixLeft, M16t matrixRight)
     return *(M16t *)&m;
     
 #elif defined(USE_SSE3)
-#warning USE_SSE3
-    
     const __m128 l0 = _mm_load_ps(&matrixLeft.m[0]);
     const __m128 l1 = _mm_load_ps(&matrixLeft.m[4]);
     const __m128 l2 = _mm_load_ps(&matrixLeft.m[8]);
@@ -1733,7 +1730,7 @@ static inline M16t M16Multiply(M16t matrixLeft, M16t matrixRight)
     return m;
     
 #else
-    //#error using normal matrix - find something better?
+    #warning vector operations using non-vectorized library - find something better?
     M16t m;
     
     m.m[0]  = matrixLeft.m[0] * matrixRight.m[0]  + matrixLeft.m[4] * matrixRight.m[1]  + matrixLeft.m[8] * matrixRight.m[2]   + matrixLeft.m[12] * matrixRight.m[3];
