@@ -9,7 +9,12 @@ NodeKitten Views come in a couple flavors so far
 2. SDL
 3. Emscripten (SDL)
 
-Modern platform abstraction is provided through native hooks ie on iOS use NKUIView
+This library is under development, and is buggy as such, the cocoapod demo should run easily out of the box. Beyond that YMMV.
+
+Roadmap is:
+1. finish platform abstraction
+2. document api
+3. the fun stuff
 
 # Use with CocoaPods
 
