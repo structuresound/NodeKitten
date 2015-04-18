@@ -24,9 +24,7 @@ pod 'NodeKittenX', '~> 0.1.0'
 
 There are many places to insert a view, including interface builder, here is a programmatic example.
 
-for ios use NKUIView
-for osx use NKNSView
-
+put the following in your ViewController file
 ```
 #import <NodeKittenX/NodeKitten.h>
 ```
@@ -42,6 +40,9 @@ make sure to rename any files that include c++ from .m to .mm
     view.nkView->setScene(make_shared<ExampleScene>(V2t{(float)self.view.bounds.size.width,(float)self.view.bounds.size.height}));
 }
 ```
+
+for ios use NKUIView
+for osx use NKNSView
 
 # Use BIICODE blocks with SDL and BYO c++ IDE
 
