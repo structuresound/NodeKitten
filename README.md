@@ -28,6 +28,10 @@ for ios use NKUIView
 for osx use NKNSView
 
 ```
+#import <NodeKittenX/NodeKitten.h>
+```
+make sure to rename any files that include c++ from .m to .mm
+```
 @implementation ViewController
 
 - (void)loadView {
