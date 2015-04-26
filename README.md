@@ -2,23 +2,33 @@
 
 NodeKittenX is an experimental cross-platform openGL toolkit
 
-It is designed to be light-weight and be embedded in native platform tools, rather than being its own platform.
+It is designed to be light-weight and be embedded into a GL Context, rather than a windowing platform.
 
-Traditional platform abstraction is provided through SDL.
+NodeKitten Views come in a couple flavors so far
+1. Cocoa
+2. SDL
+3. Emscripten (SDL)
 
-Modern platform abstraction is provided through native hooks ie on iOS use NKUIView
+This library is under development, and is buggy as such, the cocoapod demo should run easily out of the box. Beyond that YMMV.
+
+Roadmap is:
+1. finish platform abstraction
+2. document api
+3. the fun stuff
 
 # Use with CocoaPods
 
 To use this project inside an XCode project use CocoaPods
 
-pod 'NodeKittenX' ~> '0.1.0'
+pod 'NodeKittenX', '~> 0.1.0'
 
 There are many places to insert a view, including interface builder, here is a programmatic example.
 
-for ios use NKUIView
-for osx use NKNSView
-
+put the following in your ViewController file
+```
+#import <NodeKittenX/NodeKitten.h>
+```
+make sure to rename any files that include c++ from .m to .mm
 ```
 @implementation ViewController
 
@@ -31,17 +41,29 @@ for osx use NKNSView
 }
 ```
 
+for ios use NKUIView
+for osx use NKNSView
+
 # Use BIICODE blocks with SDL and BYO c++ IDE
 
 To use this project with SDL on X86 or ARM Mac/Win/Linux use biicode and point to the NodeKittenX block
 
+#build status
+```
+OSX - pass
+Emscripten - running (see structuresound.com/nodeKitten) but not fully implemented
+RaspberryPi - fail (some invalid gl commands need abstracted)
+Linux64 - untested
+Windows - untested
+```
+
 make a new biicode project
 ```
-bii init <your_project>
+bii init prj_name
 ```
 or use with CLION IDE
 ```
-bii init -lClion <your_project>
+bii init -l clion prj_name
 ```
 then add this as a main file
 (the include statements will automatically tell the BIICODE dep manager where to find the NodeKittenX Block)
