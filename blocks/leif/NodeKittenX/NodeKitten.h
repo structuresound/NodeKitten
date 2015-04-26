@@ -52,6 +52,7 @@
 
 //// TEXTURE
 #include "NKFrameBuffer.h"
+#include "NKFontAtlas.h"
 #include "NKTexture.h"
 #include "NKTextureManager.h"
 #include "NKFrameBuffer.h"

@@ -17,12 +17,10 @@ add_definitions( -DTARGET_LINUX_ARM=1)
 set(TARGET_RPI 1)
 endif()
 
-if(BIICODE)
-
-else(CMAKE)
+if(NOT BIICODE)
 project(NodeKittenXExample)
 message("*** START NK CMAKE - BUILD *** \n")
-endif (CMAKE)
+endif (NOT BIICODE)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # require at least gcc 4.8
@@ -42,10 +40,15 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     endif()
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     # require at least clang 3.2
+    if (EMSCRIPTEN)
+    else (CHECK)
     if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.2)
-        message(FATAL_ERROR "Clang version must be at least 3.2!")
+        include(compiler_check.cmake)
+        info_compiler()
+        message(FATAL_ERROR "Clang version must be at least 3.2!" -> "${CMAKE_CXX_COMPILER_ID}" ${CMAKE_CXX_COMPILER_VERSION})
     else()
         message("FOUND CLANG >= 3.2 \n")
+    endif()
     endif()
 else()
     message(WARNING "You are using an unsupported compiler! Compilation has only been tested with Clang and GCC.")
@@ -147,6 +150,8 @@ list (APPEND NK_SOURCES ${NK_PLATFORM})
 
 message("*** NK SOURCES *** \n" ${NK_SOURCES})
 
+# ************* ADD TARGETS *************
+
 if(BIICODE)
 
 SET(BII_LIB_SRC ${LIB_HEADERS} ${NK_HEADERS} ${LIB_SOURCES} ${NK_SOURCES})
@@ -156,6 +161,17 @@ ADD_BII_TARGETS()
 message(" BII TARGETS: \n ${BII_LIB_TARGET} \n block \n ${BII_BLOCK_TARGETS} \n name \n ${BII_exe_name_TARGET} \n exe \n ${BII_main_TARGET}")
 
 SET(BII_exe_name_TARGET nodeKittenExample)
+
+else(CMAKE_ONLY)
+# SETUP BUILD NOT USING BII ADD TARGETS
+
+set(HEADERS ${LIBS} ${NK_HEADERS})
+set(SOURCES ${LIBS} ${NK_SOURCES})
+
+# add the executable
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+endif(CMAKE_ONLY)
 
 # ************* DEPENDENCIES / FRAMEWORKS *************
 
@@ -181,33 +197,13 @@ list (APPEND EXTRA_LIBS ${OPENGL_LIBRARIES})
 
 message("LIBRARY LOCATIONS : " ${DEP_INCLUDE_DIRS})
 
-else(CMAKE_ONLY)
-# SETUP BUILD NOT USING BII ADD TARGETS
-
-set(HEADERS ${LIBS} ${NK_HEADERS})
-set(SOURCES ${LIBS} ${NK_SOURCES})
-
-# add the executable
-add_executable(${PROJECT_NAME} ${SOURCES})
-
 # ************* LINK *************
-set (ASSETS ${CMAKE_CURRENT_SOURCE_DIR}/Assets)
-
-#file(GLOB_RECURSE ASSETS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/Assets/*.png)
 
 set (EXPORTS_FILE ${CMAKE_CURRENT_SOURCE_DIR}/exports.txt)
 
-if (EMSCRIPTEN)
-SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --bind -O2 --llvm-opts 2 -s FULL_ES2=1 -s DEMANGLE_SUPPORT=1 -s GL_ASSERTIONS=1 -s GL_DEBUG=1 -s TOTAL_MEMORY=268435456 -s EXPORTED_FUNCTIONS=@${EXPORTS_FILE} --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/Assets@/Assets ")
-
-# OTHER OPTS
-# --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/Assets@/Assets
-# -o NodeKittenX.html
-#${ASSETS}@/outdoors.png --preload-file ${ASSETS}@/moon.png")
-
-# --closure 0 -s WARN_ON_UNDEFINED_SYMBOLS=1"
-message("*** LINKER FLAGS *** \n" ${CMAKE_EXE_LINKER_FLAGS})
-endif (EMSCRIPTEN)
+if(NOT BIICODE)
+message("*** LINK LIBS ***: " ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${EXTRA_LIBS})
 
 if (APPLE)
 
@@ -230,10 +226,15 @@ add_framework(AppKit ${PROJECT_NAME})
 add_framework(QuartzCore ${PROJECT_NAME})
 endif(APPLE)
 
-message("*** LINK LIBS ***: " ${EXTRA_LIBS})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${EXTRA_LIBS})
+endif(NOT BIICODE)
 
-endif(CMAKE_ONLY)
+
+if (EMSCRIPTEN)
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --bind -O2 --llvm-opts 2 -s FULL_ES2=1 -s DEMANGLE_SUPPORT=1 -s GL_ASSERTIONS=1 -s GL_DEBUG=1 -s TOTAL_MEMORY=268435456 -s EXPORTED_FUNCTIONS=@${EXPORTS_FILE} --preload-file ${CMAKE_CURRENT_BINARY_DIR}/assets@/Assets ")
+message("*** LINKER FLAGS *** \n" ${CMAKE_EXE_LINKER_FLAGS})
+endif (EMSCRIPTEN)
+
+
 
 # ************* COMPILER OPTIONS *************
 
@@ -263,6 +264,8 @@ else(APPLE)
 foreach(file ${Assets})
     message(STATUS "Copying file ${pngFile}")
     file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/assets)
+    if (NOT EMSCRIPTEN)
     file(COPY ${file} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets)
+    endif()
 endforeach(file)
 endif(APPLE)

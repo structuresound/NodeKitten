@@ -13,14 +13,21 @@
 #elif TARGET_EMSCRIPTEN
 #endif
 
-namespace Time {
-    
+namespace NKTime {
+
+    static double launchTime = getCurrentTime();
+
+    double getElapsedTime() {
+        return getCurrentTime() - launchTime;
+    }
+
     double getCurrentTime() {
 #if (TARGET_IOS || TARGET_OSX)
         return CFAbsoluteTimeGetCurrent();
 #elif TARGET_EMSCRIPTEN
         return emscripten_get_now();
-        //return SDL_GetTicks() * .001;
+#else
+    return SDL_GetTicks() * .001;
 #endif
         assert(0);
         return 0.0;

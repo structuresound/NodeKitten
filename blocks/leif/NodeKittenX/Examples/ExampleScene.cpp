@@ -451,5 +451,4 @@ void ExampleScene::moveToView() {
 }
 
 void ExampleScene::handleEvent(NKEvent &event){
-
 }

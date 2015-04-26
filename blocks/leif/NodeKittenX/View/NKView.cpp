@@ -30,7 +30,7 @@ void NKView::setScene(shared_ptr<NKSceneNode>scene){
     _scene->setView(this);
     _scene->moveToView();
     
-    lastTime = Time::getCurrentTime();
+    lastTime = NKTime::getCurrentTime();
 }
 
 void NKView::setSize(S2t size){
@@ -63,7 +63,7 @@ void NKView::draw() {
     
     if (_scene) {
         
-        D1t now = Time::getCurrentTime();
+        D1t now = NKTime::getCurrentTime();
         _scene->updateWithTimeSinceLast((F1t)(now - lastTime));
         lastTime = now;
         

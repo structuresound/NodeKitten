@@ -248,7 +248,7 @@ void NKSceneNode::draw() {
 #endif
     
 //#if (TARGET_IOS || TARGET_OSX)
-    frameTime += Time::getCurrentTime() - currentFrameTime;
+    frameTime += NKTime::getCurrentTime() - currentFrameTime;
 //#endif
 
     

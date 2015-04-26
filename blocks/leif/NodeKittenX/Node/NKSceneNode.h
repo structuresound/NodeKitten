@@ -165,7 +165,7 @@ public:
     
     // DRAW
     
-    void draw() override;
+    virtual void draw() override;
     void drawStereo();
     
     void setLineSmooth(bool smooth) override;

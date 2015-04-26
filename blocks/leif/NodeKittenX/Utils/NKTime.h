@@ -11,8 +11,9 @@
 
 #include "NKTypes.h"
 
-namespace Time {
+namespace NKTime {
     double getCurrentTime();
+    double getElapsedTime();
 }
 
 #endif /* defined(__NodeKittenX__NKTime__) */

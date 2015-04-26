@@ -14,47 +14,27 @@
 
 class NKNode;
 
-//typedef enum NKTextureMapStyle {
-//    NKTextureMapStyleNone = 0,
-//    NKTextureMapStyleRepeatX = 1 << 0,
-//    NKTextureMapStyleRepeatY = 1 << 1,
-//    NKTextureMapStyleClampX = 1 << 2,
-//    NKTextureMapStyleClampY = 1 << 3,
-//    NKTextureMapStyleRepeat = NKTextureMapStyleRepeatX | NKTextureMapStyleRepeatY,
-//    NKTextureMapStyleClamp = NKTextureMapStyleClampX | NKTextureMapStyleClampY,
-//    NKTextureMapStyleUV = 1 << 7
-//} NKTextureMapStyle;
-//
-enum
-{
-    //! Enable image clamping on the UV, 0 to 1 only no texture repeat.
-    TEXTURE_CLAMP = ( 1 << 0 ),
-    
+enum {
+    // Enable image clamping on the UV, 0 to 1 only no texture repeat.
+            NK_TEXTURE_CLAMP = ( 1 << 0 ),
     //! Enable automatic mipmap generation.
-    TEXTURE_MIPMAP = ( 1 << 1 ),
-    
+            NK_TEXTURE_MIPMAP = ( 1 << 1 ),
     //! Enable automatic 16 bits conversion.
-    TEXTURE_16_BITS = ( 1 << 2 ),
-    
+            NK_TEXTURE_16_BITS = ( 1 << 2 ),
     //! Force the conversion of 32 bits textures to use use 5551 instead of 4444.
-    TEXTURE_16_BITS_5551 = ( 1 << 3 )
+            NK_TEXTURE_16_BITS_5551 = ( 1 << 3 )
 };
-
-
-enum
-{
+enum {
     //! Image filtering nearest.
-    TEXTURE_FILTER_0X = 0,
-    
+            NK_TEXTURE_FILTER_0X = 0,
     //! Image filtering linear.
-    TEXTURE_FILTER_1X = 1,
-    
+            NK_TEXTURE_FILTER_1X = 1,
     //! Bilinear image filtering.
-    TEXTURE_FILTER_2X = 2,
-    
+            NK_TEXTURE_FILTER_2X = 2,
     //! Trilinear image filtering.
-    TEXTURE_FILTER_3X = 3
+            NK_TEXTURE_FILTER_3X = 3
 };
+
 
 
 class NKTexture
@@ -65,7 +45,7 @@ public:
     
     static shared_ptr<NKTexture> blankTexture();
     
-    static shared_ptr<NKTexture> textureWithImageFile(string filePath,bool relative_path = true, U1t flags = TEXTURE_CLAMP, U1t filter = 0, F1t anistropicFilter= 0);
+    static shared_ptr<NKTexture> textureWithImageFile(string filePath,bool relative_path = true, U1t flags = NK_TEXTURE_CLAMP, U1t filter = 0, F1t anistropicFilter= 0);
     
     GLuint glName {0};
     
@@ -99,12 +79,14 @@ public:
     NKTexture(I1t width_, I1t height_){
         width = width_;
         height = height_;
-        
+
         genGLTexture(width, height);
-        
         glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
         
         GetGLError();
+    }
+
+    NKTexture(){
     }
     
     ~NKTexture(){};
@@ -112,11 +94,11 @@ public:
     void loadPng(NKFile& file);
     void loadJpg(NKFile& file);
     void loadPvr(NKFile& file);
-    void loadTex();
+    //void loadTex();
     void convert16Bits( bool use_5551 );
     void allocate(unsigned int flags, unsigned char filter, float anisotropic_filter, bool cube);
     void clear();
-    
+
     string name(){return _name;};
     
     bool shouldResizeToTexture;
@@ -134,7 +116,8 @@ public:
     //
     //-(void)updateWithTimeSinceLast:(F1t) dt;
     //
-    void bind();
+
+    virtual void bind();
     void bindToUniform(GLuint uLocation);
     void enableAndBind(int tLocation);
     void enableAndBindToUniform(GLuint uSamplerLocation, GLuint tLocation = 0);
@@ -159,7 +142,7 @@ public:
     
     static bool registerNode(shared_ptr<NKNode> node);
     static bool unresgisterNode(shared_ptr<NKNode> node);
-    
+
 };
 
 //! PVRTC file header data.

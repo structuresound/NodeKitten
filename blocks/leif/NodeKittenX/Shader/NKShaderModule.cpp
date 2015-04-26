@@ -482,10 +482,10 @@ NKShaderModule NKShaderModule::swirl(F1t intensity, V2t size) {
     
     module.fragFunctions = {swirl};
     
-    float time = Time::getCurrentTime();
+    float time = NKTime::getCurrentTime();
     
     module.uniformUpdateBlock = [time, size](NKShaderModule& module) {
-        module.uniformNamed(NKS_CURRENT_TIME).bindF1((Time::getCurrentTime()-time));
+        module.uniformNamed(NKS_CURRENT_TIME).bindF1((NKTime::getCurrentTime()-time));
         module.uniformNamed(NKS_SIZE).bindV2(size);
     };
     

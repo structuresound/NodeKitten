@@ -10,7 +10,6 @@
 #include "png.h"
 #include "picojpeg_util.h"
 #include "NKStringUtil.h"
-#include "NKFrameBuffer.h"
 
 #ifndef GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG
 #define 	GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG   0x8C00
@@ -45,8 +44,6 @@ void NKTexture::genGLTexture(int w, int h){
 
 
 void NKTexture::bind() { // GL 1
-    glActiveTexture(GL_TEXTURE0);
-    nkGetGLError();
     glBindTexture(target, glName);
     nkGetGLError();
 }
@@ -388,11 +385,11 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
             case 4: glPixelStorei( GL_PACK_ALIGNMENT, 4 ); break;
         }
         
-        if( flags & TEXTURE_16_BITS ) convert16Bits( flags & TEXTURE_16_BITS_5551 );
+        if( flags & NK_TEXTURE_16_BITS ) convert16Bits( flags & NK_TEXTURE_16_BITS_5551 );
     }
     
     
-    if( flags & TEXTURE_CLAMP )
+    if( flags & NK_TEXTURE_CLAMP )
     {
         glTexParameteri( target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
         glTexParameteri( target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
@@ -434,11 +431,11 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
     
     nkGetGLError();
     
-    if( flags & TEXTURE_MIPMAP )
+    if( flags & NK_TEXTURE_MIPMAP )
     {
         switch( filter )
         {
-            case TEXTURE_FILTER_1X:
+            case NK_TEXTURE_FILTER_1X:
             {
                 glTexParameteri( target, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR );
                 glTexParameteri( target, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
@@ -446,7 +443,7 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
                 break;
             }
                 
-            case TEXTURE_FILTER_2X:
+            case NK_TEXTURE_FILTER_2X:
             {
                 glTexParameteri( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
                 glTexParameteri( target, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -454,7 +451,7 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
                 break;
             }
                 
-            case TEXTURE_FILTER_3X:
+            case NK_TEXTURE_FILTER_3X:
             {
                 glTexParameteri( target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
                 glTexParameteri( target, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -462,7 +459,7 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
                 break;
             }
                 
-            case TEXTURE_FILTER_0X:
+            case NK_TEXTURE_FILTER_0X:
             default:
             {
                 glTexParameteri( target, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST );
@@ -479,7 +476,7 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
     {
         switch( filter )
         {
-            case TEXTURE_FILTER_0X:
+            case NK_TEXTURE_FILTER_0X:
             {
                 glTexParameteri( target, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
                 glTexParameteri( target, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
@@ -551,7 +548,7 @@ void NKTexture::allocate(unsigned int flags, unsigned char filter, float anisotr
     }
     
 #if !NK_USE_WEBGL
-    if( flags & TEXTURE_MIPMAP && !mipmap ) glGenerateMipmap( target );
+    if( flags & NK_TEXTURE_MIPMAP && !mipmap ) glGenerateMipmap( target );
 #endif
     
     nkGetGLError();
@@ -650,6 +647,8 @@ void NKTexture::convert16Bits(bool use_5551){
     }
 }
 
+
+#pragma mark - CLASS VARIABLES
 
 
 /*!

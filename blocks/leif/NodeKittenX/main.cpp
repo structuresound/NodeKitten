@@ -1,4 +1,5 @@
-#include "ExampleScene.h"
+//#include "ExampleScene.h"
+#include "FreeTypeScene.h"
 #include "NKSDLView.h"
 
 NKSDLView *sdlView;
@@ -8,7 +9,7 @@ int main(int, char**){
     sdlView = new NKSDLView(800,600);
 
     sdlView->setup();
-    sdlView->setScene(make_shared<ExampleScene>(V2t{800,600}));
+    sdlView->setScene(make_shared<FreeTypeScene>(sdlView->size()));
 
     return sdlView->loop();
 
