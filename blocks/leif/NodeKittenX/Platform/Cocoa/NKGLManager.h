@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 chroma. All rights reserved.
 //
 
-#include "NKTypes.h"
+#include "CommonTypes.h"
 
 #if (TARGET_IOS || TARGET_OSX)
 
