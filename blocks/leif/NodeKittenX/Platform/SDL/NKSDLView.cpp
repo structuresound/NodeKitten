@@ -16,10 +16,13 @@ bool NKSDLView::setup(){
     SDL_CreateWindowAndRenderer(sdl_width, sdl_height, SDL_WINDOW_OPENGL, &displayWindow, &displayRenderer);
     SDL_GetRendererInfo(displayRenderer, &displayRendererInfo);
     /*TODO: Check that we have OpenGL */
+
     if ((displayRendererInfo.flags & SDL_RENDERER_ACCELERATED) == 0 ||
         (displayRendererInfo.flags & SDL_RENDERER_TARGETTEXTURE) == 0) {
         /*TODO: Handle this. We have no render surface and not accelerated. */
     }
+
+    nkLog("SDL_Init Correctly: %d x %d", sdl_width, sdl_height);
 
     return 1;
 }
@@ -94,7 +97,7 @@ bool NKSDLView::loop() {
 
         // DRAW CYCLE
         SDL_RenderClear(displayRenderer);
-        NKView::draw();
+        SceneController::draw();
         SDL_RenderPresent(displayRenderer);
         //
 

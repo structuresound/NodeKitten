@@ -25,59 +25,55 @@
  OF THE POSSIBILITY OF SUCH DAMAGE. *
  ***********************************************************************/
 
-#ifndef __Node_Kitten_X__
-#define __Node_Kitten_X__
+#pragma once
 
-#include "NKTypes.h"
+#include "CommonTypes.h"
+#include "CommonUtils.h"
 
-// UTIL
+// REAL-TIME CLASSES
 
-#include "NKStringUtil.h"
-#include "format.h"
-#include "NKFileSystem.h"
-#include "NKTime.h"
+#include "Action.h"
+#include "UXEvent.h"
 
-// EVENT
-#include "NKAction.h"
-#include "NKEvent.h"
+// ABSTRACT / BASE
+#include "Node.h"
 
-//// NODE
+// SCENE
+#include "Scene.h"
+#include "Camera.h"
+#include "Light.h"
 
-#include "NKNode.h"
-#include "NKMeshNode.h"
-#include "NKBatchNode.h"
-#include "NKSceneNode.h"
-#include "NKCamera.h"
-#include "NKLightNode.h"
+// 2D NODES = VIEW + SUBCLASSES
+#include "View.h"
+#include "CollectionView.h"
+#include "Label.h"
+
+// 3D NODES / MESH + SUBCLASSES
+#include "Mesh.h"
+#include "MeshBatcher.h"
+#include "SpriteEmitter.h"
+
 
 //// TEXTURE
-#include "NKFrameBuffer.h"
-#include "NKFontAtlas.h"
-#include "NKTexture.h"
-#include "NKTextureManager.h"
-#include "NKFrameBuffer.h"
+#include "FrameBuffer.h"
+#include "FontAtlas.h"
+#include "Texture.h"
+#include "FrameBuffer.h"
 
 //// SHADERS
-#include "NKShaderProgram.h"
-#include "NKShaderManager.h"
-#include "NKShaderModule.h"
-#include "NKShaderTools.h"
-
-// ROOT VIEW
-#include "NKView.h"
-
-// EXAMPLES
-#include "ExampleScene.h"
+#include "ShaderProgram.h"
+#include "ShaderModule.h"
+#include "ShaderTools.h"
 
 // OTHERS VIEWS SHOULD BE INCLUDED IN PLATFORM SPECIFIC EXAMPLES
 #if (TARGET_IOS || TARGET_OSX)
-#include "NKAppleDeviceTools.h"
+#include "CocoaDeviceTools.h"
 #endif
 
 #ifdef __OBJC__
-#include "NKAppleViews.h"
-#include "NKAppleEvent.h"
+#include "CocoaViews.h"
+#include "CocoaUXEvent.h"
 #endif
 
-#endif
-
+using namespace std;
+using namespace Shader;

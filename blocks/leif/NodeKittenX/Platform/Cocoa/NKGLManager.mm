@@ -68,27 +68,27 @@ static NKGLManager *sharedObject = nil;
 
 #endif
 
-+(CIContext*)ciContext {
-    return [[NKGLManager sharedInstance] ciContext];
-}
-
--(CIContext*)ciContext {
-    if (!_ciContext) {
-#if TARGET_OS_IPHONE
-        _ciContext = [CIContext contextWithEAGLContext:_context];
-#else
-        NSLog(@"init CI Context");
-        _ciContext = [CIContext contextWithCGLContext:_context.CGLContextObj
-                                          pixelFormat:_pixelFormat.CGLPixelFormatObj
-                                           colorSpace:nil
-                                              options:nil];
+//+(CIContext*)ciContext {
+//    return [[NKGLManager sharedInstance] ciContext];
+//}
+//
+//-(CIContext*)ciContext {
+//    if (!_ciContext) {
+//#if TARGET_OS_IPHONE
+//        _ciContext = [CIContext contextWithEAGLContext:_context];
+//#else
+//        NSLog(@"init CI Context");
 //        _ciContext = [CIContext contextWithCGLContext:_context.CGLContextObj
 //                                          pixelFormat:_pixelFormat.CGLPixelFormatObj
+//                                           colorSpace:nil
 //                                              options:nil];
-#endif
-    }
-    return _ciContext;
-}
+////        _ciContext = [CIContext contextWithCGLContext:_context.CGLContextObj
+////                                          pixelFormat:_pixelFormat.CGLPixelFormatObj
+////                                              options:nil];
+//#endif
+//    }
+//    return _ciContext;
+//}
 
 + (void)updateWithTimeSinceLast:(F1t)dt {
     [[NKGLManager sharedInstance]updateWithTimeSinceLast:dt];

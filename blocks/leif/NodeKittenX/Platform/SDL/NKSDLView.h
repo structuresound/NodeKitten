@@ -5,14 +5,14 @@
 #ifndef NODEKITTENX_NKSDLVIEW_H
 #define NODEKITTENX_NKSDLVIEW_H
 
-#include "NKView.h"
+#include "SceneController.h"
 #include "miguel/sdl2/include/SDL.h"
 
-class NKSDLView : public NKView {
+class NKSDLView : public SceneController {
 
 public:
 
-    NKSDLView(F1t width = 800, F1t height = 600) : NKView(V2t{width, height}) {
+    NKSDLView(F1t width = 800, F1t height = 600) : SceneController(V2t{width, height}) {
         sdl_width = width;
         sdl_height = height;
     }
