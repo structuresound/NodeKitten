@@ -10,8 +10,9 @@
 #define NodeKittenX_CocoaDeviceTools_h
 
 #include "CommonTypes.h"
+#include "CommonUtils.h"
 
-inline string NSToCppString(void *s);    
+inline std::string NSToCppString(void *s);
 
 #endif
 

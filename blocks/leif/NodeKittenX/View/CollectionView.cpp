@@ -8,14 +8,13 @@
 
 #include "CollectionView.h"
 
+using namespace std;
+
 shared_ptr<CollectionView> CollectionView::viewWithSize(V2 size){
     return make_shared<CollectionView>(size);
 }
 
 void CollectionView::updateWithTimeSinceLast(F1t dt){
-    if (_dirty) {
-        layout();
-    }
     View::updateWithTimeSinceLast(dt);
 }
 

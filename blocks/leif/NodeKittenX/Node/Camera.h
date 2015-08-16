@@ -14,91 +14,83 @@
 class SceneNode;
 
 typedef enum NKProjectionMode {
-    NKProjectionModePerspective,
-    NKProjectionModeOrthographic
+  NKProjectionModePerspective,
+  NKProjectionModeOrthographic
 } NKProjectionMode;
 
-class Camera : public Node {
-    
-    M16t _viewMatrix;
-    M16t _projectionMatrix;
-    M16t _viewProjectionMatrix;
-    
-    bool _vDirty = true;
-    bool _pDirty = true;
-    bool _vpDirty = true;
-    
-    NKProjectionMode _projectionMode {NKProjectionModePerspective};
-    
-    Scene* _scene;
-    
+class Camera {
+  
+  NKProjectionMode _projectionMode {NKProjectionModePerspective};
+  
+  Scene* _scene;
+  
+  F1t fovVertRadians;
+  F1t aspect;
+  F1t nearZ;
+  F1t farZ;
+  
 public:
-    
-    Camera(Scene* scene);
-    
-    F1t fovVertRadians;
-    F1t aspect;
-    F1t nearZ;
-    F1t farZ;
+  Camera(Scene* scene);
+  
+  Reactive::Pullable<M16t> viewMatrix;
+  Reactive::Pullable<M16t> projectionMatrix;
+  Reactive::Pullable<M16t> viewProjectionMatrix;
 
-    nk_unique_ptr(Mesh) target;
-    
-    void setTarget(Node *node);
-    
-    M16t viewMatrix();
-    M16t projectionMatrix();
-    M16t viewProjectionMatrix();
-    M16t orthographicMatrix();
-    
+  void reset();
+#pragma mark - NODAL OVERRIDES
+  std::shared_ptr<Mesh> target; // MESH FOR DEBUG DRAW
+  std::shared_ptr<Mesh> base; // MESH FOR DEBUG DRAW
+  
+  void lookAtNode(Node *node); // auto-orient camera
+  void attachTo(Node* parent); // auto-position camera
+  
+  void setAspectRatio(F1t aspectRatio){
+    aspect = aspectRatio;
+  }
+  
 #if USE_OVR
-    void setupCamera(OVR::Util::Render::StereoEye eye);
+  void setupCamera(OVR::Util::Render::StereoEye eye);
 #endif
-    V3t eyeDirection();
-    
-    P2t screenToWorld(P2t p);
-    
-    void updateCameraWithTimeSinceLast(F1t dt);
-    void updateWithTimeSinceLast(F1t dt);
-    
-    static void glInit();
-    
-    void setProjectionMode(NKProjectionMode mode){_projectionMode = mode;};
-    
-    // NODE OVERRIDES
-    void lookAtNode(Node* node);
-    void setDirty(bool dirty);
-    
-    void drawChildren() override;
+  
+  V3t eyeDirection();
+  P2t screenToWorld(P2t p);
+  
+  void updateCameraWithTimeSinceLast(F1t dt);
+  void updateWithTimeSinceLast(F1t dt);
+  
+  static void glInit();
+  
+  void setProjectionMode(NKProjectionMode mode){_projectionMode = mode;};
 };
 
 class FrustumG {
-    
+  
 private:
-    
-    enum {
-        TOP = 0, BOTTOM, LEFT,
-        RIGHT, NEARP, FARP
-    };
-    
+  
+  enum {
+    TOP = 0, BOTTOM, LEFT,
+    RIGHT, NEARP, FARP
+  };
+  
 public:
-    
-    enum {OUTSIDE, INTERSECT, INSIDE};
-    
-    Plane pl[6];
-    
-    V3t ntl,ntr,nbl,nbr,ftl,ftr,fbl,fbr;
-    float nearD, farD, ratio, angle,tang;
-    float nw,nh,fw,fh;
-    
-    FrustumG();
-    ~FrustumG();
-    
-    void setCamInternals(float angle, float ratio, float nearD, float farD);
-    void setCamDef(V3t &p, V3t &l, V3t &u);
-    int pointInFrustum(V3t &p);
-    int sphereInFrustum(V3t &p, float raio);
-    //int boxInFrustum(AABox &b);
-    
+  
+  enum {OUTSIDE, INTERSECT, INSIDE};
+  
+  Plane pl[6];
+  
+  V3t ntl,ntr,nbl,nbr,ftl,ftr,fbl,fbr;
+  float nearD, farD, ratio, angle,tang;
+  float nw,nh,fw,fh;
+  
+  FrustumG();
+  ~FrustumG();
+  
+  void setCamInternals(float angle, float ratio, float nearD, float farD);
+  void setCamDef(V3t &p, V3t &l, V3t &u);
+  int pointInFrustum(V3t &p);
+  int sphereInFrustum(V3t &p, float raio);
+  //int boxInFrustum(AABox &b);
+  
 };
 
 

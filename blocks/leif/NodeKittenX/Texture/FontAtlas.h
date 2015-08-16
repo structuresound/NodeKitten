@@ -19,11 +19,11 @@ public:
     texture_font_t *font = nullptr;
     texture_atlas_t *atlas = nullptr;
     
-    FontAtlas(string fontName, U1t fontSize = 48, I1t width = 512, I1t height = 512){
+    FontAtlas(std::string fontName, U1t fontSize = 48, I1t width = 512, I1t height = 512){
         
         atlas = texture_atlas_new( width, height, 1);
-        
-        string filename = File::pathForFileNamed(fontName);
+
+        std::string filename = File::pathForFileNamed(fontName);
         nkLog("font: %s", filename);
         
         font = texture_font_new_from_file( atlas, fontSize, filename.c_str() );

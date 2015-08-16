@@ -11,7 +11,9 @@
 
 #include "Mesh.h"
 
-class Shader;
+namespace Shader {
+  class Program;
+}
 
 class MeshBatcher : public Mesh
 {
@@ -22,9 +24,9 @@ public:
     
     using Mesh::Mesh;
     
-    static shared_ptr<MeshBatcher> nodeWithObj(string objName, V3t size = V3(1.0), bool normalize = true, bool anchor = false);
-    static shared_ptr<MeshBatcher> nodeWithPrimitive(NKPrimitive primitive, shared_ptr<Texture> texture, Color color, V3t size);
-    static shared_ptr<MeshBatcher> nodeWithVbo(shared_ptr<VertexBuffer> buffer, GLenum drawMode, shared_ptr<Texture> texture, Color color, V3t size);
+    static std::shared_ptr<MeshBatcher> nodeWithObj(std::string objName, V3t size = V3(1.0), bool normalize = true, bool anchor = false);
+    static std::shared_ptr<MeshBatcher> nodeWithPrimitive(NKPrimitive primitive, std::shared_ptr<Texture> texture, Color color, V3t size);
+    static std::shared_ptr<MeshBatcher> nodeWithVbo(std::shared_ptr<VertexBuffer> buffer, GLenum drawMode, std::shared_ptr<Texture> texture, Color color, V3t size);
     
     M16Stack mvpStack;
     M16Stack mvStack;
@@ -34,8 +36,8 @@ public:
     // 2d
     V2Stack positionStack;
     F1Stack scaleStack;
-    
-    shared_ptr<Shader> hitShader;
+
+    std::shared_ptr<Shader::Program> hitShader;
 
 #if (TARGET_RASPBERRY_PI || TARGET_EMSCRIPTEN)
     void setTexture(shared_ptr<Texture> texture) override;

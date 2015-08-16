@@ -17,7 +17,7 @@ class Mesh : public Node
 {
     M16t *boneOffsets {nullptr};
     V6t _aabb;
-    V6t getAabb();
+    V6t getAabb() const;
     
     U1t _numTris {0};
     
@@ -26,8 +26,8 @@ class Mesh : public Node
     static Mesh *_fboSurface;
     
 protected:
-    shared_ptr<VertexBuffer> _vertexBuffer;
-    vector<shared_ptr<Texture>> _textures;
+    std::shared_ptr<VertexBuffer> _vertexBuffer;
+    std::vector<std::shared_ptr<Texture>> _textures;
     U1t _numTextures {0};
     GLenum _drawMode {GL_TRIANGLES};
     NKPrimitive _primitiveType {NKPrimitiveNone};
@@ -39,11 +39,11 @@ public:
     
     // CLASS Methods
     
-    static string stringForPrimitive(NKPrimitive primitive);
+    static std::string stringForPrimitive(NKPrimitive primitive);
     
     // STATIC DRAWING
     
-    static void fillRect(Scene* context, V4 rect, Color color = Color(1.0,1.0), shared_ptr<Texture> texture = nullptr);
+    static void fillRect(Scene* context, V4 rect, Color color = Color(1.0,1.0), std::shared_ptr<Texture> texture = nullptr);
     static void glInit();
     
     // LOCAL ATTRIBUTES
@@ -52,39 +52,38 @@ public:
     float pointSize {1.0};
     float lineWidth {1.0};
     bool usesLOD {false};
-    int lodForDistance();
+    int lodForDistance() const;
     
-    V6t aabb(){
+    V6t aabb() const{
         return getAabb();
     };
     
     VertexBuffer* vertexBuffer(){return _vertexBuffer.get();};
     
     // OBJECT FACTORIES
-    static shared_ptr<Mesh> nodeWithObj(string objName, V3t size = V3(1.0), bool normalize = true, bool anchor = false);
-    static shared_ptr<Mesh> nodeWithPrimitive(NKPrimitive primitive, shared_ptr<Texture> texture, Color color, V3t size);
-    static shared_ptr<Mesh> nodeWithVbo(shared_ptr<VertexBuffer> buffer, GLenum drawMode, shared_ptr<Texture> texture, Color color, V3t size);
+    static std::shared_ptr<Mesh> nodeWithObj(std::string objName, V3t size = V3(1.0), bool normalize = true, bool anchor = false);
+    static std::shared_ptr<Mesh> nodeWithPrimitive(NKPrimitive primitive, std::shared_ptr<Texture> texture, Color color, V3t size);
+    static std::shared_ptr<Mesh> nodeWithVbo(std::shared_ptr<VertexBuffer> buffer, GLenum drawMode, std::shared_ptr<Texture> texture, Color color, V3t size);
 
     // INIT
-    Mesh(shared_ptr<Texture> texture = nullptr, Color color = Color(1.0), V3t size = V3(1.0)); // COMMON CONSTRUCTOR
-    Mesh(string objName, V3t size = V3(1.0), bool normalize = true, bool anchor = false);
-    Mesh(NKPrimitive primitive, shared_ptr<Texture> texture, Color color, V3t size);
-    Mesh(shared_ptr<VertexBuffer> buffer, GLenum drawMode, shared_ptr<Texture> texture, Color color, V3t size);
+    Mesh(std::shared_ptr<Texture> texture = nullptr, Color color = Color(1.0), V3t size = V3(1.0)); // COMMON CONSTRUCTOR
+    Mesh(std::string objName, V3t size = V3(1.0), bool normalize = true, bool anchor = false);
+    Mesh(NKPrimitive primitive, std::shared_ptr<Texture> texture, Color color, V3t size);
+    Mesh(std::shared_ptr<VertexBuffer> buffer, GLenum drawMode, std::shared_ptr<Texture> texture, Color color, V3t size);
     
     ~Mesh();
     
-    virtual void setTexture(shared_ptr<Texture> texture);
+    virtual void setTexture(std::shared_ptr<Texture> texture);
     virtual void chooseShader() override;
     void bindTextures();
     
     void setDrawMode(GLenum drawMode){_drawMode = drawMode;};
     
     // Node Overrides
-    
-    virtual void setColor(Color color) override;
+  
     void customDraw() override;
-    void setupViewMatrix() override;
-    void customDrawWithHitShader() override;
+    void setupViewMatrix() const override;
+    void customDrawWithHitShader() const override;
     
     // Functions
     

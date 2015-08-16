@@ -97,7 +97,7 @@ bool NKSDLView::loop() {
 
         // DRAW CYCLE
         SDL_RenderClear(displayRenderer);
-        NKView::draw();
+        SceneController::draw();
         SDL_RenderPresent(displayRenderer);
         //
 

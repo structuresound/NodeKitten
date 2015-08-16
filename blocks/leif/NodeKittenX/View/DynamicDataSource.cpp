@@ -8,6 +8,7 @@
 
 #include "DynamicDataSource.h"
 
+using namespace std;
 // DELEGATE
 
 void DynamicDataSourceDelegate::insertItemsAtIndexPaths(vector<U1> selectedIndexes){}
@@ -16,7 +17,3 @@ void DynamicDataSourceDelegate::reloadItemsAtIndexPaths(vector<U1> selectedIndex
 void DynamicDataSourceDelegate::moveItemFromTo(U1t from, U1t to){}
 
 // DATA SOURCE
-
-void DynamicDataSource::setData(JSON json, bool shouldAnimate){
-    _json = json;
-}

@@ -9,7 +9,7 @@
 #ifndef __CollectionView__
 #define __CollectionView__
 
-#include "ScrollView.h"
+#include "ContainerView.h"
 #include "DynamicDataSource.h"
 
 class CollectionView;
@@ -24,23 +24,21 @@ public:
 };
 
 class CollectionView : public ScrollView, public DynamicDataSource, public CollectionViewDelegate {
-    
-    DynamicDataSource * _dataSource = this;
-    CollectionViewDelegate * _collectionViewDelegate = this;
+  
+    CollectionViewDelegate *_delegate {this};
     
 public:
-    // Convenience Constructors
-    static shared_ptr<CollectionView> viewWithSize(V2 size);
+    // Convenience Constructor
+    static std::shared_ptr<CollectionView> viewWithSize(V2 size);
     
     CollectionView(V2 size) : ScrollView(size) {}
     ~CollectionView(){};
-    
-    function<bool(Json::Value a, Json::Value b)> sortBlock;
+
+    std::function<bool(Json::Value a, Json::Value b)> sortBlock;
     
     // DELEGATE
-    CollectionViewDelegate *delegate = this;
 
-    vector<U1t> selectedIndexes;
+    std::vector<U1t> selectedIndexes;
 
     View* viewAtIndex(IndexPath index);
     

@@ -10,11 +10,11 @@
 #define __Pods__ScrollView__
 
 #include "View.h"
-#include "LayoutController.h"
+#include "Layout.h"
 
-class ScrollView : public View, public LayoutController {
+class ScrollView : public View {
 public:
-    ScrollView(V2 size) : View(size), LayoutController(this){}
+    ScrollView(V2 size) : View(size){};
     ~ScrollView(){};
     
     virtual void didScroll(U1 index);

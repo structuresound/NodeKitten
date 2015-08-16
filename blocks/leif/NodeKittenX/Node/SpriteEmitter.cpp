@@ -10,8 +10,12 @@
 #include "ShaderProgram.h"
 #include "Scene.h"
 
+using namespace std;
+using namespace Shader;
+
 shared_ptr<SpriteEmitter> SpriteEmitter::nodeWithTexture(shared_ptr<Texture> texture, Color color) {
-    return make_shared<SpriteEmitter>(texture, color);
+    shared_ptr<SpriteEmitter> ret (new SpriteEmitter(texture, color));
+    return ret;
 }
 
 void SpriteEmitter::chooseShader(){
@@ -19,10 +23,10 @@ void SpriteEmitter::chooseShader(){
     // These don't support instanced drawing right now
 #else
     if (_numTextures) {
-        shader = Shader::shaderNamed("emitterWithTexture", {ShaderModule::colorModule(NKS_COLOR_MODE_UNIFORM, NK_BATCH_SIZE),ShaderModule::textureModule(1), ShaderModule::batchSpritePositionModule(NK_BATCH_SIZE)}, NK_BATCH_SIZE);
+        shader = Program::shaderNamed("emitterWithTexture", {ShaderModule::colorModule(NKS_COLOR_MODE_UNIFORM, NK_BATCH_SIZE),ShaderModule::textureModule(1), ShaderModule::batchSpritePositionModule(NK_BATCH_SIZE)}, NK_BATCH_SIZE);
     }
     else {
-        shader = Shader::shaderNamed("emitterWithColor", {ShaderModule::colorModule(NKS_COLOR_MODE_UNIFORM, NK_BATCH_SIZE), ShaderModule::batchSpritePositionModule(NK_BATCH_SIZE)}, NK_BATCH_SIZE);
+        shader = Program::shaderNamed("emitterWithColor", {ShaderModule::colorModule(NKS_COLOR_MODE_UNIFORM, NK_BATCH_SIZE), ShaderModule::batchSpritePositionModule(NK_BATCH_SIZE)}, NK_BATCH_SIZE);
     }
 #endif
 }
@@ -60,34 +64,34 @@ void SpriteEmitter::customDraw(){
     positionStack.clear();
     scaleStack.clear();
     
-    if (Shader::activeShader->hasUniformNamed(NKS_V4_COLOR)) {
+    if (GLState::activeShader()->hasUniformNamed(NKS_V4_COLOR)) {
         useColor = true;
         colorStack.clear();
     }
     
     if (sortEveryPass) {
-        if (_children.size() > 1) {
-            sort(_children.begin(), _children.end(),
-                 [](const shared_ptr<Node> a, const shared_ptr<Node> b)
+        if (children().size() > 1) {
+            sortChildren(
+                 [](const shared_ptr<Node>& a, const shared_ptr<Node>& b)
                  {
-                     return a->position().z < b->position().z;
+                     return a->position.get().z < b->position.get().z;
                  });
         }
     }
     
-    for (auto child : _children){
-        positionStack.append(child->position().xy);
-        scaleStack.append(child->size().x * child->scale().x);
-        for (auto c2 : child->children()){
-            positionStack.append(child->position().xy + c2->position().xy);
-            scaleStack.append(c2->size().x * c2->scale().x * child->size().x * child->scale().x);
+    for (auto& child : children()){
+        positionStack.append(child->position.get().xy);
+        scaleStack.append(child->size.get().x * child->scale.get().x);
+        for (auto& c2 : child->children()){
+            positionStack.append(child->position.get().xy + c2->position.get().xy);
+            scaleStack.append(c2->size.get().x * c2->scale.get().x * child->size.get().x * child->scale.get().x);
         }
     }
     
     if (useColor) {
-        for (auto child : _children){
+        for (auto& child : children()){
             colorStack.append(child->glColor());
-            for (auto c2 : child->children()){
+            for (auto& c2 : child->children()){
                 colorStack.append(c2->glColor());
             }
         }
@@ -123,7 +127,7 @@ void SpriteEmitter::updateWithTimeSinceLast(F1t dt){
         if (excecuteAction(action.get(), this, dt)) complete.push_back(action);
     }
     for (auto action : complete){
-        removeAction(action);
+        removeAction(action.get());
     }
     
     if (_updateBlock){
@@ -134,10 +138,10 @@ void SpriteEmitter::updateWithTimeSinceLast(F1t dt){
 
 void SpriteEmitter::drawGeometry(U1t start, U1t spritesInBatch, bool useColor){
 #if NK_SUPPORTS_INSTANCED_DRAWING
-    Shader::activeShader->uniformNamed(NKS_V2_BATCH_POSITION).bindV2Array(positionStack.data()+start, spritesInBatch);
-    Shader::activeShader->uniformNamed(NKS_F1_BATCH_SCALE).bindF1Array(scaleStack.data()+start, spritesInBatch);
+    GLState::activeShader()->uniformNamed(NKS_V2_BATCH_POSITION).bindV2Array(&positionStack[start], spritesInBatch);
+    GLState::activeShader()->uniformNamed(NKS_F1_BATCH_SCALE).bindF1Array(&scaleStack[start], spritesInBatch);
     if (useColor) {
-        Shader::activeShader->uniformNamed(NKS_V4_COLOR).bindV4Array(colorStack.data()+start, spritesInBatch);
+        GLState::activeShader()->uniformNamed(NKS_V4_COLOR).bindV4Array(&colorStack[start], spritesInBatch);
     }
 #if NK_USE_GLES
     glDrawArraysInstancedEXT(_drawMode, 0, _vertexBuffer->size(), spritesInBatch);

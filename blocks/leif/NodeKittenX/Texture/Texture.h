@@ -39,13 +39,13 @@ enum {
 
 class Texture
 {
-    string _name;
+    std::string _name;
     
 public:
     
-    static shared_ptr<Texture> blankTexture();
+    static std::shared_ptr<Texture> blankTexture();
     
-    static shared_ptr<Texture> textureWithImageFile(string filePath,bool relative_path = true, U1t flags = NK_TEXTURE_CLAMP, U1t filter = 0, F1t anistropicFilter= 0);
+    static std::shared_ptr<Texture> textureWithImageFile(std::string filePath,bool relative_path = true, U1t flags = NK_TEXTURE_CLAMP, U1t filter = 0, F1t anistropicFilter= 0);
     
     GLuint glName {0};
     
@@ -73,7 +73,7 @@ public:
     unsigned int	compression {0};
     
     // INIT WITH DATA
-    Texture(string filename, bool relative_path = true, U1t flags = 0, U1t filter = 0, F1t anistropicFilter= 0, bool cube = 0);
+    Texture(std::string filename, bool relative_path = true, U1t flags = 0, U1t filter = 0, F1t anistropicFilter= 0, bool cube = 0);
     
     // INIT FOR FBO
     Texture(I1t width_, I1t height_){
@@ -104,7 +104,7 @@ public:
     void allocate(unsigned int flags, unsigned char filter, float anisotropic_filter, bool cube);
     void clear();
 
-    string name(){return _name;};
+    std::string name(){return _name;};
     
     bool shouldResizeToTexture;
     bool keepInMemory;
@@ -142,12 +142,12 @@ public:
     
     // *** CACHE *** //
     
-    static map <string, shared_ptr<Texture>> fontCache;
-    static map <string, shared_ptr<Texture>> nameCache;
-    static map <shared_ptr<Texture>, vector<shared_ptr<Node>>> sharedTextures;
+    static std::map <std::string, std::shared_ptr<Texture>> fontCache;
+    static std::map <std::string, std::shared_ptr<Texture>> nameCache;
+    static std::map <std::shared_ptr<Texture>, std::vector<std::shared_ptr<Node>>> sharedTextures;
     
-    static bool registerNode(shared_ptr<Node> node);
-    static bool unresgisterNode(shared_ptr<Node> node);
+    static bool registerNode(std::shared_ptr<Node> node);
+    static bool unresgisterNode(std::shared_ptr<Node> node);
 
 };
 

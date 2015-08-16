@@ -6,9 +6,7 @@
 //  Copyright (c) 2014 Chroma Developer. All rights reserved.
 //
 
-#ifndef __NKMath__
-#define __NKMath__
-
+#pragma once
 
 #include "ScalarStack.h"
 #include "VertexBuffer.h"
@@ -287,6 +285,3 @@ static inline V4t V4r()
 {
     return randomScalar<V4t>();
 }
-
-
-#endif

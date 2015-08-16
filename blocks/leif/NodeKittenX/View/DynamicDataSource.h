@@ -13,19 +13,20 @@
 
 class DynamicDataSourceDelegate {
 public:
-    void insertItemsAtIndexPaths(vector<U1> selectedIndexes);
-    void deleteItemsAtIndexPaths(vector<U1> selectedIndexes);
-    void reloadItemsAtIndexPaths(vector<U1> selectedIndexes);
-    void moveItemFromTo(U1t from, U1t to);
+  void insertItemsAtIndexPaths(std::vector<U1> selectedIndexes);
+  void deleteItemsAtIndexPaths(std::vector<U1> selectedIndexes);
+  void reloadItemsAtIndexPaths(std::vector<U1> selectedIndexes);
+  void moveItemFromTo(U1t from, U1t to);
 };
 
-class DynamicDataSource {
-    JSON _json;
+class DynamicDataSource : public DynamicDataSourceDelegate{
+  JSON _data;
+  DynamicDataSourceDelegate *_delegate {this};
 public:
-    virtual void setData(JSON, bool shouldAnimate = true);
-    JSON data(){return _json;};
-    
-    DynamicDataSourceDelegate *delegate;
+  const JSON data() const {return _data;}
+  void setData(JSON data, bool shouldAnimate = true){
+    _data = data;
+  }
 };
 
 #endif /* defined(__Pods__DynamicDataSource__) */

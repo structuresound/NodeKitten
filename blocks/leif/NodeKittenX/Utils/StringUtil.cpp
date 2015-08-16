@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 structuresound. All rights reserved.
 //
 
-#include "StringUtil.h"
+#include "CommonUtils.h"
 
 #include <cctype>
 #include <bitset>
@@ -158,9 +158,9 @@ namespace String {
     
     string narrow( const wstring& str )
     {
-        ostringstream stm ;
-        const ctype<char>& ctfacet =
-        use_facet< ctype<char> >( stm.getloc() ) ;
+        std::ostringstream stm ;
+        const std::ctype<char>& ctfacet =
+          std::use_facet< std::ctype<char> >( stm.getloc() ) ;
         for( size_t i=0 ; i<str.size() ; ++i )
             stm << ctfacet.narrow( str[i], 0 ) ;
         return stm.str() ;
@@ -323,10 +323,10 @@ namespace String {
     
     
     string& getfile(const string& filename, string& buffer) {
-        ifstream in(filename.c_str(), ios_base::binary | ios_base::ate);
-        in.exceptions(ios_base::badbit | ios_base::failbit | ios_base::eofbit);
+        std::ifstream in(filename.c_str(), std::ios_base::binary | std::ios_base::ate);
+        in.exceptions(std::ios_base::badbit | std::ios_base::failbit | std::ios_base::eofbit);
         buffer.resize(in.tellg());
-        in.seekg(0, ios_base::beg);
+        in.seekg(0, std::ios_base::beg);
         in.read(&buffer[0], buffer.size());
         return buffer;
     }
@@ -490,12 +490,12 @@ namespace String {
     
     //----------------------------------------
     string toHex(const string& value) {
-        ostringstream out;
+        std::ostringstream out;
         // how many bytes are in the string
         int numBytes = value.size();
         for(int i = 0; i < numBytes; i++) {
             // print each byte as a 2-character wide hex value
-            out << setfill('0') << setw(2) << hex << (unsigned int) ((unsigned char)value[i]);
+            out << std::setfill('0') << std::setw(2) << std::hex << (unsigned int) ((unsigned char)value[i]);
         }
         return out.str();
     }
@@ -510,7 +510,7 @@ namespace String {
     //----------------------------------------
     int toInt(const string& intString) {
         int x = 0;
-        istringstream cur(intString);
+        std::istringstream cur(intString);
         cur >> x;
         return x;
     }
@@ -518,16 +518,16 @@ namespace String {
     //----------------------------------------
     int hexToInt(const string& intHexString) {
         int x = 0;
-        istringstream cur(intHexString);
-        cur >> hex >> x;
+        std::istringstream cur(intHexString);
+        cur >> std::hex >> x;
         return x;
     }
     
     //----------------------------------------
     char hexToChar(const string& charHexString) {
         int x = 0;
-        istringstream cur(charHexString);
-        cur >> hex >> x;
+        std::istringstream cur(charHexString);
+        cur >> std::hex >> x;
         return (char) x;
     }
     
@@ -538,8 +538,8 @@ namespace String {
             float f;
         } myUnion;
         myUnion.x = 0;
-        istringstream cur(floatHexString);
-        cur >> hex >> myUnion.x;
+        std::istringstream cur(floatHexString);
+        cur >> std::hex >> myUnion.x;
         return myUnion.f;
     }
     
@@ -548,7 +548,7 @@ namespace String {
     //----------------------------------------
     float toFloat(const string& floatString) {
         float x = 0;
-        istringstream cur(floatString);
+        std::istringstream cur(floatString);
         cur >> x;
         return x;
     }
@@ -556,7 +556,7 @@ namespace String {
     //----------------------------------------
     double toDouble(const string& doubleString) {
         double x = 0;
-        istringstream cur(doubleString);
+        std::istringstream cur(doubleString);
         cur >> x;
         return x;
     }
@@ -573,7 +573,7 @@ namespace String {
             return false;
         }
         bool x = false;
-        istringstream cur(lower);
+        std::istringstream cur(lower);
         cur >> x;
         return x;
     }
@@ -581,17 +581,17 @@ namespace String {
     //----------------------------------------
     char toChar(const string& charString) {
         char x = '\0';
-        istringstream cur(charString);
+        std::istringstream cur(charString);
         cur >> x;
         return x;
     }
     
     //----------------------------------------
     string toBinary(const string& value) {
-        stringstream out;
+        std::stringstream out;
         int numBytes = value.size();
         for(int i = 0; i < numBytes; i++) {
-            bitset<8> bitBuffer(value[i]);
+            std::bitset<8> bitBuffer(value[i]);
             out << bitBuffer;
         }
         return out.str();
@@ -607,21 +607,21 @@ namespace String {
     //----------------------------------------
     int binaryToInt(const string& value) {
         const int intSize = sizeof(int) * 8;
-        bitset<intSize> binaryString(value);
+        std::bitset<intSize> binaryString(value);
         return (int) binaryString.to_ulong();
     }
     
     //----------------------------------------
     char binaryToChar(const string& value) {
         const int charSize = sizeof(char) * 8;
-        bitset<charSize> binaryString(value);
+        std::bitset<charSize> binaryString(value);
         return (char) binaryString.to_ulong();
     }
     
     //----------------------------------------
     float binaryToFloat(const string& value) {
         const int floatSize = sizeof(float) * 8;
-        bitset<floatSize> binaryString(value);
+        std::bitset<floatSize> binaryString(value);
         union ulongFloatUnion {
             unsigned long result;
             float f;
@@ -631,9 +631,9 @@ namespace String {
     }
     //----------------------------------------
     string binaryToString(const string& value) {
-        ostringstream out;
-        stringstream stream(value);
-        bitset<8> byteString;
+        std::ostringstream out;
+        std::stringstream stream(value);
+        std::bitset<8> byteString;
         int numBytes = value.size() / 8;
         for(int i = 0; i < numBytes; i++) {
             stream >> byteString;
@@ -644,19 +644,19 @@ namespace String {
     
     //----------------------------------------
     string fromHex(const string& stringHexString) {
-        stringstream out;
-        stringstream stream(stringHexString);
+        std::stringstream out;
+        std::stringstream stream(stringHexString);
         // a hex string has two characters per byte
         int numBytes = stringHexString.size() / 2;
         for(int i = 0; i < numBytes; i++) {
             string curByte;
             // grab two characters from the hex string
-            stream >> setw(2) >> curByte;
+            stream >> std::setw(2) >> curByte;
             // prepare to parse the two characters
-            stringstream curByteStream(curByte);
+            std::stringstream curByteStream(curByte);
             int cur = 0;
             // parse the two characters as a hex-encoded int
-            curByteStream >> hex >> cur;
+            curByteStream >> std::hex >> cur;
             // add the int as a char to our output stream
             out << (char) cur;
         }

@@ -2,10 +2,10 @@
 //*  NODE KITTEN
 //*
 
-#ifndef __VertexBuffer_h_
-#define __VertexBuffer_h_
+#pragma once
 
 #include "CommonTypes.h"
+#include "CommonUtils.h"
 
 typedef struct NKPrimitiveArray{
     V3t vertex;
@@ -92,11 +92,11 @@ private:
     
 public:
     
-    vector<V3t> _vertices;
-    vector<V3t> _normals;
-    vector<V3t> _texCoords;
-    vector<V4t> _colors;
-    vector<U1t> _indices;
+    std::vector<V3t> _vertices;
+    std::vector<V3t> _normals;
+    std::vector<V3t> _texCoords;
+    std::vector<V4t> _colors;
+    std::vector<U1t> _indices;
 
     
     VertexBuffer(NKPrimitive primitive, GLenum bufferMode = GL_STATIC_DRAW);
@@ -114,17 +114,17 @@ public:
     static GLuint activeVAO;
     static VertexBuffer *activeVBO;
     
-    static map<string, shared_ptr<VertexBuffer>> vboCache;
-    static map<NKPrimitive, shared_ptr<VertexBuffer>> vboPrimitiveCache;
-    static shared_ptr<VertexBuffer> cachedVbo(string vbo);
+    static std::map<std::string, std::shared_ptr<VertexBuffer>> vboCache;
+    static std::map<NKPrimitive, std::shared_ptr<VertexBuffer>> vboPrimitiveCache;
+    static std::shared_ptr<VertexBuffer> cachedVbo(std::string vbo);
     
-    static shared_ptr<VertexBuffer> axes();
-    static shared_ptr<VertexBuffer> defaultRect();
-    static shared_ptr<VertexBuffer> defaultCube();
-    static shared_ptr<VertexBuffer> cube8v();
-    static shared_ptr<VertexBuffer> edges8v();
-    static shared_ptr<VertexBuffer> sphereWithStacks(GLint stacks, GLint slices, GLfloat squash);
-    static shared_ptr<VertexBuffer> planeWithSubdivisions(GLint horizontal, GLint vertical);
+    static std::shared_ptr<VertexBuffer> axes();
+    static std::shared_ptr<VertexBuffer> defaultRect();
+    static std::shared_ptr<VertexBuffer> defaultCube();
+    static std::shared_ptr<VertexBuffer> cube8v();
+    static std::shared_ptr<VertexBuffer> edges8v();
+    static std::shared_ptr<VertexBuffer> sphereWithStacks(GLint stacks, GLint slices, GLfloat squash);
+    static std::shared_ptr<VertexBuffer> planeWithSubdivisions(GLint horizontal, GLint vertical);
     
     VertexBuffer(GLint stacks, GLint slices, GLfloat squash);
     VertexBuffer(GLint horizontal, GLint vertical);
@@ -166,11 +166,11 @@ public:
     int* elementOffset {0};
     int* elementSize {0};
     
-    V6t boundingBox(){
-        return boundingSizeForVertexSet(vector<VertexBuffer*>{this});
+    V6t boundingBox() const {
+        return boundingSizeForVertexSet(std::vector<const VertexBuffer*>{this});
     }
-    V3t centerOfBoundingSize(V6t box);
-    V3t sizeOfBoundingSize(V6t box);
+    V3t centerOfBoundingSize(V6t box) const;
+    V3t sizeOfBoundingSize(V6t box) const;
     
     void update();
     
@@ -184,7 +184,7 @@ public:
     
 private: // FUNCTIONS
 
-    V6t boundingSizeForVertexSet(vector<VertexBuffer*> set);
+    V6t boundingSizeForVertexSet(std::vector<const VertexBuffer*> set) const;
     void normalizeAndCenter();
     V3t normalizeForGroupWithSize(F1t unitSize, V6t groupBoundingBox, bool center);
     U1t numberOfSegmentsForBezier(B12t* bezier);
@@ -194,6 +194,4 @@ private: // FUNCTIONS
     // INDEX BUFFER
 
 };
-
-#endif
 

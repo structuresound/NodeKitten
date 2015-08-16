@@ -17,16 +17,19 @@ public:
     DrawingExample(S2t size) : Scene(size){};
     
     void moveToView() override;
+    void afterResize() override;
+  
     void handleUXEvent(shared_ptr<UXEvent> event) override;
     
     shared_ptr<View> cache;
-    shared_ptr<View> canvas;
+    shared_ptr<Node> canvas;
+  
     void addControlPointWithUXEvent(shared_ptr<UXEvent> event);
     
-    void smoothLastPointForLayer(shared_ptr<Node> layer);
-    void smoothPointsForLayer(shared_ptr<Node> layer);
+    void smoothLastPointForLayer(const shared_ptr<Node>& layer);
+    void smoothPointsForLayer(const shared_ptr<Node>& layer);
     
-    void addToCache(shared_ptr<View> node);
+    void addToCache(shared_ptr<Node>& node);
 };
 
 

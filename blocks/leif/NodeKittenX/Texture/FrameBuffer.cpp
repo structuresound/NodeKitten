@@ -8,7 +8,7 @@
 #include "FrameBuffer.h"
 #include "Texture.h"
 
-vector<FrameBuffer*> FrameBuffer::stack;
+std::vector<FrameBuffer*> FrameBuffer::stack;
 
 FrameBuffer::FrameBuffer(GLuint width_, GLuint height_, bool allocate) {
     
@@ -54,7 +54,7 @@ FrameBuffer::FrameBuffer(GLuint width_, GLuint height_, bool allocate) {
     
     // 1 color
     
-    renderTexture = make_shared<Texture>(width, height);
+    renderTexture = std::make_shared<Texture>(width, height);
     
     glGenRenderbuffers(1, &renderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
@@ -163,7 +163,7 @@ void FrameBuffer::deleteFboAttachment(GLenum attachment)
 #pragma mark - Binding
 
 void FrameBuffer::addSecondRenderTexture() {
-    renderTexture = make_shared<Texture>(width,height);
+    renderTexture = std::make_shared<Texture>(width,height);
 }
 
 void FrameBuffer::bind()
@@ -204,17 +204,17 @@ void FrameBuffer::bindPing() {
 
 void FrameBuffer::bindPong() {
     if (!renderTexture2) {
-        renderTexture2 = make_shared<Texture>(width,height);
+        renderTexture2 = std::make_shared<Texture>(width,height);
     }
     glBindFramebuffer(GL_FRAMEBUFFER, glName);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture->glName, 0);
     nkGetGLError();
 }
 
-void FrameBuffer::clear() {
+void FrameBuffer::clear(Color color) {
     //glViewport(0, 0, width, height);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(color.r, color.g, color.b, color.a);
 }
 
 //void bind:(void(^)())drawingBlock

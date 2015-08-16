@@ -12,6 +12,8 @@
 
 #pragma mark - Convenience Initializers
 
+using namespace std;
+using namespace Shader;
 // statics
 
 VertexBuffer * VertexBuffer::activeVBO = nullptr;
@@ -1423,7 +1425,7 @@ VertexBuffer::VertexBuffer(F1t width, F1t height, F1t depth, int resX, int resY,
 
 #pragma mark - GEOMETRY getters
 
-V6t VertexBuffer::boundingSizeForVertexSet(vector<VertexBuffer*> set) {
+V6t VertexBuffer::boundingSizeForVertexSet(vector<const VertexBuffer*> set) const {
     
     float minx = 1000000., maxx = -1000000.;
     float miny = 1000000., maxy = -1000000.;
@@ -1467,11 +1469,11 @@ V6t VertexBuffer::boundingSizeForVertexSet(vector<VertexBuffer*> set) {
     
 }
 
-V3t VertexBuffer::centerOfBoundingSize(V6t box) {
+V3t VertexBuffer::centerOfBoundingSize(V6t box) const {
     return V3((box.x.min+box.x.max)*.5, (box.y.min+box.y.max)*.5, (box.z.min+box.z.max)*.5);
 }
 
-V3t VertexBuffer::sizeOfBoundingSize(V6t box) {
+V3t VertexBuffer::sizeOfBoundingSize(V6t box) const {
     float width = fabsf(box.x.max - box.x.min);
     float height = fabsf(box.y.max - box.y.min);
     float depth = fabsf(box.z.max - box.z.min);
@@ -1480,7 +1482,7 @@ V3t VertexBuffer::sizeOfBoundingSize(V6t box) {
 }
 
 void VertexBuffer::normalizeAndCenter() {
-    V6t mySize = boundingSizeForVertexSet(vector<VertexBuffer*> {this});
+    V6t mySize = boundingSizeForVertexSet(vector<const VertexBuffer*> {this});
     
     V3t center = centerOfBoundingSize(mySize);
     
@@ -1507,7 +1509,7 @@ V3t VertexBuffer::normalizeForGroupWithSize(F1t unitSize, V6t groupBoundingBox, 
     
     //NKLogV3(@"group offset Normalized", offsetNormalized);
     // store for later ratio
-    V6t myBoundingSize = boundingSizeForVertexSet(vector<VertexBuffer*> {this});
+    V6t myBoundingSize = boundingSizeForVertexSet(vector<const VertexBuffer*> {this});
     
     V3t mySize = sizeOfBoundingSize(myBoundingSize);
     

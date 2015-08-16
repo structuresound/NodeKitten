@@ -9,7 +9,7 @@
 #include "Texture.h"
 #include "png.h"
 #include "picojpeg_util.h"
-#include "StringUtil.h"
+#include "CommonUtils.h"
 
 #ifndef GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG
 #define 	GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG   0x8C00
@@ -19,6 +19,7 @@
 #endif
 
 using namespace String;
+using namespace std;
 
 map <string, shared_ptr<Texture>> Texture::fontCache;
 map <string, shared_ptr<Texture>> Texture::nameCache;

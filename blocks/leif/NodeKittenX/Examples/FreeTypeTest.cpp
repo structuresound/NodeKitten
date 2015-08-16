@@ -197,17 +197,17 @@ void FreeTypeTest::moveToView() {
     
 }
 
-void FreeTypeTest::afterSetSize(){
+void FreeTypeTest::afterResize(){
 
     mat4_set_identity( &m_projection );
     mat4_set_identity( &m_model );
     mat4_set_identity( &m_view );
     
-    mat4_set_orthographic( &m_projection, 0, _size.width, 0, _size.height, -1, 1);
+    mat4_set_orthographic( &m_projection, 0, size.get().width, 0, size.get().height, -1, 1);
+  
+    setBackgroundColor(WHITE);
     
-    backgroundColor = Color(1.0, 1.0, 1.0, 1.0);
-    
-    nkLog("reshape : %1.2f %1.2f", _size.x, _size.y);
+    nkLog("reshape : %1.2f %1.2f", size.get().x, size.get().y);
 }
 
 static auto scales = 1.0;
@@ -245,8 +245,8 @@ void FreeTypeTest::customDraw() {
     {
         float scale = .25 + 4.75 * pow(rand()/(float)(RAND_MAX),2) * scales;
         float angle = 90*(rand()%2);
-        float x = (.05 + .9*((rand() + Time::getCurrentTime())/(float)(RAND_MAX)))*_size.width;
-        float y = (-.05 + .9*(rand()/(float)(RAND_MAX)))*_size.height + mod;
+        float x = (.05 + .9*((rand() + Time::getCurrentTime())/(float)(RAND_MAX)))*size.get().width;
+        float y = (-.05 + .9*(rand()/(float)(RAND_MAX)))*size.get().height + mod;
         float a =  0.1+.8*(pow((1.0-scale/5),2));
 
         mat4_set_identity( &m_model );

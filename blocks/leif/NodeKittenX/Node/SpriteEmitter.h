@@ -11,15 +11,13 @@
 
 #include "Mesh.h"
 
-class Shader;
-
 class SpriteEmitter : public Mesh
 {
     
 public:
-    static shared_ptr<SpriteEmitter> nodeWithTexture(shared_ptr<Texture> texture, Color color = Color(1));
+    static std::shared_ptr<SpriteEmitter> nodeWithTexture(std::shared_ptr<Texture> texture, Color color = Color(1));
     
-    SpriteEmitter(shared_ptr<Texture> texture, Color color) :
+    SpriteEmitter(std::shared_ptr<Texture> texture, Color color) :
     Mesh(NKPrimitiveRect, texture, color, V3(1.0))
     {}
     

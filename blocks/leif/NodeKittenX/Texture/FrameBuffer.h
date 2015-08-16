@@ -19,20 +19,21 @@ class FrameBuffer
 
 public:
     
-    static vector<FrameBuffer*> stack;
+    static std::vector<FrameBuffer*> stack;
     
     // INIT
     FrameBuffer(){} // DEFAULT FOR APPLE
     FrameBuffer(GLuint width, GLuint height, bool allocate = true);
+    FrameBuffer(V2 size) : FrameBuffer(size.width, size.height){};
     ~FrameBuffer();
     
     // IVARS
     
     GLuint glName {0};
-    
-    shared_ptr<Texture> renderTexture;
-    shared_ptr<Texture> renderTexture2;
-    shared_ptr<Texture> depthTexture;
+
+    std::shared_ptr<Texture> renderTexture;
+    std::shared_ptr<Texture> renderTexture2;
+    std::shared_ptr<Texture> depthTexture;
 
     // METHODS
     
@@ -43,7 +44,7 @@ public:
     void bindPing();
     void bindPong();
     
-    void clear();
+    void clear(Color = CLEAR);
 
     void unbind();
     void unload();

@@ -15,7 +15,7 @@
 class File
 {
     //! The filename used by the MEMORY structure.
-    string			_filename;
+    std::string			_filename;
     
     //! The file size in bytes.
     unsigned long	_size {0};
@@ -28,14 +28,14 @@ class File
     
 public:
     
-    static string appDirectory();
-    static string pathForFileNamed(string name);
+    static std::string appDirectory();
+    static std::string pathForFileNamed(std::string name);
     
-    File(string& filename, bool relative_path);
+    File(std::string& filename, bool relative_path);
     ~File();
     
     unsigned long size(){return _size;};
-    string filename(){return _filename;};
+    std::string filename(){return _filename;};
     unsigned char	*data(){return _buffer;};
     
     unsigned long read(void *dst, unsigned long size );

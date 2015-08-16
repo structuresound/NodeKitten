@@ -17,18 +17,16 @@ class Light : public Mesh
     
 public:
     
-    static shared_ptr<Light> light(Scene* scene, Color color = WHITE);
+    static std::shared_ptr<Light> light(Scene* scene, Color color = WHITE);
     
-    Light(Scene* scene, LightProperties properties);
-    
-    LightProperties properties;
+    Light(Scene* scene, Shader::LightProperties properties);
+
+    Shader::LightProperties properties;
     
     void draw() override;
     void chooseShader() override;
-    void removeFromParent() override;
+    void afterRemove() override;
     void setColor(Color color) override;
-    void setDirty(bool dirty) override;
-    void setParent(Node* parent) override;
     
 };
 

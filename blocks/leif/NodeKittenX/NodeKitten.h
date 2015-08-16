@@ -25,17 +25,10 @@
  OF THE POSSIBILITY OF SUCH DAMAGE. *
  ***********************************************************************/
 
-#ifndef __Node_Kitten_X__
-#define __Node_Kitten_X__
+#pragma once
 
 #include "CommonTypes.h"
-
-// UTIL
-
-#include "StringUtil.h"
-#include "TimeUtil.h"
-#include "FileUtil.h"
-#include "format.h"
+#include "CommonUtils.h"
 
 // REAL-TIME CLASSES
 
@@ -82,5 +75,5 @@
 #include "CocoaUXEvent.h"
 #endif
 
-#endif
-
+using namespace std;
+using namespace Shader;

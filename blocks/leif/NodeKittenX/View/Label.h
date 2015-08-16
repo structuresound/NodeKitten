@@ -22,30 +22,31 @@ typedef enum NKTextAlignment {
 
 class Label : public Mesh
 {
-    wstring _text;
-    shared_ptr<FontAtlas> _fontAtlas;
+    std::wstring _text;
+    std::shared_ptr<FontAtlas> _fontAtlas;
     NKTextAlignment _textAlignment = NKTextAlignmentCenter;
     double _fontSize = 12;
     double _loadedSize = 64;
     double t_scale = (_fontSize / _loadedSize);
-    
-    string _fontName;
+
+    std::string _fontName;
 public:
     
-    Label(string fontName, double fontSize = 12, Color color = Color(1.0), V3t size = V3(1.0));
-    ~Label(){};
+    static std::shared_ptr<Label> labelWithFontNamed(std::string fontName, double fontSize = 12, Color color = WHITE, V3t size = V3{1});
     
-    void setText(string text);
-    void setText(wstring text);
+    Label(std::string fontName, double fontSize = 12, Color color = Color(1.0), V3t size = V3(1.0));
+    
+    void setText(std::string text);
+    void setText(std::wstring text);
     V2t sizeForText();
     void genVertices();
     void genTexture();
-    
-    wstring text(){return _text;};
+
+    std::wstring text(){return _text;};
     
     void setTextAlignment(NKTextAlignment alignment);
     void setFontSize(double size);
-    void setTexture(shared_ptr<Texture> fontAtlas) override;
+    void setTexture(std::shared_ptr<Texture> fontAtlas) override;
     void chooseShader() override;
 };
 

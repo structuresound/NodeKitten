@@ -61,14 +61,14 @@ int dpi()
 #pragma mark - IOS
 #pragma mark -
 
-shared_ptr<FrameBuffer> genEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawable> layer)
+unique_ptr<FrameBuffer>& genEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawable> layer)
 
 {
     //printf("GLES fb init with context %@\n", context);
     
     // 1 // Create the framebuffer and bind it.
     
-    auto fbo = make_shared<FrameBuffer>();
+    auto fbo = make_unique<FrameBuffer>();
     
     glGenFramebuffers(1, &fbo->glName);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo->glName);
@@ -358,7 +358,7 @@ F1t Platform::Screen::scale() {
                 
                 if (e->node) e->node->handleUXEvent(e);
                 
-                _c::erase(_sceneController->events, e);
+                _::erase(_sceneController->events, e);
                 
                 return;
             }
@@ -376,7 +376,7 @@ F1t Platform::Screen::scale() {
                 if (e->node) {
                     e->node->handleUXEvent(e);
                 }
-                _c::erase(_sceneController->events, e);
+                _::erase(_sceneController->events, e);
             }
         }
     }
@@ -394,7 +394,7 @@ F1t Platform::Screen::scale() {
     _sceneController->events.push_back(event);
     _sceneController->handleUXEvent(event);
     
-    _c::erase(_sceneController->events, event);
+    _::erase(_sceneController->events, event);
 }
 
 
@@ -682,7 +682,7 @@ F1t Platform::Screen::scale() {
     NSRect viewRectPoints = [self bounds];
     
     if (_sceneController) {
-        _sceneController->setSize(V2(self.bounds.size.width * _mscale, self.bounds.size.height * _mscale));
+        _sceneController->size.set(V2(self.bounds.size.width * _mscale, self.bounds.size.height * _mscale));
     }
     
 #if SUPPORT_RETINA_RESOLUTION
@@ -757,7 +757,9 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 #if USE_CV_DISPLAY_LINK
     CGLLockContext([[self openGLContext] CGLContextObj]);
 #endif
-    _sceneController->draw();
+    if (_sceneController){
+        _sceneController->draw();
+    }
     CGLFlushDrawable([[self openGLContext] CGLContextObj]);
 #if USE_CV_DISPLAY_LINK
     CGLUnlockContext([[self openGLContext] CGLContextObj]);
@@ -842,7 +844,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
             e->timeStamp = theEvent.timestamp;
             
             if (e->node) e->node->handleUXEvent(e);
-            _c::erase(_sceneController->events, e);
+            _::erase(_sceneController->events, e);
             return;
         }
     }

@@ -17,7 +17,7 @@ public:
     void moveToView() override;
     void customDraw() override;
     void handleUXEvent(shared_ptr<UXEvent> event) override;
-    void afterSetSize() override;
+    void afterResize() override;
 };
 
 #endif /* defined(NODEKITTENX_FREETYPESCENE_H) */

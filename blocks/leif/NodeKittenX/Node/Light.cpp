@@ -9,6 +9,8 @@
 #include "Light.h"
 #include "Scene.h"
 
+using namespace Shader;
+
 shared_ptr<Light> Light::light(Scene* scene, Color color){
     LightProperties p;
     
@@ -25,13 +27,19 @@ shared_ptr<Light> Light::light(Scene* scene, Color color){
     p.linearAttenuation = 1.0;
     p.quadraticAttenuation = 0;
     
-    return make_shared<Light>(scene, p);
+    return std::make_shared<Light>(scene, p);
 }
 
 Light::Light(Scene* scene, LightProperties properties_)
 : Mesh(NKPrimitiveSphere, nullptr, Color("lightyellow"), V3(.125)) {
     _scene = scene;
+    _scene->lights.push_back(this);
     properties = properties_;
+    globalTransform.setPullFunction([this]{
+        auto super = Node::transform.get();
+        properties.position = V3MultiplyM16WithTranslation(_scene->camera->viewMatrix.get(), super.translation);
+        return super;
+    });
 }
 
 void Light::setColor(Color color){
@@ -39,29 +47,12 @@ void Light::setColor(Color color){
     properties.color = color.rgb;
 }
 
-void Light::setDirty(bool dirty){
-    _dirty = dirty;
-    if (dirty){
-        if (scene()) {
-            properties.position = V3MultiplyM16WithTranslation(scene()->camera->viewMatrix(), globalPosition());
-        }
-    }
-}
-
 void Light::chooseShader() {
-    shader = Shader::shaderNamed("lightShader",NKS_COLOR_MODE_UNIFORM,0,0);
+    shader = Program::shaderNamed("lightShader",NKS_COLOR_MODE_UNIFORM,0,0);
 }
 
-void Light::setParent(Node *parent){
-    Node::setParent(parent);
-    if (!_c::contains(scene()->lights, this)) {
-        scene()->lights.push_back(this);
-    }
-}
-
-void Light::removeFromParent(){
-    _c::erase(scene()->lights, this);
-    Mesh::removeFromParent();
+void Light::afterRemove(){
+    _::erase(scene()->lights, this);
 }
 
 void Light::draw(){

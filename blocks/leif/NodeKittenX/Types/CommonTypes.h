@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 structuresound. All rights reserved.
 //
 
-#ifndef __Types_h_
-#define __Types_h_
+#pragma once
+
 
 #include "Macro.h"
 
@@ -34,6 +34,7 @@
 #include <queue>
 #include <assert.h>
 
+#include "Functional.h"
 #include "format.h"
 
 #if defined(RELEASE) || defined(NK_RELEASE)
@@ -48,25 +49,28 @@
 #define nkAssert(x,args...) if (!x){printf("ASSERT!: "); nkLog(args); assert(0);}
 #endif
 
-using namespace std;
+#define nkError(args...) printf("nk_error: "); fmt::printf(args); printf("\n");
 
-#ifdef NK_SUPPORTS_UNIQUE_PTR
-#define nk_unique_ptr(T) unique_ptr<T>
-#define nk_make_unique(T) make_unique<T>
-#else
-#define nk_unique_ptr(T) shared_ptr<T>
-#define nk_make_unique(T) make_shared<T>
-#endif
+// ext libs
 
-#include "VectorTypes.h"
-#include "VectorUtil.h"
-#include "TemplateFunctions.h"
-#include "StringUtil.h"
-#include "Platform.h"
 #include "json.h"
 
-typedef Json::Value JSON;
-
-typedef std::function<void(void)> CompletionBlock;
-
+#if _LIBCPP_STD_VER < 14
+//Excerpt From: "Effective Modern C++."
+template<typename T, typename... Ts>
+std::unique_ptr<T> make_unique(Ts&&... params)
+{
+  return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
 #endif
+
+template <typename R, typename E>
+std::unique_ptr<R> unique_ptr_cast(E& ptr){
+  return std::make_unique<R>(std::move(ptr));
+}
+
+#include "VectorTypes.h"
+#include "ScalarStack.h"
+
+typedef Json::Value JSON;
+typedef std::function<void(void)> CompletionBlock;

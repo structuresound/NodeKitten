@@ -9,6 +9,13 @@
 #include "Label.h"
 #include "ShaderProgram.h"
 
+using namespace std;
+using namespace Shader;
+
+shared_ptr<Label> Label::labelWithFontNamed(string fontName, double fontSize, Color color, V3t size){
+    return make_shared<Label>(fontName, fontSize, color, size);
+}
+
 Label::Label(string fontName, double fontSize, Color color, V3t size) :
 Mesh(nullptr, color, size)
 {
@@ -33,7 +40,7 @@ void Label::setTexture(shared_ptr<Texture> fontAtlas){
 void Label::chooseShader() {
     if (!shader) {
         auto modules = vector<ShaderModule> {ShaderModule::colorModule(NKS_COLOR_MODE_UNIFORM, 0),ShaderModule::freetypeModule()};
-        shader = Shader::shaderNamed("freeTypeShader", modules, 0);
+        shader = Program::shaderNamed("freeTypeShader", modules, 0);
 //       _shader = Shader::shaderNamed("uColorLightShader",NKS_COLOR_MODE_UNIFORM,0,1);
     }
 }
@@ -77,7 +84,7 @@ V2t Label::sizeForText() {
 
 void Label::genVertices() {
     
-    auto size = sizeForText();
+    auto tsize = sizeForText();
 
     //nkLog("fontSize: %1.2f - text scale : %1.5f", _fontSize, t_scale);
     
@@ -97,11 +104,11 @@ void Label::genVertices() {
             break;
             
         case NKTextAlignmentCenter:
-            pen.x = -size.width * .5;
+            pen.x = -tsize.width * .5;
             break;
             
         case NKTextAlignmentRight:
-            pen.x = _size.width - size.width;
+            pen.x = size.get().width - tsize.width;
             break;
     }
     
