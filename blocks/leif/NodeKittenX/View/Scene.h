@@ -51,7 +51,7 @@ typedef std::function<void(void)> HitCallback;
 class SceneController;
 class Camera;
 namespace Shader {
-  class Shader;
+  class Program;
 }
 class VertexBuffer;
 class NKAlertSprite;

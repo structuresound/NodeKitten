@@ -10,6 +10,8 @@
 
 #include "CocoaDeviceTools.h"
 
+using namespace std;
+
 string NSToCppString(NSString *s){
     
     return string([s cStringUsingEncoding:NSUTF8StringEncoding]);

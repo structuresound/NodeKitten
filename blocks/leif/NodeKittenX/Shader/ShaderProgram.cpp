@@ -50,8 +50,8 @@ namespace Shader {
   shared_ptr<Program> Program::fill = nullptr;
   shared_ptr<Program> Program::textureFill = nullptr;
 
-  map<string, shared_ptr<Program>> programCache;
-  map<UB4t, Node *> nodeMap;
+  map<string, shared_ptr<Program>> Program::programCache;
+  map<UB4t, Node *> Program::nodeMap;
 
   static GLubyte GLUBYTE_MAX = UCHAR_MAX;
 

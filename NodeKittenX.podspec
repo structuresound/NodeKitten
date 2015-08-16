@@ -87,10 +87,9 @@ s.subspec "freetypegl" do |freetypegl|
                                     "deps/miguel/freetype/src/type42/type42.{h,c}",
                                     "deps/miguel/freetype/src/winfonts/winfnt.{h,c}"
             freetype.compiler_flags = '-DFT2_BUILD_LIBRARY=1 -DDARWIN_NO_CARBON -DFT_CONFIG_OPTION_SYSTEM_ZLIB=1'
-            freetype.xcconfig = { "HEADER_SEARCH_PATHS" => "/Users/leif/ClionProjects/NodeKittenX/deps/miguel/freetype/include" }
-            #freetype.xcconfig = { "HEADER_SEARCH_PATHS" => "
+            freetype.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SOURCE_ROOT)/deps/miguel/freetype/include" }
         end
-    freetypegl.xcconfig = { "HEADER_SEARCH_PATHS" => "/Users/leif/ClionProjects/NodeKittenX/libs/ios/libFreetype2/include" }
+#freetypegl.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SOURCE_ROOT)/libs/ios/libFreetype2/include" }
 end
 
 s.subspec "picojpeg" do |picojpeg|
@@ -98,7 +97,14 @@ picojpeg.source_files = "deps/leif/picojpeg/*.{h,c,cpp}"
 end
 
 s.subspec "kiwi" do |kiwi|
-  kiwi.source_files = "deps/leif/kiwi/kiwi/*.{h}"
+  kiwi.source_files = "deps/leif/kiwi/kiwi/*.{h, hpp}"
+end
+
+s.subspec "underscore" do |underscore|
+underscore.source_files = "deps/leif/underscore/_.hpp",
+                          "deps/leif/underscore/underscore/underscore.h",
+                          "deps/leif/underscore/underscorehpp/*.hpp"
+underscore.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SOURCE_ROOT)/deps/leif/underscore" }
 end
 
 s.subspec "png" do |png|
