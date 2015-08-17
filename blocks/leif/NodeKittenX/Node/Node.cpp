@@ -40,14 +40,16 @@ Node::Node(Color color, V3t size_)
   globalTransform.afterSet([this]{
     modelViewMatrix.setDirty();
   });
-  modelViewMatrix.setPullFunction([this]{
-    return M16Multiply(scene()->camera->viewMatrix.get(),M16ScaleWithV3(globalTransform.get(), size.get()));
-  });
   modelViewMatrix.afterSet([this]{
     modelViewProjectionMatrix.setDirty();
   });
+  modelViewMatrix.setPullFunction([this]{
+    M16t v = forceOrthographic() ? M16MakeLookAt({0,0,1}, {0,0,0}, {0,1,0}) : scene()->camera->viewMatrix.get();
+    return M16Multiply(v,M16ScaleWithV3(globalTransform.get(), size.get()));
+  });
   modelViewProjectionMatrix.setPullFunction([this]{
-    return M16Multiply(scene()->camera->projectionMatrix.get(), modelViewMatrix.get());
+    M16t p = forceOrthographic() ? scene()->orthographicMatrix() : scene()->camera->projectionMatrix.get();
+    return M16Multiply(p, modelViewMatrix.get());
   });
 }
 

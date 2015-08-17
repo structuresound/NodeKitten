@@ -292,7 +292,7 @@ namespace Shader {
 
 #pragma mark - NKSHADER VARIABLE
 
-  class Shader;
+  class Program;
 
   class ShaderVariable {
 
@@ -306,7 +306,7 @@ namespace Shader {
     GLuint arraySize{0};
     GLuint glLocation{0};
 
-    Shader *program{nullptr};
+    Program *program{nullptr};
 
     ShaderVariable() { }
 

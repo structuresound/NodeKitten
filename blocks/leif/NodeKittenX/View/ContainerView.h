@@ -23,16 +23,16 @@ public:
   }
   
   ContainerView* addRow(V2 vunits){
-    return addLayout(vunits, LayoutRow);
+    return addLayout(vunits, Layout::Method::Row);
   }
 
   ContainerView* addColumn(V2 vunits){
-    return addLayout(vunits, LayoutColumn);
+    return addLayout(vunits, Layout::Method::Column);
   }
 
-  ContainerView* addLayout(V2 vunits, LayoutMethod l){
+  ContainerView* addLayout(V2 vunits, Layout::Method l){
     auto child = std::make_shared<ContainerView>(vunits);
-    child->setLayoutMethod(l);
+    child->layoutManager()->setLayoutMethod(l);
     return static_cast<ContainerView*>(addChild(child));
   }
   

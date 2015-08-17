@@ -12,6 +12,8 @@
 #include "SceneController.h"
 #include "Node.h"
 
+using namespace std;
+
 bool isIpad(){
 #if TARGET_OS_IPHONE
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )

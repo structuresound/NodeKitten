@@ -554,22 +554,16 @@ void Mesh::customDraw(){
 void Mesh::setupViewMatrix() const {
   if (!GLState::activeShader()) return;
   
-  if (forceOrthographic()) {
-    GLState::activeShader()->uniformNamed(NKS_M16_MVP).bindM16(M16Multiply(scene()->orthographicMatrix(),
-                                                                        M16Multiply(M16MakeLookAt(V3(0, 0, 1), V3(0), V3(0, 1, 0)),
-                                                                                    M16ScaleWithV3(globalTransform.get(), size.get()))));
+  if(GLState::activeShader()->hasUniformNamed(NKS_M16_MV) ){
+    GLState::activeShader()->uniformNamed(NKS_M16_MV).bindM16(modelViewMatrix.get());
   }
-  else {
-    if(GLState::activeShader()->hasUniformNamed(NKS_M16_MV) ){
-      GLState::activeShader()->uniformNamed(NKS_M16_MV).bindM16(modelViewMatrix.get());
-    }
-    
-    if(GLState::activeShader()->hasUniformNamed(NKS_M9_NORMAL) ){
-      GLState::activeShader()->uniformNamed(NKS_M9_NORMAL).bindM9(M16GetInverseNormalMatrix(modelViewMatrix.get()));
-    }
-    
-    GLState::activeShader()->uniformNamed(NKS_M16_MVP).bindM16(modelViewProjectionMatrix.get());
+  
+  if(GLState::activeShader()->hasUniformNamed(NKS_M9_NORMAL) ){
+    GLState::activeShader()->uniformNamed(NKS_M9_NORMAL).bindM9(M16GetInverseNormalMatrix(modelViewMatrix.get()));
   }
+  
+  GLState::activeShader()->uniformNamed(NKS_M16_MVP).bindM16(modelViewProjectionMatrix.get());
+  
   
   nkGetGLError();
 }

@@ -32,9 +32,9 @@ class Label : public Mesh
     std::string _fontName;
 public:
     
-    static std::shared_ptr<Label> labelWithFontNamed(std::string fontName, double fontSize = 12, Color color = WHITE, V3t size = V3{1});
+    static std::shared_ptr<Label> labelWithFontNamed(std::string fontName = "Roboto.ttf", double fontSize = 12, Color color = WHITE);
     
-    Label(std::string fontName, double fontSize = 12, Color color = Color(1.0), V3t size = V3(1.0));
+    Label(std::string fontName, double fontSize = 12, Color color = Color(1.0));
     
     void setText(std::string text);
     void setText(std::wstring text);

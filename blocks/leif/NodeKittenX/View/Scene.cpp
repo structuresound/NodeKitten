@@ -25,6 +25,7 @@ using namespace Shader;
 #if NK_LOG_METRICS
 unsigned int Scene::draws {0};
 unsigned int Scene::fps {0};
+unsigned int Scene::mspf {0};
 #endif
 
 //Scene* Scene::activeScene = nullptr;
@@ -93,25 +94,15 @@ Scene::Scene(S2t size) : View(size){
   
 }
 
-void Scene::afterTransform(){
-  View::afterTransform();
-  auto theSize = size.get();
-  camera->setAspectRatio(theSize.width / theSize.height);
-#if NK_LOG_METRICS
-  if (metrics){
-    metrics->size.set(V2(theSize.x*0.125f, theSize.y));
-    metrics->position.set(V2(theSize.x*0.4375f, 0));
-  }
-#endif
-}
-
 void Scene::logMetrics() {
 #if NK_LOG_METRICS
-  printf("fps %d : frametime: %1.3f nodes: %lu : textures: %lu : bBodies %lu : lights %lu", fps, (frameTime / frames), allChildren().size(), (unsigned long)666, (unsigned long)666, (unsigned long)lights.size());
+  nkLog("fps %d : frametime: %1.3f nodes: %lu : textures: %lu : bBodies %lu : lights %lu", fps, (frameTime / frames), allChildren().size(), (unsigned long)666, (unsigned long)666, (unsigned long)lights.size());
 #endif
 }
 
 void Scene::updateWithTimeSinceLast(F1t dt){
+  
+  currentFrameTime = Time::getCurrentTime();
   
   if (!loaded){
     loaded = true;
@@ -140,79 +131,40 @@ void Scene::updateWithTimeSinceLast(F1t dt){
     _updateBlock(dt);
   }
   
-#if NK_LOG_METRICS
-  currentFrameTime = Time::getCurrentTime();
+  #if NK_LOG_METRICS
   
-  if (!metrics) {
-    auto wh = V2(size.get().x*.125, size.get().y*.5);
+  if (!overlay){
+    overlay = View::view();
+    overlay->setLayoutMethod(Layout::Method::Horizontal);
     
-    metrics = CollectionView::viewWithSize(wh);
+    overlay->addChild(View::view());
+    overlay->addChild(View::view());
+    overlay->addChild(View::view());
+    
+    metrics = View::view();
+    overlay->addChild(metrics);
+    
+    metrics->setLayoutMethod(Layout::Method::Vertical);
     metrics->setScene(this);
     metrics->setBackgroundColor({1.0,0.5});
     metrics->setForceOrthographic();
     metrics->setIgnoresLights();
-    auto fontSize = 16.0;
     
-    auto label = Label::labelWithFontNamed("Vera.ttf", fontSize);
-    label->setColor(BLACK);
-    label->setTextAlignment(NKTextAlignmentRight);
-    label->setForceOrthographic();
-    metrics->addChild(label);
+    for (int i = 0; i < 7; i++){
+      auto label = Label::labelWithFontNamed("Roboto.ttf", 24.0, BLACK);
+      label->setTextAlignment(NKTextAlignmentRight);
+      label->setForceOrthographic();
+      metrics->addChild(label);
+    }
     
-    auto fbo = Label::labelWithFontNamed("Vera.ttf", fontSize);
-    fbo->setColor(BLACK);
-    fbo->setTextAlignment(NKTextAlignmentRight);
-    fbo->setForceOrthographic();
-    metrics->addChild(fbo);
-    
-    auto events = Label::labelWithFontNamed("Vera.ttf", fontSize);
-    events->setColor(BLACK);
-    events->setTextAlignment(NKTextAlignmentRight);
-    events->setForceOrthographic();
-    metrics->addChild(events);
-    
-    auto actions = Label::labelWithFontNamed("Vera.ttf", fontSize);
-    actions->setColor(BLACK);
-    actions->setTextAlignment(NKTextAlignmentRight);
-    actions->setForceOrthographic();
-    metrics->addChild(actions);
-    
-    auto dlabel = Label::labelWithFontNamed("Vera.ttf", fontSize);
-    dlabel->setColor(BLACK);
-    dlabel->setTextAlignment(NKTextAlignmentRight);
-    dlabel->setForceOrthographic();
-    metrics->addChild(dlabel);
-    
-    auto fLabel = Label::labelWithFontNamed("Vera.ttf", fontSize);
-    fLabel->setColor(BLACK);
-    fLabel->setTextAlignment(NKTextAlignmentRight);
-    fLabel->setForceOrthographic();
-    metrics->addChild(fLabel);
-    
-    label->position.set(wh*V2t{.49,.4});
-    fbo->position.set(wh*V2t{.49,.3});
-    events->position.set(wh*V2t{.49,.2});
-    actions->position.set(wh*V2t{.49,.1});
-    dlabel->position.set(wh*V2t{.49,0});
-    fLabel->position.set(wh*V2t{.49,-.1});
-    
-    metrics->transform.afterSet([this, fLabel, dlabel, label, events, fbo, actions]{
-      auto wh = V2(size.get().x*.125, size.get().y*.25);
-      label->position.set(wh*V2t{.49,.4});
-      fbo->position.set(wh*V2t{.49,.3});
-      events->position.set(wh*V2t{.49,.2});
-      actions->position.set(wh*V2t{.49,.1});
-      dlabel->position.set(wh*V2t{.49,0});
-      fLabel->position.set(wh*V2t{.49,-.1});
-    });
-    
-    metrics->setUpdateBlock([this, fLabel, dlabel, label, events, fbo, actions](float dt){
-      fLabel->setText(nksf("%d fps", fps));
-      dlabel->setText(nksf("%d draws", draws));
-      label->setText(nksf("%d nodes", Node::liveObjects()));
-      events->setText(nksf("%d events", UXEvent::liveObjects()));
-      fbo->setText(nksf("%d fbos", FrameBuffer::liveObjects()));
-      actions->setText(nksf("%d actions", Action::liveObjects()));
+    metrics->setUpdateBlock([this](float dt){
+      static_pointer_cast<Label>(metrics->children()[0])->setText(nksf("%d fps", fps));
+      static_pointer_cast<Label>(metrics->children()[1])->setText(nksf("%d ms", mspf));
+      static_pointer_cast<Label>(metrics->children()[2])->setText(nksf("%d draws", draws));
+      static_pointer_cast<Label>(metrics->children()[3])->setText(nksf("%d nodes", Node::liveObjects()));
+      static_pointer_cast<Label>(metrics->children()[4])->setText(nksf("%d events", UXEvent::liveObjects()));
+      static_pointer_cast<Label>(metrics->children()[5])->setText(nksf("%d fbos", FrameBuffer::liveObjects()));
+      static_pointer_cast<Label>(metrics->children()[6])->setText(nksf("%d actions", Action::liveObjects()));
     });
   }
   
@@ -220,11 +172,14 @@ void Scene::updateWithTimeSinceLast(F1t dt){
   
   timer += dt;
   if (timer > 1.0f) {
+    mspf = ((frameTime * 1000) / frames);
     fps = (int)frames;
     frames = 0;
     timer -= 1.0f;
+    frameTime = 0;
   }
   draws = 0;
+  
 #endif
 }
 
@@ -288,6 +243,8 @@ void Scene::draw() {
   Node::draw();
 #endif
   
+  
+  
 #if NK_LOG_METRICS
   if (metrics){
     metrics->draw();
@@ -303,10 +260,10 @@ void Scene::customDraw() {
       axes = Mesh::nodeWithPrimitive(NKPrimitiveAxes, nullptr, Color(1.0, 0,0,1.0), V3(100));
       axes->shader = Program::shaderNamed("vertexColor",NKS_COLOR_MODE_VERTEX,0,0,0);
     }
-    if (!_::contains(children(), axes)) {
-      nkLog("add axes to scene");
-      addChild(axes);
-    }
+//    if (!_::contains(children(), axes)) {
+//      nkLog("add axes to scene");
+//      addChild(axes);
+//    }
   }
   if (drawCamera) {
     //camera->draw();
@@ -415,57 +372,6 @@ void Scene::clear() {
   }
 }
 
-void Scene::alertDidSelectOption(int option) {
-  if (option == 0) {
-    alertDidCancel();
-  }
-  // OVERRIDE IN SUBCLASS FOR OTHER OPTIONS
-}
-
-void Scene::alertDidCancel() {
-  dismissAlertAnimated(true);
-}
-
-void Scene::presentAlert(NKAlertSprite* alert, bool animated) {
-#warning ALERT SPRITE
-  //    _alertSprite = alert;
-  //    alert.delegate = self;
-  //    [self addChild:alert];
-  //
-  //    if (animated) {
-  //
-  //        [_alertSprite setPosition2d:V2(0, -self.size.height)];
-  //        [_alertSprite runAction:[Action move2dTo:V2(0, 0) duration:.3]];
-  //    }
-}
-
-
-void Scene::dismissAlertAnimated(bool animated){
-#warning ALERT SPRITE
-  //    if (animated) {
-  //        [_alertSprite runAction:[Action move2dTo:V2(0, -self.size.height) duration:.3] completion:^{
-  //         [self removeChild:_alertSprite];
-  //         _alertSprite = nil;
-  //         }];
-  //    }
-  //    else {
-  //        [self removeChild:_alertSprite];
-  //        _alertSprite = nil;
-  //    }
-}
-
-void Scene::pushMultiplyMatrix(M16t matrix) {
-  stack.pushMultiply(matrix);
-}
-
-void Scene::pushScale(V3t scale) {
-  stack.pushScale(scale);
-}
-
-void Scene::pushStyle(){
-  
-}
-
 void Scene::bindLights() {
   GLState::activeShader()->uniformNamed(NKS_I1_NUM_LIGHTS).bindI1((int)lights.size());
   nkGetGLError();
@@ -476,35 +382,7 @@ void Scene::bindLights() {
     }
   }
 }
-//void Scene::keyDown(U1t key) {
-//
-//    printf("key down %d \n", key);
-//
-//    V3t p = _position;
-//
-//    switch (key) {
-//
-//        case 123:
-//            setPosition(V3(p.x-1, p.y, p.z));
-//            break;
-//        case 124:
-//
-//            setPosition(V3(p.x+1, p.y, p.z));
-//            break;
-//
-//        case 126: //up arrow
-//
-//            setPosition(V3(p.x, p.y, p.z+1)));
-//            break;
-//
-//        case 125: // down arrow
-//            setPosition(V3(p.x, p.y, p.z-1));
-//            break;
-//
-//        default:
-//            break;
-//    }
-//}
+
 
 void Scene::dispatchUXEvent(UXEvent& event) {
   //NSLog(@"dispatch event for location %f %f",location.x, location.y);
