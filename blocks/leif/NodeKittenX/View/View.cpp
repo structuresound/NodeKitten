@@ -9,23 +9,32 @@
 #include "View.h"
 #include "ShaderProgram.h"
 #include "Mesh.h"
-
-void View::layoutSubviews() {
-}
+#include "Scene.h"
 
 #pragma mark - DRAW
+
+View::View(V2t size) : Node(V3t{size.x, size.y, 1}){
+  _anchorPoint = V2(.5);
+  
+  modelViewMatrix.setPullFunction([this]{
+    return M16Multiply(M16MakeLookAt({0,0,1}, {0,0,0}, {0,1,0}),M16ScaleWithV3(globalTransform.get(), this->size.get()));
+  });
+  modelViewProjectionMatrix.setPullFunction([this]{
+    return M16Multiply(scene()->orthographicMatrix(), modelViewMatrix.get());
+  });
+}
 
 void View::draw() {
   if (hidden()) return;
   
   if (_shouldRasterize){
-    if (framebuffer && !framebuffer->dirty) {
+    if (_framebuffer && !_framebuffer->dirty()) {
       drawFBO();
       return;
     }
   }
   
-  if (framebuffer) {
+  if (_framebuffer) {
     pushFramebuffer();
   }
   else {
@@ -38,17 +47,16 @@ void View::draw() {
   nkGetGLError();
   restoreGLStates();
   nkGetGLError();
-  layoutSubviews();
   drawChildren();
   
-  if (framebuffer) {
+  if (_framebuffer) {
     popFramebuffer();
     drawFBO();
   }
 }
 
 void View::drawFBO() const {
-  Mesh::fillRect(scene(), getGlobalFrame(), WHITE, framebuffer->renderTexture);
+  Mesh::fillRect(scene(), getGlobalFrame(), WHITE, _framebuffer->renderTexture);
 }
 
 R4t View::getGlobalFrame() const {

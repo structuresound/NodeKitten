@@ -25,7 +25,7 @@ s.source_files = "blocks/leif/NodeKittenX/*.{h}","blocks/leif/NodeKittenX/Platfo
 
 s.subspec "freetypegl" do |freetypegl|
     freetypegl.source_files = "deps/leif/freetype-gl/*.{h,c,cpp}"
-    #freetypegl.ios.vendored_libraries = "libs/ios/libFreetype2/libFreetype2.a"
+
     freetypegl.subspec "freetype" do |freetype|
             freetype.osx.source_files = "deps/miguel/freetype/src/base/*.{h,c}"
             freetype.ios.source_files = "deps/miguel/freetype/src/base/ftadvanc.c",
@@ -87,9 +87,8 @@ s.subspec "freetypegl" do |freetypegl|
                                     "deps/miguel/freetype/src/type42/type42.{h,c}",
                                     "deps/miguel/freetype/src/winfonts/winfnt.{h,c}"
             freetype.compiler_flags = '-DFT2_BUILD_LIBRARY=1 -DDARWIN_NO_CARBON -DFT_CONFIG_OPTION_SYSTEM_ZLIB=1'
-            freetype.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SOURCE_ROOT)/deps/miguel/freetype/include" }
+            freetype.xcconfig = { "HEADER_SEARCH_PATHS" => "$(PODS_ROOT)/deps/miguel/freetype/include" }
         end
-#freetypegl.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SOURCE_ROOT)/libs/ios/libFreetype2/include" }
 end
 
 s.subspec "picojpeg" do |picojpeg|
@@ -104,7 +103,7 @@ s.subspec "underscore" do |underscore|
 underscore.source_files = "deps/leif/underscore/_.hpp",
                           "deps/leif/underscore/underscore/underscore.h",
                           "deps/leif/underscore/underscorehpp/*.hpp"
-underscore.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SOURCE_ROOT)/deps/leif/underscore" }
+underscore.xcconfig = { "HEADER_SEARCH_PATHS" => "$(PODS_ROOT)/deps/leif/underscore" }
 end
 
 s.subspec "png" do |png|

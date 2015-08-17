@@ -19,20 +19,23 @@ public:
     return _children[0];
   }
   
-  T* addChild(std::shared_ptr<T>& child) {
+  template<class C>
+  C* addChild(std::shared_ptr<C>& child) {
     addChild(std::move(child));
     return child.get();
   }
   
-  T* addChild(std::shared_ptr<T>&& child) {
+  template<class C>
+  C* addChild(std::shared_ptr<C>&& child) {
     child->_siblingPosition = (int)_children.size();
     _children.push_back(child);
     child->setParent(static_cast<T*>(this));
     afterChildrenChanged();
-    return child.get();
+    return static_cast<C*>(child.get());
   }
   
-  T* insertChild(std::shared_ptr<T>& child, int atIndex){
+  template<class C>
+  C* insertChild(std::shared_ptr<C>& child, int atIndex){
     if (!_children.size()) {
       addChild(child);
     }
@@ -54,7 +57,7 @@ public:
     return nullptr;
   }
   
-  T* nextSibling() {
+  T* nextSibling() const {
     if (_parent){
       auto next = _parent->childAtSiblingPosition(_siblingPosition+1);
       if (next) return next;
@@ -64,7 +67,7 @@ public:
     return this;
   };
   
-  T* previousSibling() {
+  T* previousSibling() const {
     if (_parent){
       if (_siblingPosition-1 > 0){
         auto next = _parent->childAtSiblingPosition(_siblingPosition-1);
@@ -79,7 +82,8 @@ public:
   virtual void afterChildrenChanged(){
   }
   
-  virtual void setParent(T *parent){
+  
+  virtual T* setParent(T *parent){
     if (_parent) {
       beforeParentChanged();
       _parent->removeChild(static_cast<T*>(this));
@@ -89,6 +93,7 @@ public:
     else {
       _parent = parent;
     }
+    return static_cast<T*>(this);
   }
   
   virtual void beforeParentChanged(){};

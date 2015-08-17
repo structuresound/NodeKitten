@@ -16,61 +16,65 @@ class Texture;
 
 class FrameBuffer
 {
-
+  
+  bool _dirty;
+  
 public:
-    
-    static std::vector<FrameBuffer*> stack;
-    
-    // INIT
-    FrameBuffer(){} // DEFAULT FOR APPLE
-    FrameBuffer(GLuint width, GLuint height, bool allocate = true);
-    FrameBuffer(V2 size) : FrameBuffer(size.width, size.height){};
-    ~FrameBuffer();
-    
-    // IVARS
-    
-    GLuint glName {0};
-
-    std::shared_ptr<Texture> renderTexture;
-    std::shared_ptr<Texture> renderTexture2;
-    std::shared_ptr<Texture> depthTexture;
-
-    // METHODS
-    
-    
-    void bind();
-    
-    void addSecondRenderTexture();
-    void bindPing();
-    void bindPong();
-    
-    void clear(Color = CLEAR);
-
-    void unbind();
-    void unload();
-    
-    GLuint bindTexture(int glname);
-    
-    GLuint renderBuffer {0};
-    GLuint depthBuffer {0};
-    I1t width {0};
-    I1t height {0};
-    
-    bool dirty {true};
-
+  
+  static std::vector<FrameBuffer*> stack;
+  
+  // INIT
+  FrameBuffer(){} // DEFAULT FOR APPLE
+  FrameBuffer(GLuint width, GLuint height, bool allocate = true);
+  FrameBuffer(V2 size) : FrameBuffer(size.width, size.height){};
+  ~FrameBuffer();
+  
+  // IVARS
+  
+  GLuint glName {0};
+  
+  std::shared_ptr<Texture> renderTexture;
+  std::shared_ptr<Texture> renderTexture2;
+  std::shared_ptr<Texture> depthTexture;
+  
+  // METHODS
+  
+  
+  void bind();
+  
+  void addSecondRenderTexture();
+  void bindPing();
+  void bindPong();
+  
+  void clear(Color = CLEAR);
+  
+  void unbind();
+  void unload();
+  
+  GLuint bindTexture(int glname);
+  
+  GLuint renderBuffer {0};
+  GLuint depthBuffer {0};
+  I1t width {0};
+  I1t height {0};
+  
+  const bool dirty() const {return _dirty;}
+  void setDirty(bool dirty = true) {_dirty = dirty;}
+  
+  
 #pragma mark - DEBUG
-    
-    static unsigned int createdObjects;
-    static unsigned int destroyedObjects;
-    static unsigned int liveObjects(){return createdObjects - destroyedObjects;};
-    
+  
+  static unsigned int createdObjects;
+  static unsigned int destroyedObjects;
+  static unsigned int liveObjects(){return createdObjects - destroyedObjects;};
+  
 protected:
-
-    
-    void destroyFbo(int glname);
-    void deleteFboAttachment(GLenum attachment);
-
-    
+  
+  
+  void destroyFbo(int glname);
+  void deleteFboAttachment(GLenum attachment);
+  
+  
 };
 
 #endif

@@ -80,6 +80,7 @@ public:
 #if NK_LOG_METRICS
   static unsigned int draws;
   static unsigned int fps;
+  static unsigned int mspf;
 #endif
   
   bool loaded {false};
@@ -105,10 +106,12 @@ public:
   //@property (nonatomic) void *view;
   
   Color borderColor;
-
+  
   std::shared_ptr<Camera> camera;
   std::shared_ptr<Mesh> axes;
-  std::shared_ptr<CollectionView> metrics;
+  
+  std::shared_ptr<View> overlay;
+  std::shared_ptr<View> metrics;
   
   M16Stack stack;
   // NKAlertSprite *alertSprite;
@@ -117,7 +120,7 @@ public:
   bool drawLights {false};
   bool drawCamera {false};
   bool drawAxes {false};
-
+  
   std::vector<Light*> lights;
   
   // HIT DETECTION
@@ -129,7 +132,7 @@ public:
   bool useColorDetection {false};
   std::shared_ptr<Shader::Program> hitDetectShader;
   std::unique_ptr<FrameBuffer> hitDetectBuffer;
-
+  
   std::queue<HitCallback> hitQueue;
   
   // PHYSICS HIT DETECTION
@@ -164,7 +167,7 @@ public:
   // GEOMETRY
   M16t orthographicMatrix() {
     auto sz = size.get();
-    return M16MakeOrtho(-sz.width*.5f, sz.width*.5f, -sz.height*.5f, sz.height*.5f, -10000, 10000);
+    return M16MakeOrtho(-sz.width*.5f, sz.width*.5f, -sz.height*.5f, sz.height*.5f, 65535, -65535);
   }
   
   // EVENTS
@@ -175,12 +178,26 @@ public:
   
   // NODE OVERRIDES
   
-  void afterTransform() override;
+  
+  void afterTransform() override {
+    View::afterTransform();
+    for (auto& child : children()){
+      child->afterTransform();
+    }
+    auto theSize = size.get();
+    camera->setAspectRatio(theSize.width / theSize.height);
+#if NK_LOG_METRICS
+    if (overlay){
+      overlay->size.set(size.get());
+    }
+#endif
+  }
+  
   void afterResize() override {
     afterTransform();
   }
   
-  void pushStyle() override;
+  void pushStyle() override {};
   void updateWithTimeSinceLast(F1t dt) override;
   
   void bindLights();

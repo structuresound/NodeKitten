@@ -514,6 +514,7 @@ union _V4t
   
   struct { F1t r, g, b, a; };
   struct { F1t s, t, p, q; };
+  struct { F1t top, right, bottom, left;};
   struct { F1t m00, m01, m10, m11;};
   
   _V4t(const F1t r,const F1t g,const F1t b,const F1t a){
