@@ -2,9 +2,7 @@
 //*  NODE KITTEN
 //*
 
-#ifndef __NKVectorTypes__
-#define __NKVectorTypes__
-
+#pragma once
 
 #if TARGET_OSX
 #include <Accelerate/Accelerate.h>
@@ -3558,7 +3556,3 @@ static inline void NKLogM16(std::string name, M16t mat){
 //
 //    so = Q4(parts.u.x, parts.u.y, parts.u.z, parts.u.w);
 //}
-
-#endif
-
-

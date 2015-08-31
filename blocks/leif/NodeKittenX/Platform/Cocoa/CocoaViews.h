@@ -6,16 +6,13 @@
 //  Copyright (c) 2015 structuresound. All rights reserved.
 //
 
-#ifndef __CocoaViews__
-#define __CocoaViews__
-
-#include "CommonTypes.h"
-#include "SceneController.h"
-#include "FrameBuffer.h"
-
-#if (TARGET_IOS || TARGET_OSX)
+#pragma once
 
 #include "CocoaUXEvent.h"
+
+class SceneController;
+
+#if (TARGET_IOS || TARGET_OSX)
 
 #if TARGET_IOS
 
@@ -26,17 +23,17 @@
 
 @interface NKUIView : UIView
 {
-    EAGLContext *context;
-    CADisplayLink *displayLink;
-    
-    NSTimeInterval lastTime;
-    
-    BOOL controllerSetup;
-    bool animating;
-    
-    // 2.0 stuff
-    GLuint _program;
-    float _rotation;
+  EAGLContext *context;
+  CADisplayLink *displayLink;
+  
+  NSTimeInterval lastTime;
+  
+  BOOL controllerSetup;
+  bool animating;
+  
+  // 2.0 stuff
+  GLuint _program;
+  float _rotation;
 }
 
 @property (nonatomic)  SceneController *sceneController;
@@ -67,20 +64,20 @@
 @interface NKNSView : NSOpenGLView
 
 {
-    
+  
 #if USE_CV_DISPLAY_LINK
-    static dispatch_queue_t displayThread;
-    CVDisplayLinkRef displayLink;
+  static dispatch_queue_t displayThread;
+  CVDisplayLinkRef displayLink;
 #else
-    NSTimer *displayTimer;
+  NSTimer *displayTimer;
 #endif
-    
-    BOOL controllerSetup;
-    bool animating;
-    
-    // 2.0 stuff
-    GLuint _program;
-    float _rotation;
+  
+  BOOL controllerSetup;
+  bool animating;
+  
+  // 2.0 stuff
+  GLuint _program;
+  float _rotation;
 }
 
 @property (nonatomic)  SceneController *sceneController;
@@ -104,8 +101,6 @@
 +(void) load_;
 
 @end
-
-#endif
 
 #endif
 

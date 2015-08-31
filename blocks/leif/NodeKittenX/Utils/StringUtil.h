@@ -10,7 +10,6 @@
 #define __NodeKittenX__NKStringUtil__
 
 #include "CommonTypes.h"
-#include "Platform.h"
 
 namespace String {
 

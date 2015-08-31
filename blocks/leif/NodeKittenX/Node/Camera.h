@@ -6,9 +6,8 @@
 //
 //
 
-#ifndef __Camera_h_
-#define __Camera_h_
-//test
+#pragma once
+
 #include "Mesh.h"
 
 class SceneNode;
@@ -35,7 +34,7 @@ public:
   Reactive::Pullable<M16t> viewMatrix;
   Reactive::Pullable<M16t> projectionMatrix;
   Reactive::Pullable<M16t> viewProjectionMatrix;
-
+  
   void reset();
 #pragma mark - NODAL OVERRIDES
   std::shared_ptr<Mesh> target; // MESH FOR DEBUG DRAW
@@ -92,6 +91,3 @@ public:
   //int boxInFrustum(AABox &b);
   
 };
-
-
-#endif

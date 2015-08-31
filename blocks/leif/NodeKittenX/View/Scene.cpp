@@ -18,6 +18,7 @@
 #include "Label.h"
 #include "Action.h"
 #include "CollectionView.h"
+#include "UXEvent.h"
 
 using namespace std;
 using namespace Shader;
@@ -112,7 +113,7 @@ void Scene::updateWithTimeSinceLast(F1t dt){
   
 #warning  UPDATE SOUND GL ETC
   //    [NKSoundManager updateWithTimeSinceLast:dt];
-  //    [NKGLManager updateWithTimeSinceLast:dt];
+  //    [CocoaGLManager updateWithTimeSinceLast:dt];
   //    [[NKBulletWorld sharedInstance] updateWithTimeSinceLast:dt];
   
   framesToRender += dt*frameRate;

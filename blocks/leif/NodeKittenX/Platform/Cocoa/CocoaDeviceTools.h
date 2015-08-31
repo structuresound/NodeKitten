@@ -6,13 +6,8 @@
 //  Copyright (c) 2015 structuresound. All rights reserved.
 //
 
-#ifndef NodeKittenX_CocoaDeviceTools_h
-#define NodeKittenX_CocoaDeviceTools_h
+#pragma once
 
-#include "CommonTypes.h"
 #include "CommonUtils.h"
 
 inline std::string NSToCppString(void *s);
-
-#endif
-

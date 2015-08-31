@@ -152,14 +152,14 @@ void DrawingExample::handleUXEvent(shared_ptr<UXEvent> event){
         canvas->removeAllChildren();
         cache->removeAllChildren();
     }
-    else if (event->phase == UXEventPhaseBegin){
+    else if (event->phase() == UXEventPhaseBegin){
         addControlPointWithUXEvent(event);
     }
-    else if (event->phase == UXEventPhaseDrag){
+    else if (event->phase() == UXEventPhaseDrag){
         addControlPointWithUXEvent(event);
         smoothLastPointForLayer(event->referenceNode->child());
     }
-    else if (event->phase == UXEventPhaseEnd){
+    else if (event->phase() == UXEventPhaseEnd){
         addControlPointWithUXEvent(event);
         smoothPointsForLayer((event->referenceNode)->child());
         addToCache(event->referenceNode);

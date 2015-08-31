@@ -25,8 +25,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE. *
  ***********************************************************************/
 
-#ifndef __NKNode_h_
-#define __NKNode_h_
+#pragma once
 
 #include "Generic.h"
 
@@ -298,5 +297,3 @@ M16t Transformable<Node,V3>::getLookMatrix(V3t lookAtPosition){
 }
 
 bool excecuteAction(Action *action, Node* node, F1t dt);
-
-#endif

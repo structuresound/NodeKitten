@@ -6,12 +6,11 @@
 //
 //
 
-#ifndef __Mesh__
-#define __Mesh__
-
+#pragma once
 
 #include "Node.h"
 #include "Texture.h"
+#include "VertexBuffer.h"
 
 class Mesh : public Node
 {
@@ -91,5 +90,3 @@ public:
     
     V6t boundingBox(){return _vertexBuffer->boundingBox();};
 };
-
-#endif

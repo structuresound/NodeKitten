@@ -6,4 +6,4 @@
 //  Copyright (c) 2015 structuresound. All rights reserved.
 //
 
-#include "CocoaUXEvent.h"
+#import "CocoaUXEvent.h"

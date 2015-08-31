@@ -3,6 +3,7 @@
 //
 
 #include "NKSDLView.h"
+#include "FrameBuffer.h"
 
 bool NKSDLView::setup(){
 

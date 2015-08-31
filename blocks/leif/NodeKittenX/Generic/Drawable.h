@@ -1,5 +1,6 @@
-#ifndef __Drawable__
-#define __Drawable__
+#pragma once
+
+#include "GLState.h"
 
 template <class Derived, class ColorType>
 class Drawable {
@@ -74,5 +75,3 @@ private:
   Derived& self() { return *static_cast<Derived*>(this); }
   const Derived& self() const { return *static_cast<const Derived*>(this); }
 };
-
-#endif

@@ -251,8 +251,9 @@ message(STATUS "Copying data files to build and bin dirs ")
 
 file(GLOB PNG RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/Examples/Assets/*.png *.jpg)
 file(GLOB JPEG RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/Examples/Assets/*.jpg)
+file(GLOB FONTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/Examples/Assets/*.ttf)
 
-set(Assets ${PNG} ${JPEG})
+set(Assets ${PNG} ${JPEG} ${FONTS})
 
 if (APPLE)
 foreach(file ${Assets})

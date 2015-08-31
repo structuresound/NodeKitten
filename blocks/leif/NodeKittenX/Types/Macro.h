@@ -383,10 +383,8 @@ extern char STATIC_ASSERTION__##msg[(expr)?1:2]
 
 // SYSTEM MACROS
 
-
-#endif
-
 #ifdef DEBUG
 #define  _DEBUG
 #endif
 
+#endif // FILE

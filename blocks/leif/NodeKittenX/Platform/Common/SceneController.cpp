@@ -9,6 +9,7 @@
 
 #include "SceneController.h"
 #include "Texture.h"
+#include "FrameBuffer.h"
 #include "ShaderProgram.h"
 #include "Mesh.h"
 #include "Scene.h"

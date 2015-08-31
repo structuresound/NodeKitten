@@ -1,11 +1,11 @@
 #pragma once
 
-#include "underscorehpp/underscore.hpp"
-#include "underscorehpp/string.hpp"
-#include "underscorehpp/file.hpp"
-#include "underscorehpp/generator.hpp"
+#include "underscore.hpp"
+#include "string.hpp"
+#include "file.hpp"
+#include "generator.hpp"
 
-#include "underscore/underscore.h"
+#include "underscore.h"
 
 namespace underscore {
   

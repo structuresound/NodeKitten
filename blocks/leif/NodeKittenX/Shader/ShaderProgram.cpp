@@ -12,7 +12,7 @@
 #include "FrameBuffer.h"
 #include "Texture.h"
 #include "Node.h"
-
+#include "VectorUtil.h"
 
 #define gl_debug
 

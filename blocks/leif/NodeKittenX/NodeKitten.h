@@ -39,6 +39,7 @@
 #include "Node.h"
 
 // SCENE
+#include "SceneController.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "Light.h"

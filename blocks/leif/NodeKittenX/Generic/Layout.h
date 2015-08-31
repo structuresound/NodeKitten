@@ -1,5 +1,4 @@
-#ifndef __Layout__
-#define __Layout__
+#pragma once
 
 #include "Reactive.h"
 #include "kiwi.h"
@@ -205,5 +204,3 @@ namespace Layout {
   };
   
 }
-
-#endif

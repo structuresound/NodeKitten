@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 structuresound. All rights reserved.
 //
 
+#include "CommonPlatform.h"
 #include "FileUtil.h"
 #include "StringUtil.h"
 

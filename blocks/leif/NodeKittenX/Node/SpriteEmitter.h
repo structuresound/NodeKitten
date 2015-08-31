@@ -6,8 +6,7 @@
 //
 //
 
-#ifndef __NKSpriteEmitter__
-#define __NKSpriteEmitter__
+#pragma once
 
 #include "Mesh.h"
 
@@ -40,5 +39,3 @@ public:
     
     void drawGeometry(U1t start, U1t spritesInBatch, bool useColor);
 };
-
-#endif /* defined(__Pods__NKSpriteEmitter__) */

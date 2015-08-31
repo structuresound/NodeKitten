@@ -1,5 +1,4 @@
-#ifndef __Transformable__
-#define __Transformable__
+#pragma once
 
 template <typename T>
 class Sizeable {
@@ -110,5 +109,3 @@ private:
   const Derived& self() const { return *static_cast<const Derived*>(this); }
   
 };
-
-#endif

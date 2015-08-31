@@ -8,8 +8,7 @@
 
 
 
-#ifndef __ScalarStack__
-#define __ScalarStack__
+#pragma once
 
 #include "VectorTypes.h"
 #include <initializer_list>
@@ -213,5 +212,3 @@ class V3Stack : public ScalarStack<V3t> {using ScalarStack<V3t>::ScalarStack;};
 class V2Stack : public ScalarStack<V2t> {using ScalarStack<V2t>::ScalarStack;};
 class F1Stack : public ScalarStack<F1t> {using ScalarStack<F1t>::ScalarStack;};
 class U1Stack : public ScalarStack<U1t> {using ScalarStack<U1t>::ScalarStack;};
-
-#endif

@@ -60,12 +60,13 @@ public:
       _framebuffer.reset(new FrameBuffer(size.get().xy));
     }
     if (_layoutManager){
-      Node* rec = this;
-      while (rec->parent()){
-        printf("- ");
-        rec = rec->parent();
-      }
-      printf("layout %p \n", this);
+//      Node* rec = this;
+//      while (rec->parent()){
+//        printf("- ");
+//        rec = rec->parent();
+//      }
+//      printf("layout %p \n", this);
+      
       _layoutManager->layout(this);
     }
   }

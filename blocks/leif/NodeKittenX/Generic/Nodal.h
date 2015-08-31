@@ -1,5 +1,4 @@
-#ifndef __Nodal__
-#define __Nodal__
+#pragma once
 
 template <class T>
 class Nodal {
@@ -174,5 +173,3 @@ public:
   }
   
 };
-
-#endif /* defined(__Nodal__) */

@@ -7,14 +7,4 @@
 //
 
 #include "UXEvent.h"
-
-unsigned int UXEvent::createdObjects {0};
-unsigned int UXEvent::destroyedObjects {0};
-
-UXEvent::UXEvent(){
-    createdObjects++;
-}
-
-UXEvent::~UXEvent(){
-    destroyedObjects++;
-}
+#include "Node.h"
