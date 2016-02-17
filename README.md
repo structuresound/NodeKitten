@@ -18,7 +18,7 @@ Roadmap is:
 
 # Use with CocoaPods
 
-To use this project inside an XCode project use CocoaPods
+To use this project inside an Xcode project use CocoaPods
 
 pod 'NodeKittenX', '~> 0.1.0'
 
