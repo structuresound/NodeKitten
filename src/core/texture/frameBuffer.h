@@ -11,9 +11,9 @@
 #ifndef __FrameBuffer__
 #define __FrameBuffer__
 
-#include "commonTypes.h"
-#include "glState.h"
-#include "generic.h"
+#include "../types/types.h"
+#include "../shader/glState.h"
+#include "../generic/generic.h"
 
 class Texture;
 

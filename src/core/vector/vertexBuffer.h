@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include "commonTypes.h"
-#include "commonUtils.h"
+#include "../utils/utils.h"
 
 typedef struct NKPrimitiveArray{
     V3t vertex;

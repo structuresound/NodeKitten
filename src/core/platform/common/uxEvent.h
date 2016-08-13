@@ -8,10 +8,6 @@
 
 #pragma once
 
-#include "commonTypes.h"
-#include "generic.h"
-#include "vectorUtil.h"
-
 typedef enum UXEventPhase {
   UXEventPhaseNone,
   UXEventPhaseBegin,

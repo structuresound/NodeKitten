@@ -9,7 +9,7 @@
 #ifndef __NodeKittenX__NKStringUtil__
 #define __NodeKittenX__NKStringUtil__
 
-#include "commonTypes.h"
+#include "../types/types.h"
 
 namespace String {
 

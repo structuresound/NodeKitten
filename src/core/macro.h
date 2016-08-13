@@ -1,21 +1,8 @@
-//
-//  NKMacro.h
-//  EMA Stage
-//
-//  Created by Leif Shackelford on 5/25/14.
-//  Copyright (c) 2014 EMA. All rights reserved.
-//
-
 //*******************************************************************************************
-
 // GLOBAL SYSTEM MACROS
-
 //*******************************************************************************************
 
 #pragma once
-
-#ifndef __NKMacro__
-#define __NKMacro__
 
 #include <stdint.h>
 
@@ -388,5 +375,3 @@ extern char STATIC_ASSERTION__##msg[(expr)?1:2]
 #ifdef DEBUG
 #define  _DEBUG
 #endif
-
-#endif // FILE

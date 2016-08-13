@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "UXEvent.h"
+#include "../common/uxEvent.h"
 
 #if (TARGET_IOS || TARGET_OSX)
 
@@ -91,4 +91,3 @@ public:
 };
 
 #endif
-

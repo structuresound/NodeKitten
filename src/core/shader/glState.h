@@ -9,7 +9,7 @@
 #ifndef __Pods__GLState__
 #define __Pods__GLState__
 
-#include "commonTypes.h"
+#include "../types/types.h"
 
 #define GetGLError()									\
 {														\

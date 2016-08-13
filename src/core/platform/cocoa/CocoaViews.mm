@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 structuresound. All rights reserved.
 //
 
-#import "FrameBuffer.h"
-#import "Node.h"
-#import "SceneController.h"
-#import "CocoaViews.h"
-#import "CocoaGLManager.h"
+#import "frameBuffer.h"
+#import "node.h"
+#import "sceneController.h"
+#import "cocoaViews.h"
+#import "cocoaGLManager.h"
 
 using namespace std;
 
@@ -32,7 +32,7 @@ bool isRetinaDisplay()
   {
     scale = Platform::Screen::scale();
     return scale > 1.0;
-    
+
   }
   return scale > 1.0;
 }
@@ -67,53 +67,53 @@ FrameBuffer* newEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawable> layer)
 
 {
   //printf("GLES fb init with context %@\n", context);
-  
+
   // 1 // Create the framebuffer and bind it.
-  
+
   auto fbo = new FrameBuffer();
-  
+
   glGenFramebuffers(1, &fbo->glName);
   glBindFramebuffer(GL_FRAMEBUFFER, fbo->glName);
-  
+
   nkLog("allocate frame buffer, %d\n", fbo->glName);
   // 2 // Create a color renderbuffer, allocate storage for it, and attach it to the framebuffer’s color attachment point.
-  
+
   glGenRenderbuffers(1, &fbo->renderBuffer);
   glBindRenderbuffer(GL_RENDERBUFFER, fbo->renderBuffer);
-  
+
   nkLog("allocate render buffer, %d\n", fbo->renderBuffer);
-  
+
   [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:layer];
-  
+
   GLint width, height;
-  
+
   glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
   glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
-  
+
   fbo->size.set(V2Make(width, height));
-  
+
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, fbo->renderBuffer);
-  
+
   // 3 // Create a depth or depth/stencil renderbuffer, allocate storage for it, and attach it to the framebuffer’s depth attachment point.
-  
+
   glGenRenderbuffers(1, &fbo->depthBuffer);
   glBindRenderbuffer(GL_RENDERBUFFER, fbo->depthBuffer);
-  
+
   nkLog("allocate gl depth buffer, %d\n", fbo->depthBuffer);
-  
+
   glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, fbo->size.get().width, fbo->size.get().height);
   glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, fbo->depthBuffer);
-  
+
   // 4 // Test the framebuffer for completeness. This test only needs to be performed when the framebuffer’s configuration changes.
-  
+
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER) ;
   if(status != GL_FRAMEBUFFER_COMPLETE) {
     // NKCheckGLError(@"building frameBuffer\n");
     nkLog("failed to make complete framebuffer object %x\n", status);
   }
-  
+
   //fbo->up();
-  
+
   return std::move(fbo);
 }
 
@@ -125,23 +125,23 @@ FrameBuffer* newEAGLFrameBuffer(EAGLContext *context, id <EAGLDrawable> layer)
 }
 
 -(instancetype)initWithFrame:(CGRect)frame {
-  
+
   if ((self = [super initWithFrame:frame]))
   {
     [self sharedInit];
   }
   return self;
-  
+
 }
 
 - (id) initWithCoder:(NSCoder*)coder
 {
-  
+
   if ((self = [super initWithCoder:coder]))
   {
     [self sharedInit];
   }
-  
+
   return self;
 }
 
@@ -154,90 +154,90 @@ namespace Platform {
 }
 
 -(void)sharedInit {
-  
+
   self.userInteractionEnabled = true;
   self.multipleTouchEnabled = true;
-  
+
   // Get the layer
   CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
-  
+
   _mscale = 1.0f;
-  
+
   if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]) {
     _mscale = Platform::Screen::scale();
     nkLog("set pixel density scale : %1.2f", _mscale);
   }
-  
+
   eaglLayer.contentsScale = _mscale;
-  
+
   eaglLayer.opaque = TRUE;
   eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
-  
-  
+
+
 #if NK_USE_GL3
   context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
 #else
   context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 #endif
-  
+
   [[CocoaGLManager sharedInstance] setContext:context];
-  
+
   if(!context){
     NSLog(@"failed to create EAGL context");
     return;
   }
-  
+
   // DO SCENE
-  
+
   _sceneController = new SceneController(V2(self.frame.size.width * _mscale, self.frame.size.height * _mscale));
-  
+
   if (![self createFramebuffer]) {
     return;
   }
   else {
     NSLog(@"GLES Context && Frame Buffer loaded!");
   }
-  
+
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(stopAnimation)
                                                name:  UIApplicationWillTerminateNotification
                                              object:nil];
-  
+
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(stopAnimation)
                                                name:UIApplicationWillResignActiveNotification
                                              object:nil];
-  
+
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(stopAnimation)
                                                name:UIApplicationDidEnterBackgroundNotification
                                              object:nil];
-  
-  
+
+
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(startAnimation)
                                                name:UIApplicationDidBecomeActiveNotification
                                              object:nil];
-  
+
   //self.view.multipleTouchEnabled
 //  UITapGestureRecognizer *dt = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTap:)];
-//  
+//
 //  [dt setNumberOfTapsRequired:2];
-//  
+//
 //  [self addGestureRecognizer:dt];
-  
+
 }
 
 -(void)layoutSubviews
 {
   [super layoutSubviews];
-  
+
   [EAGLContext setCurrentContext:context];
   [self destroyFramebuffer];
   NSLog(@"rebuilding framebuffer");
   [self createFramebuffer];
-  
+
   [self drawView];
 }
 
@@ -251,7 +251,7 @@ namespace Platform {
     NSLog(@"Start animating");
     displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView)];
     [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-    
+
     lastTime = CFAbsoluteTimeGetCurrent();
     animating = true;
   }
@@ -270,15 +270,15 @@ namespace Platform {
 {
   if (_sceneController){
     [EAGLContext setCurrentContext:context];
-    
+
     if (_sceneController) {
       _sceneController->draw();
     }
-    
+
     glBindRenderbuffer(GL_RENDERBUFFER, _sceneController->framebuffer->glName);
     [context presentRenderbuffer:GL_RENDERBUFFER];
   }
-  
+
 }
 
 -(void)destroyFramebuffer {
@@ -287,13 +287,13 @@ namespace Platform {
 
 -(BOOL) createFramebuffer {
   [EAGLContext setCurrentContext:context];
-  
+
   _sceneController->framebuffer.reset(newEAGLFrameBuffer(context, (id<EAGLDrawable>)self.layer));
-  
+
   if (_sceneController->framebuffer) {
     return true;
   }
-  
+
   NSLog(@"failed to create main ES framebuffer");
   return false;
 }
@@ -301,7 +301,7 @@ namespace Platform {
 - (void)dealloc
 {
   [self stopAnimation];
-  
+
   if([EAGLContext currentContext] == context)
   {
     [EAGLContext setCurrentContext:nil];
@@ -319,18 +319,18 @@ namespace Platform {
   //NSLog(@"TapCount  = %lu", (unsigned long)touches.count);
   for (UITouch *t in touches) {
     auto event = make_shared<CocoaUXEvent>(t);
-    
-    
+
+
     event->startingScreenLocation = event->previousScreenLocation = event->screenLocation = [self uiPointToNodePoint:[t locationInView:self]];
     event->initialTimeStamp = event->previousTimeStamp = event->timeStamp = theEvent.timestamp;
-    
+
     event->scale = V2([[t valueForKey:@"pathMajorRadius"] floatValue] / (dpi() / 10.0));
-    
+
     event->setPhase(UXEventPhaseBegin);
-    
+
     _sceneController->events.push_back(event);
     _sceneController->handleUXEvent(event);
-    
+
     //NSLog(@"touch began, %@", t);
   }
 }
@@ -340,16 +340,16 @@ namespace Platform {
     for (auto& e : _sceneController->events) {
       if (e->id() == (__bridge void *)(t)) {
         e->type = UXEventTypePan;
-        
+
         e->previousScreenLocation = e->screenLocation;
         e->screenLocation = [self uiPointToNodePoint:[t locationInView:self]];
-        
+
         e->scale = e->scale * .9 + V2([[t valueForKey:@"pathMajorRadius"] floatValue] / (dpi() / 10.0)) * .1;
         e->previousTimeStamp = e->timeStamp;
         e->timeStamp = theEvent.timestamp;
-        
+
         e->setPhase(UXEventPhaseDrag);
-        
+
         _sceneController->handleUXEvent(e);
       }
     }
@@ -357,22 +357,22 @@ namespace Platform {
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)theEvent {
-  
+
   for (UITouch *t in touches) {
     auto copy = _sceneController->events;
-    
+
     for (auto& e : copy) {
       if (e->id() == (__bridge void *)(t)) {
         e->previousScreenLocation = e->screenLocation;
         e->screenLocation = [self uiPointToNodePoint:[t locationInView:self]];
-        
+
         e->timeStamp = theEvent.timestamp;
-        
+
         e->setPhase(UXEventPhaseEnd);
         if (e->node) e->node->handleUXEvent(e);
         _sceneController->handleUXEvent(e);
         _::erase(_sceneController->events, e);
-        
+
         break;
       }
     }
@@ -382,7 +382,7 @@ namespace Platform {
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)theEvent {
   for (UITouch *t in touches) {
     auto copy = _sceneController->events;
-    
+
     for (auto& e : copy) {
       if (e->id() == (__bridge void *)(t)) {
         e->setPhase(UXEventPhaseCancel);
@@ -396,16 +396,16 @@ namespace Platform {
 
 //-(void)doubleTap:(UITapGestureRecognizer*)recognizer {
 //  auto event = make_shared<CocoaUXEvent>((UITouch*)recognizer);
-//  
+//
 //  event->type = UXEventTypeTap;
 //  event->setPhase(UXEventPhaseBegin);
-//  
+//
 //  event->startingScreenLocation = event->previousScreenLocation = event->screenLocation = [self uiPointToNodePoint:[recognizer locationInView:self]];
 //  event->initialTimeStamp = event->previousTimeStamp = event->timeStamp = CFAbsoluteTimeGetCurrent();
-//  
+//
 //  _sceneController->events.push_back(event);
 //  _sceneController->handleUXEvent(event);
-//  
+//
 //  _::erase(_sceneController->events, event);
 //}
 
@@ -463,11 +463,11 @@ namespace Platform {
 
 -(void)drawScene {
   int useFB = 0;
-  
+
   if (_sceneController){
-    
+
     _sceneController->draw();
-    
+
   }
   else {
     // NO SCENE / DO RED SCREEN
@@ -475,7 +475,7 @@ namespace Platform {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
   }
-  
+
   glFlush();
 }
 
@@ -494,11 +494,11 @@ namespace Platform {
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder {
   self = [super initWithCoder:aDecoder];
-  
+
   if (self) {
     [self becomeFirstResponder];
   }
-  
+
   return self;
 }
 
@@ -512,8 +512,8 @@ namespace Platform {
   NSLog(@"pixel flags: %d %d %d %d %d %d",				NSOpenGLPFADoubleBuffer,
         NSOpenGLPFADepthSize, 24,NSOpenGLPFAOpenGLProfile,
         NSOpenGLProfileVersion3_2Core, 0 );
-  
-  
+
+
   NSOpenGLPixelFormatAttribute attrs[] =
   {
     NSOpenGLPFADoubleBuffer,
@@ -527,9 +527,9 @@ namespace Platform {
     //NSOpenGLPFASamples, 4,
     0
   };
-  
+
   NSOpenGLPixelFormat *pf = [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-  
+
   if (!pf)
   {
     NSLog(@"No OpenGL pixel format");
@@ -542,50 +542,50 @@ namespace Platform {
     F1t scale() {
       return [[NSScreen mainScreen] backingScaleFactor];
     }
-    
+
   }
 }
 
 - (void) awakeFromNib
 {
   NSLog(@"awake from nib");
-  
+
   NSOpenGLPixelFormat *pf = [self pixelFormat];
-  
+
   NSOpenGLContext* context = [[NSOpenGLContext alloc] initWithFormat:pf shareContext:nil];
-  
+
   // When we're using a CoreProfile context, crash if we call a legacy OpenGL function
   // This will make it much more obvious where and when such a function call is made so
   // that we can remove such calls.
   // Without this we'd simply get GL_INVALID_OPERATION error for calling legacy functions
   // but it would be more difficult to see where that function was called.
   CGLEnable([context CGLContextObj], kCGLCECrashOnRemovedFunctions);
-  
+
   [self setPixelFormat:pf];
   [self setOpenGLContext:context];
   [context setView:self];
-  
+
   [[CocoaGLManager sharedInstance]setPixelFormat:pf];
   [[CocoaGLManager sharedInstance]setContext:context];
-  
+
 #if SUPPORT_RETINA_RESOLUTION
   // Opt-In to Retina resolution
   [self setWantsBestResolutionOpenGLSurface:YES];
 #endif // SUPPORT_RETINA_RESOLUTION
-  
-  
+
+
   [self prepareOpenGL];
-  
+
   GLint maj;
   GLint min;
-  
+
   CGLGetVersion(&maj, &min);
   NSLog(@"NK GLView awake %1.0f %1.0f", self.visibleRect.size.width, self.visibleRect.size.height);
   NSLog(@"NK GLView using GL Version: %d.%d", maj, min);
-  
-  
+
+
   nkGetGLError();
-  
+
   if ([[NSScreen mainScreen] backingScaleFactor]) {
     _mscale = [[NSScreen mainScreen] backingScaleFactor];
     nkLog("set retina scale, %1.2f", _mscale);
@@ -593,61 +593,61 @@ namespace Platform {
   else {
     _mscale = 1.0;
   }
-  
+
   NSLog(@"this should be first init of view");
   if (!_sceneController){
     _sceneController = new SceneController(V2(self.visibleRect.size.width * _mscale, self.visibleRect.size.height * _mscale));
   }
-  
+
   //    NSTapGestureRecognizer *dt = [[NSTapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTap:)];
   //    [dt setNumberOfTapsRequired:2];
   //    [self addGestureRecognizer:dt];
-  
+
   [self startAnimation];
 }
 
 - (void) prepareOpenGL
 {
   [super prepareOpenGL];
-  
+
   // Make all the OpenGL calls to setup rendering
   //  and build the necessary rendering objects
   [self initGL];
-  
-  
+
+
   //displayThread = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-  
+
 }
 
 -(void)startAnimation {
-  
-  
+
+
   if (animating) return;
   animating = true;
-  
+
 #if USE_CV_DISPLAY_LINK
   // Create a display link capable of being used with all active displays
   CVDisplayLinkCreateWithActiveCGDisplays(&displayLink);
-  
+
   // Set the renderer output callback function
   CVDisplayLinkSetOutputCallback(displayLink, &MyDisplayLinkCallback, (__bridge void *)(self));
-  
+
   // Set the display link for the current renderer
   CGLContextObj cglContext = [[self openGLContext] CGLContextObj];
   CGLPixelFormatObj cglPixelFormat = [[self pixelFormat] CGLPixelFormatObj];
-  
+
   CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(displayLink, cglContext, cglPixelFormat);
-  
+
   // Activate the display link
   CVDisplayLinkStart(displayLink);
 #else
   displayTimer = [NSTimer timerWithTimeInterval:.015 target:self selector:@selector(drawView) userInfo:nil repeats:YES];
-  
+
   [[NSRunLoop mainRunLoop] addTimer:displayTimer forMode:NSDefaultRunLoopMode];
-  
+
   NSLog(@"start animation");
 #endif
-  
+
   // Register to be notified when the window closes so we can stop the displaylink
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(windowWillClose:)
@@ -663,7 +663,7 @@ namespace Platform {
 #if USE_CV_DISPLAY_LINK
 #else
 #endif
-  
+
 }
 
 - (void) windowWillClose:(NSWindow*)window {
@@ -677,20 +677,20 @@ namespace Platform {
   // makeCurrentContext to ensure that our OpenGL context current to this
   // thread (i.e. makeCurrentContext directs all OpenGL calls on this thread
   // to [self openGLContext])
-  
-  
+
+
   [[self openGLContext] makeCurrentContext];
-  
+
   // Synchronize buffer swaps with vertical refresh rate
   GLint swapInt = 1;
   [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
-  
+
 }
 
 - (void) reshape
 {
   [super reshape];
-  
+
 #if USE_CV_DISPLAY_LINK
   // We draw on a secondary thread through the display link. However, when
   // resizing the view, -drawRect is called on the main thread.
@@ -698,20 +698,20 @@ namespace Platform {
   // simultaneously when resizing.
   CGLLockContext([[self openGLContext] CGLContextObj]);
 #endif
-  
+
   // Get the view size in Points
   NSRect viewRectPoints = [self bounds];
-  
+
   if (_sceneController) {
     _sceneController->size.set(V2(self.bounds.size.width * _mscale, self.bounds.size.height * _mscale));
   }
-  
+
 #if SUPPORT_RETINA_RESOLUTION
-  
+
   // Rendering at retina resolutions will reduce aliasing, but at the potential
   // cost of framerate and battery life due to the GPU needing to render more
   // pixels.
-  
+
   // Any calculations the renderer does which use pixel dimentions, must be
   // in "retina" space.  [NSView convertRectToBacking] converts point sizes
   // to pixel sizes.  Thus the renderer gets the size in pixels, not points,
@@ -720,31 +720,31 @@ namespace Platform {
   // viewRectPixels will be larger (2x) than viewRectPoints for retina displays.
   // viewRectPixels will be the same as viewRectPoints for non-retina displays
   NSRect viewRectPixels = [self convertRectToBacking:viewRectPoints];
-  
+
 #else //if !SUPPORT_RETINA_RESOLUTION
-  
+
   // App will typically render faster and use less power rendering at
   // non-retina resolutions since the GPU needs to render less pixels.  There
   // is the cost of more aliasing, but it will be no-worse than on a Mac
   // without a retina display.
-  
+
   // Points:Pixels is always 1:1 when not supporting retina resolutions
   NSRect viewRectPixels = viewRectPoints;
-  
+
 #endif // !SUPPORT_RETINA_RESOLUTION
-  
+
   // Set the new dimensions in our renderer
   //	[m_renderer resizeWithWidth:viewRectPixels.size.width
   //                      AndHeight:viewRectPixels.size.height];
-  
+
   //[_scene setSize:S2Make(viewRectPixels.size.width*2., viewRectPixels.size.height*2.)];
-  
+
 #if USE_CV_DISPLAY_LINK
-  
+
   CGLUnlockContext([[self openGLContext] CGLContextObj]);
-  
+
 #endif
-  
+
 }
 
 - (CVReturn) getFrameForTime:(const CVTimeStamp*)outputTime
@@ -817,31 +817,31 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 - (void)mouseDown:(NSEvent *)theEvent
 {
   auto event = make_shared<CocoaUXEvent>(theEvent);
-  
+
   event->startingScreenLocation = event->previousScreenLocation = event->screenLocation = V2(theEvent.locationInWindow.x, theEvent.locationInWindow.y);
   event->initialTimeStamp = event->previousTimeStamp = event->timeStamp = theEvent.timestamp;
-  
+
   _sceneController->events.push_back(event);
   _sceneController->handleUXEvent(event);
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-  
+
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-  
+
   CocoaUXEvent event(theEvent);
-  
+
   for (auto e : _sceneController->events) {
     if (e->id() == event.id()) {
       e->setPhase(UXEventPhaseDrag);
-      
+
       e->previousScreenLocation = e->screenLocation;
       e->screenLocation = V2(theEvent.locationInWindow.x, theEvent.locationInWindow.y);
-      
+
       e->previousTimeStamp = e->timeStamp;
       e->timeStamp = theEvent.timestamp;
       _sceneController->handleUXEvent(e);
@@ -852,18 +852,18 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 - (void)mouseUp:(NSEvent *)theEvent
 {
   CocoaUXEvent event(theEvent);
-  
+
   auto copy = _sceneController->events;
   for (auto e : copy) {
     if (e->id() == event.id()) {
       e->setPhase(UXEventPhaseEnd);
-      
+
       e->previousScreenLocation = e->screenLocation;
       e->screenLocation = V2(theEvent.locationInWindow.x, theEvent.locationInWindow.y);
-      
+
       e->previousTimeStamp = e->timeStamp;
       e->timeStamp = theEvent.timestamp;
-      
+
       if (e->node) e->node->handleUXEvent(e);
       _::erase(_sceneController->events, e);
     }

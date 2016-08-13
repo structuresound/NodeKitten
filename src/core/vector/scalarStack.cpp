@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 chroma. All rights reserved.
 //
 
-#include "commonTypes.h"
+#include "scalarStack.h"
 
 int M16Stack::locationByDepth(M16t matrix) {
     for (int i = 0;  i < _count; i++){

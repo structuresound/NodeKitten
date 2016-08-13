@@ -1,7 +1,7 @@
 #ifndef __Action_h_
 #define __Action_h_
 
-#include "commonTypes.h"
+#include "../types/types.h"
 
 class Node;
 class Action;

@@ -9,7 +9,7 @@
 #ifndef __Pods__Dispatch__
 #define __Pods__Dispatch__
 
-#include "commonTypes.h"
+#include "../types/types.h"
 
 class Dispatch {
 public:

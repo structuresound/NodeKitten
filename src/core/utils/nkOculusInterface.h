@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Robby Kraft. All rights reserved.
 //
 
-#include "commonTypes.h"
+#include "../types/types.h"
 
 #if NK_USE_OVR
 

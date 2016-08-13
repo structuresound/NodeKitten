@@ -9,7 +9,7 @@
 #ifndef __NodeKittenX__FileSystem__
 #define __NodeKittenX__FileSystem__
 
-#include "commonTypes.h"
+#include "../types/types.h"
 
 //! Structure that allows you to manipulate memory stream.
 class File

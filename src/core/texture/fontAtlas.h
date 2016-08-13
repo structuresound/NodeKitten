@@ -6,11 +6,10 @@
 #define NODEKITTENX_NKFONTATLAS_H
 
 #include "texture.h"
-#include "vertexBuffer.h"
-
-#include "freetype-gl.h"
-#include "texture-atlas.h"
-#include "texture-font.h"
+#include "../vector/vertexBuffer.h"
+#include "../../ext/freetype-gl/freetype-gl.h"
+#include "../../ext/freetype-gl/texture-atlas.h"
+#include "../../ext/freetype-gl/texture-font.h"
 
 class FontAtlas : public Texture {
 

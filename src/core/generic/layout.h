@@ -1,7 +1,7 @@
 #pragma once
 
 #include "reactive.h"
-#include "kiwi.h"
+#include "../../ext/kiwi/kiwi.h"
 
 // non-raw literal operator
 constexpr double operator"" _pct( long double val) { return val / 100.0f ; }

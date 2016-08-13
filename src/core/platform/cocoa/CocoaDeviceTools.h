@@ -8,6 +8,6 @@
 
 #pragma once
 
-#include "CommonUtils.h"
+#include "../../utils/stringUtil.h"
 
 inline std::string NSToCppString(void *s);

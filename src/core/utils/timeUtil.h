@@ -9,7 +9,7 @@
 #ifndef __NodeKittenX__Time__
 #define __NodeKittenX__Time__
 
-#include "commonTypes.h"
+#include "../types/types.h"
 
 class Time {
     static double launchTime;

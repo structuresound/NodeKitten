@@ -9,9 +9,6 @@
 // OTHERS WILL REPERESENT THE BASE OF A SINGLE VIEW APP
 // AND ENCOMPASS A MAIN() LIKE INFINITE LOOP FUNCTION
 
-
-#include "generic.h"
-
 class FrameBuffer;
 class Texture;
 class Mesh;

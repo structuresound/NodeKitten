@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include "vectorTypes.h"
 #include <initializer_list>
 
 template <typename T>

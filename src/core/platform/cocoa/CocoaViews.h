@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "CocoaUXEvent.h"
+#include "cocoaUXEvent.h"
 
 class SceneController;
 
@@ -25,12 +25,12 @@ class SceneController;
 {
   EAGLContext *context;
   CADisplayLink *displayLink;
-  
+
   NSTimeInterval lastTime;
-  
+
   BOOL controllerSetup;
   bool animating;
-  
+
   // 2.0 stuff
   GLuint _program;
   float _rotation;
@@ -64,17 +64,17 @@ class SceneController;
 @interface NKNSView : NSOpenGLView
 
 {
-  
+
 #if USE_CV_DISPLAY_LINK
   static dispatch_queue_t displayThread;
   CVDisplayLinkRef displayLink;
 #else
   NSTimer *displayTimer;
 #endif
-  
+
   BOOL controllerSetup;
   bool animating;
-  
+
   // 2.0 stuff
   GLuint _program;
   float _rotation;

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CocoaDeviceTools.h"
+#import "cocoaDeviceTools.h"
 
 using namespace std;
 

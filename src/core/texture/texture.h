@@ -12,7 +12,7 @@
 #define __Texture_h_
 
 #include "frameBuffer.h"
-#include "fileUtil.h"
+#include "../utils/fileUtil.h"
 
 class Node;
 
