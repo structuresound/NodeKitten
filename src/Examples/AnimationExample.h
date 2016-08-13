@@ -9,13 +9,13 @@
 #ifndef __NodeKittenX__AnimationExample__
 #define __NodeKittenX__AnimationExample__
 
-#include "NodeKitten.h"
+#include "nodeKitten.h"
 
 class AnimationExample : public Scene {
 public:
     
     AnimationExample(S2t size) : Scene(size){};
-    
+
     void moveToView() override;
     void handleUXEvent(shared_ptr<UXEvent> event) override;
 };

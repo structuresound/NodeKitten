@@ -5,7 +5,7 @@
 #ifndef NODEKITTENX_FREETYPESCENE_H
 #define NODEKITTENX_FREETYPESCENE_H
 
-#include "NodeKitten.h"
+#include "nodeKitten.h"
 
 class FreeTypeTest : public Scene {
 

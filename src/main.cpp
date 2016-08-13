@@ -1,7 +1,6 @@
-#include "NodeKitten.h"
-#include "NKSDLView.h"
-#include "Examples.h"
-
+#include "nodeKitten.h"
+#include "nkSDLView.h"
+#include "examples.h"
 
 NKSDLView *sdlView;
 

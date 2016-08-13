@@ -9,7 +9,7 @@
 #ifndef __LayoutExample__
 #define __LayoutExample__
 
-#include "NodeKitten.h"
+#include "nodeKitten.h"
 
 class LayoutExample : public Scene {
     

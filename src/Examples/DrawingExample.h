@@ -9,7 +9,7 @@
 #ifndef __DrawingExample__
 #define __DrawingExample__
 
-#include "NodeKitten.h"
+#include "nodeKitten.h"
 
 class DrawingExample : public Scene {
   

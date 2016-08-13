@@ -6,7 +6,7 @@
 //
 //
 
-#include "SimpleSynth.h"
+#include "simpleSynth.h"
 //#include "leif/audio/Audio.h"
 
 void SimpleSynth::moveToView() {

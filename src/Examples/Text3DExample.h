@@ -9,7 +9,7 @@
 #ifndef __Text3DExample__
 #define __Text3DExample__
 
-#include "NodeKitten.h"
+#include "nodeKitten.h"
 
 class Text3DExample : public Scene {
     

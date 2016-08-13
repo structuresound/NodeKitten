@@ -1,5 +1,5 @@
 /***********************************************************************
- 
+
  Written by Leif Shackelford
  Copyright (c) 2014 Chroma.io
  All rights reserved. *
@@ -27,53 +27,53 @@
 
 #pragma once
 
-#include "CommonTypes.h"
-#include "CommonUtils.h"
+#include "commonTypes.h"
+#include "commonUtils.h"
 
 // REAL-TIME CLASSES
 
-#include "Action.h"
-#include "UXEvent.h"
+#include "action.h"
+#include "uxEvent.h"
 
 // ABSTRACT / BASE
-#include "Node.h"
+#include "node.h"
 
 // SCENE
-#include "SceneController.h"
-#include "Scene.h"
-#include "Camera.h"
-#include "Light.h"
+#include "sceneController.h"
+#include "scene.h"
+#include "camera.h"
+#include "light.h"
 
 // 2D NODES = VIEW + SUBCLASSES
-#include "View.h"
-#include "CollectionView.h"
-#include "Label.h"
+#include "view.h"
+#include "collectionView.h"
+#include "label.h"
 
 // 3D NODES / MESH + SUBCLASSES
-#include "Mesh.h"
-#include "MeshBatcher.h"
-#include "SpriteEmitter.h"
+#include "mesh.h"
+#include "meshBatcher.h"
+#include "spriteEmitter.h"
 
 
 //// TEXTURE
-#include "FrameBuffer.h"
-#include "FontAtlas.h"
-#include "Texture.h"
-#include "FrameBuffer.h"
+#include "frameBuffer.h"
+#include "fontAtlas.h"
+#include "texture.h"
+#include "frameBuffer.h"
 
 //// SHADERS
-#include "ShaderProgram.h"
-#include "ShaderModule.h"
-#include "ShaderTools.h"
+#include "shaderProgram.h"
+#include "shaderModule.h"
+#include "shaderTools.h"
 
 // OTHERS VIEWS SHOULD BE INCLUDED IN PLATFORM SPECIFIC EXAMPLES
 #if (TARGET_IOS || TARGET_OSX)
-#include "CocoaDeviceTools.h"
+#include "cocoaDeviceTools.h"
 #endif
 
 #ifdef __OBJC__
-#include "CocoaViews.h"
-#include "CocoaUXEvent.h"
+#include "cocoaViews.h"
+#include "cocoaUXEvent.h"
 #endif
 
 using namespace std;

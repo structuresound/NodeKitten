@@ -9,10 +9,10 @@
 #ifndef Pods_Examples_h
 #define Pods_Examples_h
 
-#include "AnimationExample.h"
-#include "DrawingExample.h"
-#include "FreeTypeTest.h"
-#include "LayoutExample.h"
-#include "Text3DExample.h"
+#include "animationExample.h"
+#include "drawingExample.h"
+#include "freeTypeTest.h"
+#include "layoutExample.h"
+#include "text3DExample.h"
 
 #endif

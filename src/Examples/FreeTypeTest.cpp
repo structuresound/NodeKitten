@@ -12,7 +12,7 @@
 #include "shader.h"
 #include "mat4.h"
 
-#include "FreeTypeTest.h"
+#include "freeTypeTest.h"
 
 // ------------------------------------------------------- typedef & struct ---
 typedef struct {
@@ -150,12 +150,12 @@ void FreeTypeTest::moveToView() {
     nkLog("freetype move to View");
 
     atlas = texture_atlas_new( 512, 512, 1 );
-    
+
     string filename = File::pathForFileNamed("Vera.ttf");
     nkLog("font: %s", filename);
-    
+
     wchar_t text[] = L"Node Kitten X";
-    
+
     buffer = vertex_buffer_new( "vertex:3f,tex_coord:2f,color:4f" );
     vec2 pen = {{0,0}};
     vec4 black = {{1,1,1,1}};
@@ -169,18 +169,18 @@ void FreeTypeTest::moveToView() {
         vertex->x -= (int)(bbox.x + bbox.width/2);
         vertex->y -= (int)(bbox.y + bbox.height/2);
     }
-    
+
     glBindTexture( GL_TEXTURE_2D, atlas->id );
     nkLog("bind atlas texture : %d", atlas->id);
-    
+
     nkLog("Generating distance map...\n" );
     unsigned char *map = make_distance_map(atlas->data, (int)atlas->width, (int)atlas->height);
     nkLog("done !\n");
-    
+
     memcpy( atlas->data, map, atlas->width*atlas->height*sizeof(unsigned char) );
     free(map);
     texture_atlas_upload( atlas );
-    
+
 #if TARGET_IOS
     string vertPath = File::pathForFileNamed("es-distance-field-2.vert");
     string fragPath = File::pathForFileNamed("es-distance-field-2.frag");
@@ -188,13 +188,13 @@ void FreeTypeTest::moveToView() {
     string vertPath = File::pathForFileNamed("distance-field-2.vert");
     string fragPath = File::pathForFileNamed("distance-field-2.frag");
 #endif
-    
+
     shader_ = shader_load( vertPath.c_str(),
                           fragPath.c_str());
-    
-    
+
+
     nkLog("loaded shader: %d", shader_);
-    
+
 }
 
 void FreeTypeTest::afterResize(){
@@ -202,11 +202,11 @@ void FreeTypeTest::afterResize(){
     mat4_set_identity( &m_projection );
     mat4_set_identity( &m_model );
     mat4_set_identity( &m_view );
-    
+
     mat4_set_orthographic( &m_projection, 0, size.get().width, 0, size.get().height, -1, 1);
-  
+
     setBackgroundColor(WHITE);
-    
+
     nkLog("reshape : %1.2f %1.2f", size.get().x, size.get().y);
 }
 
@@ -239,7 +239,7 @@ void FreeTypeTest::customDraw() {
     }
 
     vec4 color = {{0.067,0.333, 0.886, 1.0}};
-    
+
     float mod = sin(Time::getElapsedTime()*.5)*512.0;
     for(int i=0; i<40; ++i)
     {
@@ -264,7 +264,7 @@ void FreeTypeTest::customDraw() {
                             1, 0, m_view.data);
         glUniformMatrix4fv( glGetUniformLocation( shader_, "projection" ),
                             1, 0, m_projection.data);
-        
+
         vertex_buffer_render( buffer, GL_TRIANGLES );
     }
 

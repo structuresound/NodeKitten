@@ -6,20 +6,20 @@
 //
 //
 
-#include "LayoutExample.h"
+#include "layoutExample.h"
 
 void LayoutExample::moveToView() {
   setLayoutMethod(Layout::Method::Vertical);
-  
+
   addChild(View::view())->setBackgroundColor(Color("red"));
   //addChild(View::view())->setBackgroundColor(Color("orange"));
-  
+
   auto yellow = addChild(View::view())->setBackgroundColor(Color("yellow"));
   //yellow->setLayoutMethod(Layout::Method::Horizontal);
-  
+
   yellow->addChild(View::view())->setBackgroundColor(Color("green"));
   yellow->addChild(View::view())->setBackgroundColor(Color("black"));
-  
+
 //  addChild(View::view())->setBackgroundColor(Color("green"));
 //
 //  auto row = addChild(View::view())->setBackgroundColor(Color("blue"));
@@ -29,7 +29,7 @@ void LayoutExample::moveToView() {
 //  row->addChild(View::view())->setBackgroundColor(Color("yellow"));
 //  row->addChild(View::view())->setBackgroundColor(Color("green"));
 //  row->addChild(View::view())->setBackgroundColor(Color("blue"));
-//  
+//
 //  auto col = row->addChild(View::view())->setBackgroundColor(Color("violet"));
 //  col->setLayoutMethod(Layout::Method::Vertical);
 //  col->addChild(View::view())->setBackgroundColor(Color("red"));
@@ -41,5 +41,5 @@ void LayoutExample::moveToView() {
 }
 
 void LayoutExample::handleUXEvent(shared_ptr<UXEvent> event){
-  
+
 }

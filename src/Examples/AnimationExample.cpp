@@ -6,78 +6,78 @@
 //  Copyright (c) 2015 structuresound. All rights reserved.
 //
 
-#include "AnimationExample.h"
+#include "animationExample.h"
 
 shared_ptr<Texture> moonTex;
 shared_ptr<Texture> skyTex;
 shared_ptr<Texture> skyTex2;
 
 void AnimationExample::moveToView() {
-  
+
   nkLog("size of node: %lu", sizeof(Node));
-  
+
   addChild(Node::node());
-  
+
   auto forgroundLayer = Node::node();
   addChild(forgroundLayer); // for explicit depth ordering
-  
+
   auto backgroundLayer = Node::node();
   addChild(backgroundLayer); // for explicit depth ordering
-  
+
   nkLog("move to view: example scene \n");
-  
+
   if (!moonTex) {
     moonTex = Texture::textureWithImageFile("moon.png");
     skyTex = Texture::textureWithImageFile("outdoors.jpg");
     skyTex2 = Texture::textureWithImageFile("imperial_skybox_by_vest.jpg");
   }
-  
+
 #if NK_LOG_GL
   char* glExtensions = (char*)glGetString(GL_EXTENSIONS);
   printf("GL EXTENSIONS : %s \n", glExtensions);
 #endif
-  
+
   setBackgroundColor(0);
-  
+
   auto cameraTrack = Node::node();
   addChild(cameraTrack);
-  
+
   auto cameraArm = Node::node();
   cameraTrack->addChild(cameraArm);
-  
+
   cameraArm->addChild(camera->base);
   camera->base->position.set(V3(1.,1.,2.0));
-  
+
   auto sky = Mesh::nodeWithPrimitive(NKPrimitiveSphere, skyTex, Color("lightblue"), V3(10.0));
   sky->shader = Program::shaderNamed("sky", NKS_COLOR_MODE_UNIFORM, 1, 0);
   sky->setCullFace(GLCullFaceBack);
-  
+
   backgroundLayer->addChild(sky);
-  
+
   auto ground = Mesh::nodeWithPrimitive(NKPrimitivePlane, nullptr, Color(.5,.5,.7,.7), V3(20, 20, 1));
-  
+
   ground->position.set(V3t{0,-.5,0});
   ground->setOrientationEuler(V3(-90, 0, 0));
-  
+
   sky->addChild(ground);
-  
+
 #if !NK_USE_GLES
   ground->shader = Program::shaderNamed("water", {ShaderModule::lightModule(true, 0), ShaderModule::swirl(.5, V2t{20,20}), ShaderModule::colorModule(NKS_COLOR_MODE_UNIFORM, 0)});
 #endif
-  
+
   auto sun = Mesh::nodeWithPrimitive(NKPrimitiveSphere, nullptr, Color("lightYellow"), V3(.25));
   sun->position.set(V3(2, 0, 0));
-  
+
   forgroundLayer->addChild(sun);
-  
+
   auto sphereLayer = MeshBatcher::nodeWithPrimitive(NKPrimitiveSphere, moonTex, Color(1), V3(1));
   auto cubeLayer = MeshBatcher::nodeWithPrimitive(NKPrimitiveCube, nullptr, Color(1.0), V3(1));
-  
+
   forgroundLayer->addChild(sphereLayer);
   forgroundLayer->addChild(cubeLayer);
-  
+
   int sph = 256;
-  
+
   auto light = Light::light(this);
 #if NK_USE_GLES
   sph = 50;
@@ -88,9 +88,9 @@ void AnimationExample::moveToView() {
   for (int i = 0; i < sph; i++) {
     auto cube = Mesh::nodeWithPrimitive(NKPrimitiveSphere, moonTex, Color(1.0), V3(rand() % 50 * .00025 + .002));
     sphereLayer->addChild(cube);
-    
+
     auto prepare = Action::enterOrbit(V3(rand() % 230, rand() % 219, .1), 1.0);
-    
+
     auto dance = Action::group({
       Action::sequence({
         Action::delay(2),
@@ -122,7 +122,7 @@ void AnimationExample::moveToView() {
         })
       })->repeatForever()
     })->repeat(2);
-    
+
     dance->then([cube,cubeLayer]{
       auto cbounce = Action::custom(2.0,
                                     [](Action *a, Node* n, F1t c)
@@ -156,15 +156,15 @@ void AnimationExample::moveToView() {
         }));
       }
     });
-    
+
     prepare->then([cube, cubeLayer, dance]
                   {
                     cube->runAction(dance);
                   });
-    
+
     cube->runAction(prepare);
   }
-  
+
   camera->base->runAction(Action::moveTo(V3(0), 10))->then
   ([this, sky, cubeLayer, sphereLayer,light](){
     auto spin = Action::custom(10.0, [](Action *action, Node* node, F1t completion)
@@ -174,7 +174,7 @@ void AnimationExample::moveToView() {
                                });
     spin->startFloat = 1.0;
     sky->runAction(spin);
-    
+
     sky->runAction(Action::fadeAlphaTo(0, 10.0))->then
     ([this, sky, cubeLayer, sphereLayer]{
       sky->setTexture(skyTex2);
@@ -186,11 +186,11 @@ void AnimationExample::moveToView() {
         cubeLayer->runAction(Action::moveToY(30, 55)->timingMode(ActionTimingEaseIn));
         camera->base->removeAllActions();
         camera->base->runAction(Action::moveToY(30, 60));
-        
+
         sphereLayer->runAction(Action::delay(40),[sphereLayer]{
           sphereLayer->runAction(Action::moveToY(30, 10));
         });
-        
+
         auto fadeAndRestart = Action::sequence({
           Action::delay(10),
           Action::custom(40,
@@ -210,11 +210,11 @@ void AnimationExample::moveToView() {
         sky->runAction(fadeAndRestart);
       });
     });
-    
+
     auto enterOrbit2 = Action::enterOrbit(V3(rand() % 130, rand() % 119, 1.5), 1.0);
-    
+
     enterOrbit2->completionBlock = [light]{
-      
+
       auto glow = Action::custom(10.0, [](Action *action, Node* node, F1t completion)
                                  {
                                    ((Light*)node)->properties.ambient = .15 - completion*.1;
@@ -222,14 +222,14 @@ void AnimationExample::moveToView() {
       light->runAction(glow);
       light->runAction(Action::resize(V3(.01), 10.));
     };
-    
+
     light->runAction(enterOrbit2);
   });
-  
-  
-  
+
+
+
   auto enterOrbit1 = Action::enterOrbit(V3(rand() % 119, 0 , 3), 1.0, nullptr, V3(1, 0, 0));
-  
+
   enterOrbit1->completionBlock = [cameraTrack, cameraArm]{
     cameraTrack->runAction(Action::custom(1.0, [cameraArm](Action *action, Node* node, F1t completion){
       if (node->hasActions() == 1){
@@ -239,7 +239,7 @@ void AnimationExample::moveToView() {
       }
     })->repeatForever());
   };
-  
+
   cameraTrack->runAction(enterOrbit1);
   //
   auto enterOrbit = Action::enterOrbit(V3(rand() % 130, rand() % 119, .1), 1.0);
@@ -252,44 +252,44 @@ void AnimationExample::moveToView() {
         if (rand()%100 == 5) {
           node->runAction(Action::maintainOrbit(V3(rand() % 303, rand() % 301, 0), rand()%20*.1 + 1));
         }
-        
+
       }
     })->repeatForever());
   };
-  
+
   camera->target->runAction(enterOrbit);
   //
   light->setColor(Color(.8,.8,1.0,1.0));
-  
+
   light->properties.linearAttenuation = .1;
   light->properties.ambient = .3;
-  
+
   light->size.set(V3(.2));
   light->position.set(V3(0, 10, 0));
-  
+
   backgroundLayer->addChild(light);
-  
+
 #if !NK_USE_GLES
   light2->setColor(Color(1.0, 0, 0, 1));
-  
+
   light2->properties.linearAttenuation = .2;
   light2->properties.ambient = .2;
-  
+
   light2->size.set(V3(.2));
   light2->position.set(V3(0, 5, 0));
-  
+
   light3->setColor(Color(0, 0, 1.0, 1));
   light3->properties.linearAttenuation = .3;
   light3->properties.color = V3(0, 0, 1.0);
   light3->properties.ambient = .2;
-  
+
   light3->size.set(V3(.2));
   light3->position.set(V3(5, 0, 0));
-  
+
   backgroundLayer->addChild(light2);
   backgroundLayer->addChild(light3);
 #endif
-  
+
   drawLights = true;
 }
 
