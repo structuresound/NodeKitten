@@ -1,5 +1,6 @@
 .DS_Store
 bin/
 build/
+build.ninja
 cmake/
-node_modules
+trie_modules/

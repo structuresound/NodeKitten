@@ -1,0 +1,4 @@
+name: "nodeKitten"
+target: "static"
+build:
+	with: "ninja"
