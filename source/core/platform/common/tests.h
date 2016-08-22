@@ -1,15 +1,4 @@
-//
-//  Testing.h
-//  Pods
-//
-//  Created by Leif Shackelford on 6/25/15.
-//
-//
-
-#ifndef __Pods__Testing__
-#define __Pods__Testing__
-
-#include "nodeKitten.h"
+#include "../../core.h"
 
 template <typename T>
 class DynamicProperty {
@@ -66,5 +55,3 @@ public:
   void logClassSizes();
   void testKiwi();
 };
-
-#endif /* defined(__Pods__Testing__) */

@@ -6,9 +6,8 @@
 //  Copyright (c) 2014 EMA. All rights reserved.
 //
 
+#include "../platform/platform.h"
 #include "shaderTools.h"
-#include "cocoaDeviceTools.h"
-#include "stringUtil.h"
 #include "frameBuffer.h"
 
 #define nksf String::format

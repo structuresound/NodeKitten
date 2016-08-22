@@ -8,12 +8,12 @@
 
 
 #include "sceneController.h"
-#include "texture.h"
-#include "frameBuffer.h"
-#include "shaderProgram.h"
-#include "mesh.h"
-#include "scene.h"
-#include "timeUtil.h"
+#include "../../gl/texture.h"
+#include "../../gl/frameBuffer.h"
+#include "../../gl/shaderProgram.h"
+#include "../../node/mesh.h"
+#include "../../view/scene.h"
+#include "../../util/time.h"
 #include "uxEvent.h"
 
 using namespace std;

@@ -1,16 +1,7 @@
-//
-//  NKMatrixStack.h
-//  NodeKittenIOS
-//
-//  Created by Leif Shackelford on 6/20/14.
-//  Copyright (c) 2014 chroma. All rights reserved.
-//
-
-
-
 #pragma once
 
 #include <initializer_list>
+#include "../type.h"
 
 template <typename T>
 class ScalarStack

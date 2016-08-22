@@ -1,12 +1,6 @@
-//
-//  UXEvent.h
-//  NodeKittenIOS
-//
-//  Created by Leif Shackelford on 6/13/14.
-//  Copyright (c) 2014 chroma. All rights reserved.
-//
-
 #pragma once
+
+#include "../../generic/generic.h"
 
 typedef enum UXEventPhase {
   UXEventPhaseNone,

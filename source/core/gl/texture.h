@@ -1,11 +1,3 @@
-//
-//  Texture.h
-//  NodeKittenExample
-//
-//  Created by Chroma Developer on 3/5/14.
-//  Copyright (c) 2014 Chroma. All rights reserved.
-//
-
 #pragma once
 
 #ifndef __Texture_h_

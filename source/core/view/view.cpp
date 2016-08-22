@@ -7,8 +7,7 @@
 //
 
 #include "view.h"
-#include "shaderProgram.h"
-#include "mesh.h"
+#include "../gl/gl.h"
 #include "scene.h"
 
 #pragma mark - DRAW

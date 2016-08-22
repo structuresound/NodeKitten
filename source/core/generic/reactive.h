@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../types/types.h"
+#include "../type.h"
 
 namespace Reactive {
 

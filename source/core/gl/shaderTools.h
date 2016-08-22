@@ -1,13 +1,4 @@
-//
-//  ShaderVariable.h
-//  EMA Stage
-//
-//  Created by Leif Shackelford on 5/24/14.
-//  Copyright (c) 2014 EMA. All rights reserved.
-//
-
-#ifndef __ShaderTools__
-#define __ShaderTools__
+#pragma once
 
 #pragma mark - DICTIONARY KEYS
 
@@ -385,6 +376,3 @@ namespace Shader {
   };
 
 }
-
-#endif
-

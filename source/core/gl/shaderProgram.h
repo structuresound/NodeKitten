@@ -1,14 +1,4 @@
-//
-//  NOCShaderProgram.h
-//  Nature of Code
-//
-//  Created by William Lindmeier on 2/2/13.
-//  Copyright (c) 2013 wdlindmeier. All rights reserved.
-//
-
-#ifndef __Shader__
-#define __Shader__
-
+#pragma once
 
 #include "shaderModule.h"
 
@@ -20,6 +10,7 @@ class Node;
 class Texture;
 
 #define NUM_ATTRIBUTES 7
+
 namespace Shader {
 
   using std::vector;
@@ -158,5 +149,3 @@ namespace Shader {
 
 
 }
-
-#endif

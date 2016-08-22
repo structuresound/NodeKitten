@@ -7,7 +7,7 @@
 //
 
 #include "light.h"
-#include "scene.h"
+#include "../view/scene.h"
 
 using namespace Shader;
 

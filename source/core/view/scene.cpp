@@ -7,18 +7,19 @@
 //
 
 #include "scene.h"
-#include "frameBuffer.h"
-#include "sceneController.h"
-#include "camera.h"
-#include "timeUtil.h"
-#include "texture.h"
-#include "vertexBuffer.h"
-#include "shaderProgram.h"
-#include "light.h"
 #include "label.h"
-#include "action.h"
+#include "../gl/frameBuffer.h"
+#include "../gl/texture.h"
+#include "../gl/vertexBuffer.h"
+#include "../gl/shaderProgram.h"
+#include "../platform/common/sceneController.h"
+#include "../platform/common/uxEvent.h"
+#include "../node/camera.h"
+#include "../node/light.h"
+#include "../util/time.h"
+#include "../animation/action.h"
 #include "collectionView.h"
-#include "uxEvent.h"
+
 
 using namespace std;
 using namespace Shader;

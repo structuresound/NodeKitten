@@ -9,7 +9,7 @@
 #ifndef __Pods__DynamicDataSource__
 #define __Pods__DynamicDataSource__
 
-#include "../types/types.h"
+#include "../type.h"
 
 class DynamicDataSourceDelegate {
 public:

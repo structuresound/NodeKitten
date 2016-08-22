@@ -1,5 +1,6 @@
 #pragma once
 
+#include "type.h"
 #include "util/util.h"
 
 // #include "utils/utils.h"

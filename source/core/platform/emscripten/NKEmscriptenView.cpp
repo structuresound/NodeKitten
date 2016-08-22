@@ -1,11 +1,3 @@
-//
-//  NKSDLView.cpp
-//  NodeKittenX
-//
-//  Created by Leif Shackelford on 2/7/15.
-//  Copyright (c) 2015 structuresound. All rights reserved.
-//
-
 #include "NKEmscriptenView.h"
 
 #if TARGET_EMSCRIPTEN

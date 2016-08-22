@@ -1,9 +1,8 @@
-//
-// Created by Leif Shackelford on 4/11/15.
-//
-
 #include "nkSDLView.h"
-#include "frameBuffer.h"
+
+#if NK_BUILD_SDL
+
+#include "../../gl/frameBuffer.h"
 
 bool NKSDLView::setup(){
 
@@ -112,3 +111,5 @@ bool NKSDLView::loop() {
 
     return 0;
 }
+
+#endif

@@ -1,13 +1,4 @@
-//
-//  state.h
-//  Pods
-//
-//  Created by Leif Shackelford on 6/19/15.
-//
-//
-
-#ifndef __Pods__GLState__
-#define __Pods__GLState__
+#pragma once
 
 #include "../type.h"
 
@@ -197,4 +188,3 @@ public:
 
   static void glInit();
 };
-#endif /* defined(__Pods__GLState__) */

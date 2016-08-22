@@ -4,3 +4,5 @@ build/
 build.ninja
 cmake/
 trie_modules/
+.idea/
+CMakeLists.txt

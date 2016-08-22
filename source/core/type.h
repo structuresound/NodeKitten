@@ -1,5 +1,4 @@
 #pragma once
-
 // CPP STL
 // core: ---------------------------
 #include <cstdio>
@@ -23,6 +22,8 @@
 #include <queue>
 #include <assert.h>
 
+#include "macro.h"
+
 #if _LIBCPP_STD_VER < 14
 //Excerpt From: "Effective Modern C++."
 template<typename T, typename... Ts>
@@ -38,10 +39,10 @@ std::unique_ptr<R> unique_ptr_cast(E& ptr){
 }
 
 #include "../ext/json/json.h"
+#include "../ext/underscore/_.hpp"
 
 typedef Json::Value JSON;
 
-#include "macro.h"
 #include "vector/vector.h"
 
 typedef std::function<void(void)> CompletionBlock;

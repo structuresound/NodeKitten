@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../types/types.h"
+#include "../type.h"
 #include "../generic/generic.h"
 #include "../vector/vector.h"
 

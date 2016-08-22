@@ -1,13 +1,4 @@
-//
-//  NKFragModule.h
-//  NodeKittenIOS
-//
-//  Created by Leif Shackelford on 7/12/14.
-//  Copyright (c) 2014 chroma. All rights reserved.
-//
-
-#ifndef __ShaderModule__
-#define __ShaderModule__
+#pragma once
 
 #include "shaderTools.h"
 
@@ -71,5 +62,3 @@ namespace Shader {
   };
 
 }
-
-#endif

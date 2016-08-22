@@ -7,9 +7,9 @@
 //
 
 #include "camera.h"
-#include "frameBuffer.h"
-#include "scene.h"
-#include "action.h"
+#include "../gl/frameBuffer.h"
+#include "../view/scene.h"
+#include "../animation/action.h"
 
 using namespace std;
 

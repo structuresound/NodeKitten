@@ -7,11 +7,11 @@
 //
 #include "mesh.h"
 
-#include "shaderProgram.h"
-#include "scene.h"
+#include "../gl/shaderProgram.h"
+#include "../gl/vertexBuffer.h"
+
+#include "../view/scene.h"
 #include "camera.h"
-#include "shaderProgram.h"
-#include "vertexBuffer.h"
 
 using namespace std;
 using namespace Shader;

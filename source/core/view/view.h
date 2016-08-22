@@ -1,17 +1,8 @@
-//
-//  View.h
-//  Pods
-//
-//  Created by Leif Shackelford on 5/31/15.
-//
-//
+#pragma once
 
-#ifndef __View__
-#define __View__
-
-#include "texture.h"
-#include "node.h"
-#include "mesh.h"
+#include "../gl/texture.h"
+#include "../node/node.h"
+#include "../node/mesh.h"
 
 class View :
 public Node, public Layout::Manager<View> {
@@ -168,5 +159,3 @@ public:
   }
 
 };
-
-#endif /* defined(__Pods__SceneController__) */

@@ -1,11 +1,8 @@
-//
-// Created by Leif Shackelford on 4/11/15.
-//
+#include "../../macro.h"
 
-#ifndef NODEKITTENX_NKSDLVIEW_H
-#define NODEKITTENX_NKSDLVIEW_H
+#if NK_BUILD_SDL
 
-#include "sceneController.h"
+#include "../common/sceneController.h"
 #include <sdl2/include/SDL.h>
 
 class NKSDLView : public SceneController {
@@ -47,4 +44,5 @@ private:
     void cleanup();
 
 };
-#endif //NODEKITTENX_NKSDLVIEW_H
+
+#endif

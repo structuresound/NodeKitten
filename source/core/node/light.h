@@ -9,7 +9,7 @@
 #pragma once
 
 #include "mesh.h"
-#include "shaderProgram.h"
+#include "../gl/shaderProgram.h"
 
 class Light : public Mesh
 {

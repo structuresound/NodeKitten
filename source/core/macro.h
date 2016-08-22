@@ -29,6 +29,9 @@
 #define NK_BATCH_SIZE 32
 #endif
 
+#define NK_BUILD_SDL 0
+#define NK_BUILD_EMSCRIPTEN 0
+
 // MODULES
 #define NK_USE_OVR 0
 #define NK_USE_ASSIMP 0

@@ -1,18 +1,10 @@
-//
-//  Node.m
-//  example-ofxTableView
-//
-//  Created by Chroma Developer on 2/17/14.
-//
-//
-
 #include "node.h"
-#include "action.h"
-#include "frameBuffer.h"
-#include "shaderProgram.h"
-#include "scene.h"
+#include "../animation/action.h"
+#include "../gl/frameBuffer.h"
+#include "../gl/shaderProgram.h"
+#include "../view/scene.h"
 #include "mesh.h"
-#include "uxEvent.h"
+#include "../platform/platform.h"
 
 #define TEST_IGNORE 1
 #pragma mark - init

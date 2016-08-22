@@ -7,8 +7,8 @@
 //
 
 #include "spriteEmitter.h"
-#include "shaderProgram.h"
-#include "scene.h"
+#include "../gl/shaderProgram.h"
+#include "../view/scene.h"
 
 using namespace std;
 using namespace Shader;

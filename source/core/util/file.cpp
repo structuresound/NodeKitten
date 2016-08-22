@@ -4,7 +4,7 @@
 #define MAX_PATH 256
 
 #if (TARGET_OSX || TARGET_IOS)
-#import "cocoaDeviceTools.h"
+#import "../platform/cocoa/cocoaDeviceTools.h"
 #endif
 
 

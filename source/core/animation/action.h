@@ -1,7 +1,7 @@
 #ifndef __Action_h_
 #define __Action_h_
 
-#include "../types/types.h"
+#include "../type.h"
 
 class Node;
 class Action;

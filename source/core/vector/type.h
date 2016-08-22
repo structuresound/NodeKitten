@@ -1,7 +1,3 @@
-type//*
-//*  NODE KITTEN
-//*
-
 #pragma once
 
 #if TARGET_OSX
@@ -14,6 +10,8 @@ type//*
 #include <float.h>
 #include <string>
 
+#include "../util/log.h"
+#include "../../ext/xxhash/xxhash.h"
 
 #pragma mark -
 #pragma mark NK VECTOR TYPES

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../shader/state.h"
+#include "../gl/state.h"
 
 template <class Derived, class ColorType>
 class Drawable {

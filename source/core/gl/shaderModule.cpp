@@ -9,7 +9,7 @@
 #include "shaderModule.h"
 #include "shaderTools.h"
 #include "shaderProgram.h"
-#include "timeUtil.h"
+#include "../util/util.h"
 
 namespace Shader {
   ShaderModule ShaderModule::vertexPositionModuleDefault() {

@@ -1,16 +1,7 @@
-//
-//  GLState.cpp
-//  Pods
-//
-//  Created by Leif Shackelford on 6/19/15.
-//
-//
-
 #include "state.h"
-#include "mesh.h"
+#include "../node/mesh.h"
 #include "shaderProgram.h"
-#include "camera.h"
-#include "shader.h"
+#include "../node/camera.h"
 
 using namespace Shader;
 

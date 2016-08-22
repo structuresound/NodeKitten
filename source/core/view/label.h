@@ -9,8 +9,8 @@
 #ifndef __Label__
 #define __Label__
 
-#include "mesh.h"
-#include "fontAtlas.h"
+#include "../node/mesh.h"
+#include "../gl/fontAtlas.h"
 
 typedef enum NKTextAlignment {
   NKTextAlignmentCenter,

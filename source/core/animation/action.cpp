@@ -1,14 +1,6 @@
-//
-//  ofxBlockAnimationHandler.cpp
-//  example-ofxTableView
-//
-//  Created by Chroma Developer on 2/11/14.
-//
-//
-
 #include "action.h"
-#include "node.h"
-#include "label.h"
+#include "../node/node.h"
+#include "../view/label.h"
 
 unsigned int Action::createdObjects {0};
 unsigned int Action::destroyedObjects {0};

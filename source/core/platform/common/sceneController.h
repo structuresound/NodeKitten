@@ -1,8 +1,6 @@
-//*
-//*  NODE KITTEN
-//*
-
 #pragma once
+
+#include "../../generic/generic.h"
 
 // NK VIEW IS AN ABSTRACT BASE CLASS
 // SOME WILL BELONG TO NATIVE VIEWS

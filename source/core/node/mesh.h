@@ -9,8 +9,8 @@
 #pragma once
 
 #include "node.h"
-#include "texture.h"
-#include "vertexBuffer.h"
+#include "../gl/texture.h"
+#include "../gl/vertexBuffer.h"
 
 class Mesh : public Node
 {

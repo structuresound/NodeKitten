@@ -1,15 +1,8 @@
-//
-//  Label.cpp
-//  Pods
-//
-//  Created by Leif Shackelford on 5/2/15.
-//
-//
-
 #include "label.h"
-#include "shaderProgram.h"
+#include "../gl/shaderProgram.h"
 #include "scene.h"
-#include "camera.h"
+#include "../node/camera.h"
+#include "../platform/platform.h"
 
 using namespace std;
 using namespace Shader;

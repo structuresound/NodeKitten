@@ -1,4 +1,8 @@
 name: "nodeKitten"
 target: "static"
 build:
-	with: "ninja"
+	"mac ios":
+		sources: matching: ['core/**/*.cpp', '!core/**/*tests*.cpp', '!core/platform/android/**/*.*', '!core/platform/emscripten/**/*.*']
+	with: "cmake"
+	cFlags:
+		std: "c++14"
