@@ -1,0 +1,10 @@
+name: "nodeKittenExamples"
+target: "bin"
+build:
+  with: "cmake"
+cFlags:
+  std: "c++14"
+deps: [
+  name: "nodeKitten"
+  link: "../"
+]

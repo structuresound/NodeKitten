@@ -6,3 +6,9 @@ build:
 	with: "cmake"
 	cFlags:
 		std: "c++14"
+path:
+  install:
+    headers: [
+      from: 'source/core'
+      to: 'include/nodeKitten'
+    ]
