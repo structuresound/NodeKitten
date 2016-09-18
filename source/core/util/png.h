@@ -1,1 +1,1 @@
-#include "../../ext/png/png.h"
+#include <png/png.h>

@@ -22,7 +22,7 @@ typedef enum NKTextAlignment {
 
 class Label : public Mesh
 {
-  std::wstring _text;
+  std::string _text;
   std::shared_ptr<FontAtlas> _fontAtlas;
   NKTextAlignment _textAlignment = NKTextAlignmentLeft;
   double _fontSize = 12;
@@ -42,7 +42,7 @@ public:
   void genVertices();
   void genTexture();
 
-  std::wstring text(){return _text;};
+  std::string text(){return _text;};
 
   void setTextAlignment(NKTextAlignment alignment);
   void setFontSize(double size);

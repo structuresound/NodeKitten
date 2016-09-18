@@ -2,9 +2,42 @@ name: "nodeKittenExamples"
 target: "bin"
 build:
   with: "cmake"
-cFlags:
-  std: "c++14"
+  mac:
+    frameworks:
+      AudioUnit: 1
+      CoreAudio: 1
+      CoreVideo: 1
+      Carbon: 1
+      Cocoa: 1
+      ForceFeedback: 1
+      IOKit: 1
+      OpenGL: 1
+  cxxFlags:
+    std: "c++14"
+  ldFlags:
+    liconv: 1
+    lbz2: 1
+path:
+  install:
+    mac:
+      assets:
+        from: "assets"
+        to: "bin/Contents/Resources"
 deps: [
   name: "nodeKitten"
   link: "../"
+,
+  name: "sdl"
+  fetch:
+    archive: "https://www.libsdl.org/release/SDL2-2.0.4.tar.gz"
+    move:
+      from: "SDL2-2.0.4"
+  build:
+    with: "cmake"
+  path:
+    project: "source"
+    install:
+      headers:
+        from: "source/include"
+        to: "include/sdl"
 ]

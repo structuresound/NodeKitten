@@ -1,14 +1,66 @@
 name: "nodeKitten"
 target: "static"
 build:
-	"mac ios":
-		sources: matching: ['core/**/*.cpp', '!core/**/*tests*.cpp', '!core/platform/android/**/*.*', '!core/platform/emscripten/**/*.*']
-	with: "cmake"
-	cFlags:
-		std: "c++14"
+  "mac ios":
+    sources: matching: ['core/**/*.cpp', 'ext/**/*.cpp', 'ext/**/*.c', '!core/**/*tests*.cpp', '!core/platform/android/**/*.*', '!core/platform/emscripten/**/*.*']
+    cxxFlags:
+      std: "c++14"
+      'fobjc-arc': 1
+  with: "cmake"
 path:
   install:
     headers: [
-      from: 'source/core'
+      from: 'source'
       to: 'include/nodeKitten'
     ]
+deps: [
+  name: "png"
+  git:
+    repository: "glennrp/libpng"
+    archive: "v1.6.25"
+  build:
+    with: "cmake"
+  path:
+    project: "source"
+    install:
+      headers: [
+        from: 'source'
+        to: 'include/png'
+      ,
+        from: 'source/build'
+        to: 'include/png'
+      ]
+,
+  git: "rougier/freetype-gl"
+  build:
+    with: "ninja"
+    sources: matching: ['*.c']
+  path:
+    install:
+      headers: [
+        from: 'source'
+        to: 'include/freetype-gl'
+      ]
+  deps: [
+    name: "freetype"
+    fetch: "http://download.savannah.gnu.org/releases/freetype/freetype-2.7.tar.gz"
+    build:
+      with: "cmake"
+    path:
+      project: "source"
+    deps: [
+      git:
+        repository: "madler/zlib"
+        archive: "v1.2.8"
+      build:
+        with: "ninja"
+        sources: matching: "*.c"
+        cFlags:
+          O: 3
+          Wall: 1
+          "Wwrite-strings": 1
+          "Wpointer-arith": 1
+          "Wconversion": 1
+    ]
+  ]
+]

@@ -27,7 +27,7 @@
 #if _LIBCPP_STD_VER < 14
 //Excerpt From: "Effective Modern C++."
 template<typename T, typename... Ts>
-std::unique_ptr<T> make_unique(Ts&&... params)
+std::unique_ptr<T> std::make_unique(Ts&&... params)
 {
   return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
 }

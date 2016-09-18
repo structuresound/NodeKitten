@@ -106,14 +106,14 @@ union _U2t {
   }
 
   bool operator<( const _U2t &q )const{
-    if( fabs((int)x-(int)q.x)>0 ) return x<q.x ? true : false;
-    return fabs((int)y-q.y)>0;
+    if( std::fabs((int)x-(int)q.x)>0 ) return x<q.x ? true : false;
+    return std::fabs((int)y-q.y)>0;
   }
   bool operator==( const _U2t &q )const{
-    return fabs((int)x-(int)q.x)<=0 && fabs((int)y-(int)q.y)<=0;
+    return std::fabs((int)x-(int)q.x)<=0 && std::fabs((int)y-(int)q.y)<=0;
   }
   bool operator!=( const _U2t &q )const{
-    return fabs((int)x-(int)q.x)>0 || fabs((int)y-(int)q.y)>0;
+    return std::fabs((int)x-(int)q.x)>0 || std::fabs((int)y-(int)q.y)>0;
   }
   float dot( const _U2t &q )const{
     return x*q.x+y*q.y;
@@ -295,14 +295,14 @@ union _I2t {
   }
 
   bool operator<( const _I2t &q )const{
-    if( abs((int)x-(int)q.x)>0 ) return x<q.x ? true : false;
-    return abs((int)y-q.y)>0;
+    if( std::abs((int)x-(int)q.x)>0 ) return x<q.x ? true : false;
+    return std::abs((int)y-q.y)>0;
   }
   bool operator==( const _I2t &q )const{
-    return abs((int)x-(int)q.x)<=0 && abs((int)y-(int)q.y)<=0;
+    return std::abs((int)x-(int)q.x)<=0 && std::abs((int)y-(int)q.y)<=0;
   }
   bool operator!=( const _I2t &q )const{
-    return abs((int)x-(int)q.x)>0 || abs((int)y-(int)q.y)>0;
+    return std::abs((int)x-(int)q.x)>0 || std::abs((int)y-(int)q.y)>0;
   }
   float dot( const _I2t &q )const{
     return x*q.x+y*q.y;
@@ -399,14 +399,14 @@ union _V2t {
   }
 
   bool operator<( const _V2t &q )const{
-    if( fabs(x-q.x)>SMALL ) return x<q.x ? true : false;
-    return fabs(y-q.y)>SMALL;
+    if( std::fabs(x-q.x)>SMALL ) return x<q.x ? true : false;
+    return std::fabs(y-q.y)>SMALL;
   }
   bool operator==( const _V2t &q )const{
-    return fabs(x-q.x)<=SMALL && fabs(y-q.y)<=SMALL;
+    return std::fabs(x-q.x)<=SMALL && std::fabs(y-q.y)<=SMALL;
   }
   bool operator!=( const _V2t &q )const{
-    return fabs(x-q.x)>SMALL || fabs(y-q.y)>SMALL;
+    return std::fabs(x-q.x)>SMALL || std::fabs(y-q.y)>SMALL;
   }
   float dot( const _V2t &q )const{
     return x*q.x+y*q.y;
@@ -533,15 +533,15 @@ union _V3t {
   }
 
   bool operator<( const _V3t &q )const{
-    if( fabs(x-q.x)>SMALL ) return x<q.x ? true : false;
-    if( fabs(y-q.y)>SMALL ) return y<q.y ? true : false;
-    return fabs(z-q.z)>SMALL && z<q.z;
+    if( std::fabs(x-q.x)>SMALL ) return x<q.x ? true : false;
+    if( std::fabs(y-q.y)>SMALL ) return y<q.y ? true : false;
+    return std::fabs(z-q.z)>SMALL && z<q.z;
   }
   bool operator==( const _V3t &q )const{
-    return fabs(x-q.x)<=SMALL && fabs(y-q.y)<=SMALL && fabs(z-q.z)<=SMALL;
+    return std::fabs(x-q.x)<=SMALL && std::fabs(y-q.y)<=SMALL && std::fabs(z-q.z)<=SMALL;
   }
   bool operator!=( const _V3t &q )const{
-    return fabs(x-q.x)>SMALL || fabs(y-q.y)>SMALL || fabs(z-q.z)>SMALL;
+    return std::fabs(x-q.x)>SMALL || std::fabs(y-q.y)>SMALL || std::fabs(z-q.z)>SMALL;
   }
   float dot( const _V3t &q )const{
     return x*q.x+y*q.y+z*q.z;
@@ -630,16 +630,16 @@ union _V4t
 
 
   bool operator==( const _V4t &q )const{
-    return fabs(x-q.x)<=SMALL && fabs(y-q.y)<=SMALL && fabs(z-q.z)<=SMALL && fabs(w-q.w)<=SMALL;
+    return std::fabs(x-q.x)<=SMALL && std::fabs(y-q.y)<=SMALL && std::fabs(z-q.z)<=SMALL && std::fabs(w-q.w)<=SMALL;
   }
   bool operator<( const _V4t &q )const{
-    if( fabs(x-q.x)>SMALL ) return x<q.x ? true : false;
-    if( fabs(y-q.y)>SMALL ) return y<q.y ? true : false;
-    if( fabs(w-q.w)>SMALL ) return w<q.w ? true : false;
-    return fabs(z-q.z)>SMALL && z<q.z;
+    if( std::fabs(x-q.x)>SMALL ) return x<q.x ? true : false;
+    if( std::fabs(y-q.y)>SMALL ) return y<q.y ? true : false;
+    if( std::fabs(w-q.w)>SMALL ) return w<q.w ? true : false;
+    return std::fabs(z-q.z)>SMALL && z<q.z;
   }
   bool operator!=( const _V4t &q )const{
-    return fabs(x-q.x)>SMALL || fabs(y-q.y)>SMALL || fabs(z-q.z)>SMALL || fabs(w-q.w)>SMALL;
+    return std::fabs(x-q.x)>SMALL || std::fabs(y-q.y)>SMALL || std::fabs(z-q.z)>SMALL || std::fabs(w-q.w)>SMALL;
   }
 
   _V4t operator=( const _V3t &q ){
@@ -1109,7 +1109,7 @@ static inline bool V2Bool(V2t a){
 }
 
 static inline bool V2GreaterScalar(V2t a, F1t b){
-  if (fabsf(a.x) > b || fabsf(a.y) > b) {
+  if (std::fabsf(a.x) > b || std::fabsf(a.y) > b) {
     return true;
   }
   return false;
@@ -1514,7 +1514,7 @@ static inline F1t M4Det(F1t a1, F1t a2, F1t b1, F1t b2) {
 //
 //   F1t dot = normal.dot(w);
 //
-//    if (fabsf(dot) > 0.6)
+//    if (std::fabsf(dot) > 0.6)
 //    {
 //        w = transformByMatrix(normal, &OrthoY);
 //        OrthoY * normal;
@@ -2300,7 +2300,7 @@ static inline void M16SetQ4Rotation(M16t *M16, Q4t Q4){
 
   double length2 = Q4Length(Q4);
 
-  if (fabs(length2) <= DBL_MIN)
+  if (std::fabs(length2) <= DBL_MIN)
   {
     M16->m00 = 1.0; M16->m10 = 0.0; M16->m20 = 0.0;
     M16->m01 = 0.0; M16->m11 = 1.0; M16->m21 = 0.0;
@@ -3200,15 +3200,15 @@ static inline void NKLogM16(std::string name, M16t mat){
 //
 //
 //
-///** Return index of column of M containing maximum abs entry, or -1 if M=0 **/
+///** Return index of column of M containing maximum std::abs entry, or -1 if M=0 **/
 //static inline int find_max_col(_HMatrix M)
 //{
-//    double abs, max;
+//    double std::abs, max;
 //    int i, j, col;
 //    max = 0.0; col = -1;
 //    for (i=0; i<3; i++) for (j=0; j<3; j++) {
-//        abs = M[i][j]; if (abs<0.0) abs = -abs;
-//        if (abs>max) {max = abs; col = j;}
+//        std::abs = M[i][j]; if (std::abs<0.0) std::abs = -std::abs;
+//        if (std::abs>max) {max = std::abs; col = j;}
 //    }
 //    return col;
 //}
@@ -3278,8 +3278,8 @@ static inline void NKLogM16(std::string name, M16t mat){
 //    double sum, max;
 //    max = 0.0;
 //    for (i=0; i<3; i++) {
-//        if (tpose) sum = fabs(M[0][i])+fabs(M[1][i])+fabs(M[2][i]);
-//        else       sum = fabs(M[i][0])+fabs(M[i][1])+fabs(M[i][2]);
+//        if (tpose) sum = std::fabs(M[0][i])+std::fabs(M[1][i])+std::fabs(M[2][i]);
+//        else       sum = std::fabs(M[i][0])+std::fabs(M[i][1])+std::fabs(M[i][2]);
 //        if (max<sum) max = sum;
 //    }
 //    return max;
@@ -3369,7 +3369,7 @@ static inline void NKLogM16(std::string name, M16t mat){
 //		MadjT_one = norm_one(MadjTk);
 //		MadjT_inf = norm_inf(MadjTk);
 //
-//		gamma = sqrt(sqrt((MadjT_one*MadjT_inf)/(M_one*M_inf))/fabs(det));
+//		gamma = sqrt(sqrt((MadjT_one*MadjT_inf)/(M_one*M_inf))/std::fabs(det));
 //		g1 = gamma*0.5;
 //		g2 = 0.5/(gamma*det);
 //		matrixCopy(Ek,=,Mk,3);
@@ -3401,27 +3401,27 @@ static inline void NKLogM16(std::string name, M16t mat){
 //{
 //    HVect kv;
 //    double Diag[3],OffD[3]; /* OffD is off-diag (by omitted index) */
-//    double g,h,fabsh,fabsOffDi,t,theta,c,s,tau,ta,OffDq,a,b;
+//    double g,h,std::fabsh,std::fabsOffDi,t,theta,c,s,tau,ta,OffDq,a,b;
 //    static char nxt[] = {Y,Z,X};
 //    int sweep, i, j;
 //    mat_copy(U,=,mat_id,4);
 //    Diag[X] = S[X][X]; Diag[Y] = S[Y][Y]; Diag[Z] = S[Z][Z];
 //    OffD[X] = S[Y][Z]; OffD[Y] = S[Z][X]; OffD[Z] = S[X][Y];
 //    for (sweep=20; sweep>0; sweep--) {
-//        double sm = fabs(OffD[X])+fabs(OffD[Y])+fabs(OffD[Z]);
+//        double sm = std::fabs(OffD[X])+std::fabs(OffD[Y])+std::fabs(OffD[Z]);
 //        if (sm==0.0) break;
 //        for (i=Z; i>=X; i--) {
 //            int p = nxt[i]; int q = nxt[p];
-//            fabsOffDi = fabs(OffD[i]);
-//            g = 100.0*fabsOffDi;
-//            if (fabsOffDi>0.0) {
+//            std::fabsOffDi = std::fabs(OffD[i]);
+//            g = 100.0*std::fabsOffDi;
+//            if (std::fabsOffDi>0.0) {
 //                h = Diag[q] - Diag[p];
-//                fabsh = fabs(h);
-//                if (fabsh+g==fabsh) {
+//                std::fabsh = std::fabs(h);
+//                if (std::fabsh+g==std::fabsh) {
 //                    t = OffD[i]/h;
 //                } else {
 //                    theta = 0.5*h/OffD[i];
-//                    t = 1.0/(fabs(theta)+sqrt(theta*theta+1.0));
+//                    t = 1.0/(std::fabs(theta)+sqrt(theta*theta+1.0));
 //                    if (theta<0.0) t = -t;
 //                }
 //                c = 1.0/sqrt(t*t+1.0); s = t*c;

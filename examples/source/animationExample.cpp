@@ -8,6 +8,9 @@
 
 #include "animationExample.h"
 
+using namespace std;
+using namespace Shader;
+
 shared_ptr<Texture> moonTex;
 shared_ptr<Texture> skyTex;
 shared_ptr<Texture> skyTex2;

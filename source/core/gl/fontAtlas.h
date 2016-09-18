@@ -7,9 +7,9 @@
 
 #include "texture.h"
 #include "vertexBuffer.h"
-#include "../../ext/freetype-gl/freetype-gl.h"
-#include "../../ext/freetype-gl/texture-atlas.h"
-#include "../../ext/freetype-gl/texture-font.h"
+#include <freetype-gl/freetype-gl.h>
+#include <freetype-gl/texture-atlas.h>
+#include <freetype-gl/texture-font.h>
 
 class FontAtlas : public Texture {
 
@@ -26,9 +26,7 @@ public:
         nkLog("font: %s", filename);
 
         font = texture_font_new_from_file( atlas, fontSize, filename.c_str() );
-
-        texture_atlas_upload( atlas );
-
+        upload();
         nkLog("new atlas texture : %d", atlas->id);
     }
 
@@ -46,8 +44,7 @@ public:
     }
 
     virtual void bind() override;
-
-
+    void upload();
 };
 
 
