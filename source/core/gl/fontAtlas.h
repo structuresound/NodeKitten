@@ -25,12 +25,15 @@ public:
                 nkLog("load font: %s", filename);
                 font = texture_font_new_from_file( atlas, fontSize, filename.c_str() );
 
-                char * text = "A Quick Brown Fox Jumps Over The Lazy Dog 0123456789";
-                texture_font_load_glyphs( font, text );
+                const char * cache = " !\"#$%&'()*+,-./0123456789:;<=>?"
+                  "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
+                  "`abcdefghijklmnopqrstuvwxyz{|}~";
+
+                texture_font_load_glyphs( font, cache );
 
                 GetGLError();
 
-                bytes = 3;
+                bytes = 1;
                 internal_format = format = GL_RED;
                 texelType = GL_UNSIGNED_BYTE;
                 size = width * height * bytes;
@@ -38,15 +41,6 @@ public:
                 texelArray = atlas->data;
 
                 allocate(NK_TEXTURE_CLAMP, 0, 0, 0);
-                // glGenTextures( 1, &glName );
-                // glBindTexture( GL_TEXTURE_2D, glName );
-                // glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-                // glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-                // glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-                // glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-                // glTexImage2D( GL_TEXTURE_2D, 0, GL_RED, atlas->width, atlas->height,
-                //               0, GL_RED, GL_UNSIGNED_BYTE, atlas->data );
-
                 nkLog("gen atlas texture : %d", glName);
 
                 atlas->id = glName;

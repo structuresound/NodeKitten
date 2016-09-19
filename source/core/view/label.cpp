@@ -27,7 +27,7 @@ Mesh(nullptr, color, V3{0})
   });
   auto exist = Texture::fontCache[fontName];
   if (!exist){
-    Texture::fontCache[fontName] = make_shared<FontAtlas>(fontName, _loadedSize, 2048, 2048);
+    Texture::fontCache[fontName] = make_shared<FontAtlas>(fontName, _loadedSize, 1024, 1024);
   }
   setTexture(Texture::fontCache[fontName]);
 
@@ -46,7 +46,7 @@ void Label::chooseShader() {
   if (!shader) {
     auto modules = vector<ShaderModule> {ShaderModule::colorModule(NKS_COLOR_MODE_UNIFORM, 0),ShaderModule::freetypeModule()};
     shader = Program::shaderNamed("freeTypeShader", modules, 0);
-    //       _shader = Shader::shaderNamed("uColorLightShader",NKS_COLOR_MODE_UNIFORM,0,1);
+    //shader = Program::shaderNamed("uColorLightShader",NKS_COLOR_MODE_UNIFORM,0,1);
   }
 }
 
@@ -57,7 +57,7 @@ V2t Label::sizeForText() {
   auto textPtr = _text.c_str();
 
   texture_font_load_glyphs( _fontAtlas->font, textPtr );
-  
+
   for(size_t i=0; i<_text.length(); ++i)
   {
 
@@ -128,8 +128,6 @@ void Label::genVertices() {
       pen.x = size.get().width - tsize.width;
       break;
   }
-
-  texture_font_load_glyphs( _fontAtlas->font, textPtr );
 
   for(size_t i=0; i<_text.length(); ++i)
   {
@@ -218,5 +216,5 @@ void Label::setTextAlignment(NKTextAlignment alignment){
 }
 
 void Label::genTexture() {
-  setTexture(make_shared<FontAtlas>(_fontName, _loadedSize, 2048, 2048));
+  setTexture(make_shared<FontAtlas>(_fontName, _loadedSize, 1024, 1024));
 }
