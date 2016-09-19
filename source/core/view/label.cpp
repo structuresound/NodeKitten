@@ -56,10 +56,12 @@ V2t Label::sizeForText() {
   V4t bbox;
   auto textPtr = _text.c_str();
 
+  texture_font_load_glyphs( _fontAtlas->font, textPtr );
+  
   for(size_t i=0; i<_text.length(); ++i)
   {
 
-    texture_glyph_t *glyph = ftgl::texture_font_get_glyph( _fontAtlas->font, textPtr + i );
+    texture_glyph_t *glyph = texture_font_get_glyph( _fontAtlas->font, textPtr + i );
 
     if( glyph != NULL )
     {
@@ -67,7 +69,7 @@ V2t Label::sizeForText() {
 
       if( i > 0)
       {
-        kerning = ftgl::texture_glyph_get_kerning( glyph, textPtr + (i-1) );
+        kerning = texture_glyph_get_kerning( glyph, textPtr + (i-1) );
       }
 
       pen.x += kerning;
@@ -95,10 +97,13 @@ V2t Label::sizeForText() {
 
 void Label::genVertices() {
 
+  nkAssert(_fontAtlas != 0, "Label::genVertices no font atlas");
+  nkAssert(_fontAtlas->font != 0, "Label::genVertices no font for font atlas");
+
   auto tsize = sizeForText();
   auto textPtr = _text.c_str();
 
-  //nkLog("fontSize: %1.2f - text scale : %1.5f", _fontSize, t_scale);
+  // nkLog("fontSize: %1.2f - text scale : %1.5f", _fontSize, t_scale);
 
   if (!_vertexBuffer) {
     _vertexBuffer = make_shared<VertexBuffer>();
@@ -124,15 +129,17 @@ void Label::genVertices() {
       break;
   }
 
+  texture_font_load_glyphs( _fontAtlas->font, textPtr );
+
   for(size_t i=0; i<_text.length(); ++i)
   {
-    ftgl::texture_glyph_t *glyph = ftgl::texture_font_get_glyph(_fontAtlas->font, textPtr + i);
+    texture_glyph_t *glyph = texture_font_get_glyph(_fontAtlas->font, textPtr + i);
     if( glyph != NULL )
     {
       float kerning = 0.0f;
       if( i > 0)
       {
-        kerning = ftgl::texture_glyph_get_kerning( glyph, textPtr + (i-1) );
+        kerning = texture_glyph_get_kerning( glyph, textPtr + (i-1) );
       }
       pen.x += kerning;
       float x0  = ( pen.x + glyph->offset_x ) * t_scale;
@@ -194,18 +201,9 @@ void Label::genVertices() {
 // --------------------------------------------------------------- add_text ---
 void Label::setText(string text)
 {
-  //  if (String::wstring2string(_text) == text) return;
-//  auto wtext = String::string2wstring(text);
   _text = text;
   genVertices();
 }
-
-//void Label::setText(wstring text)
-//{
-//  if (_text == text) return;
-//  _text = text;
-//  genVertices();
-//}
 
 void Label::setFontSize(double size){
   if (_fontSize == size) return;

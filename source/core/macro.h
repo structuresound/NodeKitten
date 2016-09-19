@@ -12,7 +12,7 @@
 //*******************************************************************************************
 #define NK_SUPPRESS_LOGS 0
 //** FOR GL RELATED LOGS
-#define NK_LOG_GL 1
+#define NK_LOG_GL 0
 #define NK_LOG_CV 0
 //**
 //** LOG / PRINT TIME METRICS

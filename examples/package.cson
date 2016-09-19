@@ -2,6 +2,11 @@ name: "nodeKittenExamples"
 target: "bin"
 build:
   with: "cmake"
+  cmake:
+    clion:
+      copy:
+        from: "assets"
+        to: ""
   mac:
     frameworks:
       AudioUnit: 1

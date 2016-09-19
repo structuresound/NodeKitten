@@ -14,8 +14,6 @@
 #include "../node/node.h"
 #include "../vector/vector.h"
 
-#define gl_debug
-
 // EMSCRIPTEN / WEB_GL IN SAFARI
 
 //    OES_texture_float
@@ -536,11 +534,11 @@ namespace Shader {
   }
 
   bool Program::load() {
-
     GLuint vertShader, fragShader;
 
     // Create shader program.
     glName = glCreateProgram();
+    GetGLError();
 
     // Create and compile vertex shader.
     string vertSource{vertexSource()};
@@ -562,15 +560,13 @@ namespace Shader {
     if (!compileShader(&fragShader, GL_FRAGMENT_SHADER, fragSource)) {
       nkAssert(0, "Failed to compile FRAGMENT shader:");
     }
-
     GetGLError();
 
     // Attach vertex shader to program.
     glAttachShader(glName, vertShader);
-
+    GetGLError();
     // Attach fragment shader to program.
     glAttachShader(glName, fragShader);
-
     GetGLError();
 
 #pragma mark - bind attribute string
@@ -584,14 +580,11 @@ namespace Shader {
       glEnableVertexAttribArray(v.name);
       glBindAttribLocation(glName, v.name, v.nameString().c_str());
     }
-
     GetGLError();
 
     // Link program.
     if (!linkProgram(glName)) {
-
       nkLog("Failed to link program: %s", name.c_str());
-
       if (vertShader) {
         glDeleteShader(vertShader);
         vertShader = 0;
@@ -630,10 +623,10 @@ namespace Shader {
         int uniLoc = glGetUniformLocation(glName, v.nameString().c_str());
         if (uniLoc > -1) {
           v.glLocation = uniLoc;//_uniformLocations[uniName] = @(uniLoc);
-          nkLog("Uniform location %d, %s",v.glLocation, v.nameString());
+          //nkLog("Uniform location %d, %s",v.glLocation, v.nameString());
         }
         else {
-          nkLog("WARNING: Couldn't find location for uniform named: %s", v.nameString().c_str());
+          //nkLog("WARNING: Couldn't find location for uniform named: %s", v.nameString().c_str());
         }
       }
 
@@ -643,10 +636,10 @@ namespace Shader {
       int uniLoc = glGetUniformLocation(glName, v.nameString().c_str());
       if (uniLoc > -1) {
         v.glLocation = uniLoc;//_uniformLocations[uniName] = @(uniLoc);
-        nkLog("Uniform location %d, %s",v.glLocation, v.nameString());
+        //nkLog("Uniform location %d, %s",v.glLocation, v.nameString());
       }
       else {
-        nkLog("WARNING: Couldn't find location for uniform named: %s", v.nameString().c_str());
+        //nkLog("WARNING: Couldn't find location for uniform named: %s", v.nameString().c_str());
       }
     }
 

@@ -6,434 +6,429 @@
 //  Copyright (c) 2014 EMA. All rights reserved.
 //
 
-#include "../platform/platform.h"
+#include "../util/util.h"
 #include "shaderTools.h"
-#include "frameBuffer.h"
 
 #define nksf String::format
 
 namespace Shader {
 
-  std::string nksString(NKS_ENUM name) {
+std::string nksString(NKS_ENUM name) {
 
-    switch (name) {
+  switch (name) {
 
-        // ATTRIBUTES
-      case NKS_V4_POSITION:
-        return "position";
+  // ATTRIBUTES
+  case NKS_V4_POSITION:
+    return "position";
 
-      case NKS_V2_TEXCOORD:
-        return "texCoord0";
+  case NKS_V2_TEXCOORD:
+    return "texCoord0";
 
-      case NKS_V3_NORMAL:
-        return "normal";
+  case NKS_V3_NORMAL:
+    return "normal";
 
-      case NKS_V4_COLOR:
-        return "color";
+  case NKS_V4_COLOR:
+    return "color";
 
-      case NKS_V3_TANGENT:
-        return "tangent";
+  case NKS_V3_TANGENT:
+    return "tangent";
 
-      case NKS_V3_BINORMAL:
-        return "binormal";
+  case NKS_V3_BINORMAL:
+    return "binormal";
 
-      case NKS_F1_BONE_WEIGHT:
-        return "boneWeight";
+  case NKS_F1_BONE_WEIGHT:
+    return "boneWeight";
 
-        // GL VAR TYPES
+  // GL VAR TYPES
 
-      case NKS_VARIABLE_ATTRIBUTE:
-        return "attribute";
-      case NKS_VARIABLE_UNIFORM:
-        return "uniform";
-      case NKS_VARIABLE_VARYING:
-        return "varying";
-      case NKS_VARIABLE_INLINE:
-        return "";
+  case NKS_VARIABLE_ATTRIBUTE:
+    return "attribute";
+  case NKS_VARIABLE_UNIFORM:
+    return "uniform";
+  case NKS_VARIABLE_VARYING:
+    return "varying";
+  case NKS_VARIABLE_INLINE:
+    return "";
 
-        // GL PRECISION
+  // GL PRECISION
 
-      case NKS_PRECISION_LOW:
-        return "lowp";
-      case NKS_PRECISION_MEDIUM:
-        return "mediump";
-      case NKS_PRECISION_HIGH:
-        return "highp";
-      case NKS_PRECISION_NONE:
-        return "";
+  case NKS_PRECISION_LOW:
+    return "lowp";
+  case NKS_PRECISION_MEDIUM:
+    return "mediump";
+  case NKS_PRECISION_HIGH:
+    return "highp";
+  case NKS_PRECISION_NONE:
+    return "";
 
-        // GL VECTOR TYPES
-      case NKS_TYPE_VOID:
-        return "void";
-      case NKS_TYPE_F1:
-        return "float";
-      case NKS_TYPE_M9:
-        return "mat3";
-      case NKS_TYPE_M16:
-        return "mat4";
-      case NKS_TYPE_V2:
-        return "vec2";
-      case NKS_TYPE_V3:
-        return "vec3";
-      case NKS_TYPE_V4:
-        return "vec4";
-      case NKS_TYPE_INT:
-        return "int";
-      case NKS_TYPE_BOOL:
-        return "bool";
-      case NKS_TYPE_SAMPLER_2D:
-        return "sampler2D";
-      case NKS_TYPE_SAMPLER_2D_RECT:
-        return "sampler2DRect";
+  // GL VECTOR TYPES
+  case NKS_TYPE_VOID:
+    return "void";
+  case NKS_TYPE_F1:
+    return "float";
+  case NKS_TYPE_M9:
+    return "mat3";
+  case NKS_TYPE_M16:
+    return "mat4";
+  case NKS_TYPE_V2:
+    return "vec2";
+  case NKS_TYPE_V3:
+    return "vec3";
+  case NKS_TYPE_V4:
+    return "vec4";
+  case NKS_TYPE_INT:
+    return "int";
+  case NKS_TYPE_BOOL:
+    return "bool";
+  case NKS_TYPE_SAMPLER_2D:
+    return "sampler2D";
+  case NKS_TYPE_SAMPLER_2D_RECT:
+    return "sampler2DRect";
 
-      case NKS_STRUCT_LIGHT:
-        return "LightProperties";
-      case NKS_STRUCT_MATERIAL:
-        return "MaterialProperties";
-        // NK VAR NAMES
-        // ATTRIBUTES
+  case NKS_STRUCT_LIGHT:
+    return "LightProperties";
+  case NKS_STRUCT_MATERIAL:
+    return "MaterialProperties";
+  // NK VAR NAMES
+  // ATTRIBUTES
 
-      case NKS_V3_EYE_DIRECTION:
-        return "eyeDirection";
-        // UNIFORMS
+  case NKS_V3_EYE_DIRECTION:
+    return "eyeDirection";
+  // UNIFORMS
 
-      case NKS_M16_MVP:
-        return "modelViewProjectionMatrix";
-      case NKS_M16_MV:
-        return "modelViewMatrix";
-      case NKS_M16_P:
-        return "projectionMatrix";
+  case NKS_M16_MVP:
+    return "modelViewProjectionMatrix";
+  case NKS_M16_MV:
+    return "modelViewMatrix";
+  case NKS_M16_P:
+    return "projectionMatrix";
 
-      case NKS_F1_BATCH_SCALE:
-        return "batchScale";
+  case NKS_F1_BATCH_SCALE:
+    return "batchScale";
 
-      case NKS_V2_BATCH_POSITION:
-        return "batchPosition";
-      case NKS_V3_BATCH_POSITION:
-        return "batchPosition";
+  case NKS_V2_BATCH_POSITION:
+    return "batchPosition";
+  case NKS_V3_BATCH_POSITION:
+    return "batchPosition";
 
-      case NKS_M9_NORMAL:
-        return "normalMatrix";
-      case NKS_INT_USE_UNIFORM_COLOR:
-        return "useUniformColor";
-      case NKS_INT_NUM_TEXTURES:
-        return "numTextures";
-      case NKS_F1_INSTANCE:
-        return "instance";
-      case NKS_INT_NUM_PASSES:
-        return "numPasses";
-      case NKS_INT_CURRENT_PASS:
-        return "currentPass";
+  case NKS_M9_NORMAL:
+    return "normalMatrix";
+  case NKS_INT_USE_UNIFORM_COLOR:
+    return "useUniformColor";
+  case NKS_INT_NUM_TEXTURES:
+    return "numTextures";
+  case NKS_F1_INSTANCE:
+    return "instance";
+  case NKS_INT_NUM_PASSES:
+    return "numPasses";
+  case NKS_INT_CURRENT_PASS:
+    return "currentPass";
 
-      case NKS_LIGHT:
-        return "light[4]";
-      case NKS_I1_NUM_LIGHTS:
-        return "numLights";
-      case NKS_V3_LIGHT_DIRECTION:
-        return "lightDirection";
-      case NKS_V3_LIGHT_HALF_VECTOR:
-        return "halfVector";
-      case NKS_F1_ATTENUATION:
-        return "attenuation";
-      case NKS_F1_DIFFUSE:
-        return "diffuse";
-      case NKS_F1_SPECULAR:
-        return "specular";
+  case NKS_LIGHT:
+    return "light[4]";
+  case NKS_I1_NUM_LIGHTS:
+    return "numLights";
+  case NKS_V3_LIGHT_DIRECTION:
+    return "lightDirection";
+  case NKS_V3_LIGHT_HALF_VECTOR:
+    return "halfVector";
+  case NKS_F1_ATTENUATION:
+    return "attenuation";
+  case NKS_F1_DIFFUSE:
+    return "diffuse";
+  case NKS_F1_SPECULAR:
+    return "specular";
 
-      case NKS_S2D_TEXTURE:
-        return "texture";
-      case NKS_TEXTURE_RECT_SCALE:
-        return "textureScale";
-      case NKS_SIZE:
-        return "size";
-        // GL BUILT IN
-      case NKS_V3_GL_POSITION:
-        return "gl_position";
-      case NKS_V4_GL_FRAG_COLOR:
+  case NKS_S2D_TEXTURE:
+    return "texture";
+  case NKS_TEXTURE_RECT_SCALE:
+    return "textureScale";
+  case NKS_SIZE:
+    return "size";
+  // GL BUILT IN
+  case NKS_V3_GL_POSITION:
+    return "gl_position";
+  case NKS_V4_GL_FRAG_COLOR:
 #if NK_USE_GL3
-        return "FragColor";
+    return "FragColor";
 #else
-        return "gl_FragColor";
+    return "gl_FragColor";
 #endif
-      case NKS_F1_GL_LINEWIDTH:
-        return "gl_Linewidth";
+  case NKS_F1_GL_LINEWIDTH:
+    return "gl_Linewidth";
 
-      case NKS_UINT_GL_INSTANCE_ID:
+  case NKS_UINT_GL_INSTANCE_ID:
 #if (NK_USE_GLES && !NK_USE_WEBGL)
-        return "gl_InstanceIDEXT";
+    return "gl_InstanceIDEXT";
 #else
-        return "gl_InstanceID";
+    return "gl_InstanceID";
 #endif
 
-        // EXTENSIONS
-      case NKS_EXT_DRAW_INSTANCED:
+  // EXTENSIONS
+  case NKS_EXT_DRAW_INSTANCED:
 #if TARGET_EMSCRIPTEN
-        return "#extension GL_ANGLE_instanced_arrays : enable";
-        //return "#extension ANGLE_instanced_arrays : enable";
+    return "#extension GL_ANGLE_instanced_arrays : enable";
+// return "#extension ANGLE_instanced_arrays : enable";
 #elif NK_USE_GLES
-        //return @"";
-        return "#extension GL_EXT_draw_instanced : enable";
+    // return @"";
+    return "#extension GL_EXT_draw_instanced : enable";
 #else
-        return "#extension GL_ARB_draw_instanced : enable";
+    return "#extension GL_ARB_draw_instanced : enable";
 #endif
 
-      case NKS_EXT_GPU_SHADER:
+  case NKS_EXT_GPU_SHADER:
 #if NK_USE_GLES
-        return "";
-        //return @"#extension GL_OES_element_index_uint : enable";
+    return "";
+// return @"#extension GL_OES_element_index_uint : enable";
 #else
-        return "#extension GL_EXT_gpu_shader4 : enable";
+    return "#extension GL_EXT_gpu_shader4 : enable";
 #endif
 
-        // DEFAULT SHADERS
-      case NKS_PASSTHROUGH_TEXTURE_SHADER:
-        return "passThroughTextureShader";
-      case NKS_PASSTHROUGH_UNIFORM_SHADER:
-        return "passThroughColorShader";
-        // MODULES
+  // DEFAULT SHADERS
+  case NKS_PASSTHROUGH_TEXTURE_SHADER:
+    return "passThroughTextureShader";
+  case NKS_PASSTHROUGH_UNIFORM_SHADER:
+    return "passThroughColorShader";
+  // MODULES
 
-      case NKS_FALSE_COLOR_DARK_COLOR:
-        return "falseColor_darkColor";
-      case NKS_FALSE_COLOR_LIGHT_COLOR:
-        return "falseColor_lightColor";
-      case NKS_FALSE_COLOR_INTENSITY:
-        return "falseColor_intensity";
+  case NKS_FALSE_COLOR_DARK_COLOR:
+    return "falseColor_darkColor";
+  case NKS_FALSE_COLOR_LIGHT_COLOR:
+    return "falseColor_lightColor";
+  case NKS_FALSE_COLOR_INTENSITY:
+    return "falseColor_intensity";
 
-      case NKS_CURRENT_TIME:
-        return "time";
+  case NKS_CURRENT_TIME:
+    return "time";
 
-      default:
-        return "((NKS_STRING_ENUM_ERROR))";
-    }
-
+  default:
+    return "((NKS_STRING_ENUM_ERROR))";
   }
+}
 
-  string shaderStringFromFile(string name) {
+string shaderStringFromFile(string name) {
 
 #if (TARGET_IOS || TARGET_OSX)
-    string path = Platform::pathForResource(name, "nks.txt");
+  string path = File::pathForResource(name, "nks.txt");
 #else
-    string path = "error";
+  string path = "error";
 #endif
-    string file;
-    return String::getfile(path, file);
-    return file;
-  }
+  string file;
+  return String::getfile(path, file);
+  return file;
+}
 
-  string shaderStringWithDirective(string name, string directive) {
-    string file = shaderStringFromFile(name);
-    vector<string> parts = String::split(file, directive, false, 0);
-    return parts[1];
-  }
+string shaderStringWithDirective(string name, string directive) {
+  string file = shaderStringFromFile(name);
+  vector<string> parts = String::split(file, directive, false, 0);
+  return parts[1];
+}
 
-  //string shaderStringWithArray(vector<string>& array){
-  //
-  //    for (string& o : array) {
-  //        if ([o isKindOfClass:[ShaderVariable class]]) {
-  //            [ms appendString:[(ShaderVariable*)o nameString]];
-  //        }
-  //        else if ([o isKindOfClass:[NSNumber class]]){
-  //            [ms appendFormat:@"%@",[(NSNumber*)o stringValue]];
-  //        }
-  //        else  if ([o isKindOfClass:[NSString class]]) {
-  //            [ms appendString:(NSString*)o];
-  //            if ([o characterAtIndex:o.length-1] == ';' || [o characterAtIndex:o.length-1] == '{' || [o characterAtIndex:o.length-1] == '}') {
-  //                [ms appendString:@"\n"];
-  //            }
-  //        }
-  //    }
-  //
-  //    return ms;
-  //}
-  //
-  //string shaderLineWithArray(NSArray *array) {
-  //    NSString *ms = shaderStringWithArray(array);
-  //
-  //    return [ms stringByAppendingString:@";\n"];
-  //
-  //}
-  //
-  //string operatorString(NSArray* variables, NSString *operator) {
-  //    NSMutableString *mult = [[nksf:@"%@", [variables[0] nameString]] mutableCopy];
-  //    for (int i = 1; i < variables.count; i++) {
-  //        [mult appendString:[nksf:@" %@ %@", operator, [variables[i] nameString]]];
-  //    }
-  //    return mult;
-  //}
+// string shaderStringWithArray(vector<string>& array){
+//
+//    for (string& o : array) {
+//        if ([o isKindOfClass:[ShaderVariable class]]) {
+//            [ms appendString:[(ShaderVariable*)o nameString]];
+//        }
+//        else if ([o isKindOfClass:[NSNumber class]]){
+//            [ms appendFormat:@"%@",[(NSNumber*)o stringValue]];
+//        }
+//        else  if ([o isKindOfClass:[NSString class]]) {
+//            [ms appendString:(NSString*)o];
+//            if ([o characterAtIndex:o.length-1] == ';' || [o
+//            characterAtIndex:o.length-1] == '{' || [o
+//            characterAtIndex:o.length-1] == '}') {
+//                [ms appendString:@"\n"];
+//            }
+//        }
+//    }
+//
+//    return ms;
+//}
+//
+// string shaderLineWithArray(NSArray *array) {
+//    NSString *ms = shaderStringWithArray(array);
+//
+//    return [ms stringByAppendingString:@";\n"];
+//
+//}
+//
+// string operatorString(NSArray* variables, NSString *operator) {
+//    NSMutableString *mult = [[nksf:@"%@", [variables[0] nameString]]
+//    mutableCopy];
+//    for (int i = 1; i < variables.count; i++) {
+//        [mult appendString:[nksf:@" %@ %@", operator, [variables[i]
+//        nameString]]];
+//    }
+//    return mult;
+//}
 
+string ShaderFunction::functionString() {
 
-  string ShaderFunction::functionString() {
+  string functionString =
+      String::format("%s %s (%s inputColor){ \n", nks(returnType).c_str(),
+                     name.c_str(), nks(inputType).c_str());
 
-    string functionString = String::format("%s %s (%s inputColor){ \n", nks(returnType).c_str(), name.c_str(),
-                                           nks(inputType).c_str());
+  functionString += function;
 
-    functionString += function;
+  functionString += "}\n";
 
-    functionString += "}\n";
-
-    return functionString;
-  }
+  return functionString;
+}
 
 #pragma mark - ShaderVariable
 
+string ShaderVariable::nameString() {
+  switch (variable) {
+  case NKS_VARIABLE_ATTRIBUTE:
+    return nksf("a_%s", nks(name).c_str());
+    break;
 
-  string ShaderVariable::nameString() {
-    switch (variable) {
-      case NKS_VARIABLE_ATTRIBUTE:
-        return nksf("a_%s", nks(name).c_str());
-        break;
+  case NKS_VARIABLE_UNIFORM:
+    return nksf("u_%s", nks(name).c_str());
+    break;
 
-      case NKS_VARIABLE_UNIFORM:
-        return nksf("u_%s", nks(name).c_str());
-        break;
+  case NKS_VARIABLE_VARYING:
+    return nksf("v_%s", nks(name).c_str());
+    break;
 
-      case NKS_VARIABLE_VARYING:
-        return nksf("v_%s", nks(name).c_str());
-        break;
+  case NKS_VARIABLE_INLINE:
+    return nks(name);
+    break;
 
-      case NKS_VARIABLE_INLINE:
-        return nks(name);
-        break;
-
-      default:
-        return "NKS_ERROR";
-    }
-
+  default:
+    return "NKS_ERROR";
   }
+}
 
+string ShaderVariable::description() { return nameString(); }
 
-  string ShaderVariable::description() {
-    return nameString();
-  }
+string ShaderVariable::declarationStringForSection(NKS_ENUM section) {
 
-  string ShaderVariable::declarationStringForSection(NKS_ENUM section) {
-
-    string dec;
+  string dec;
 
 #if NK_USE_GL3
 
-    if (variable == NKS_VARIABLE_VARYING) {
+  if (variable == NKS_VARIABLE_VARYING) {
 
-      switch (section) {
-        case NKS_VERTEX_SHADER:
-          dec = "out";
-          break;
+    switch (section) {
+    case NKS_VERTEX_SHADER:
+      dec = "out";
+      break;
 
-        case NKS_FRAGMENT_SHADER:
-          dec = "in";
-          break;
+    case NKS_FRAGMENT_SHADER:
+      dec = "in";
+      break;
 
-        default:
-          break;
-      }
+    default:
+      break;
     }
-    else if (variable == NKS_VARIABLE_ATTRIBUTE) {
-      dec = "layout (location = "+nksf("%d",name)+") in";
-    }
-    else {
-      dec = nks(variable);
-    }
+  } else if (variable == NKS_VARIABLE_ATTRIBUTE) {
+    dec = "layout (location = " + nksf("%d", name) + ") in";
+  } else {
+    dec = nks(variable);
+  }
 
 #else
-    dec = nks(variable);
+  dec = nks(variable);
 #endif
 
 #if NK_USE_GLES
-    dec += " " + nks(precision);
+  dec += " " + nks(precision);
 #endif
-    dec += " " + nks(type);
-    dec += " " + nameString();
-    if (arraySize) {
-      dec += String::format("[%d]", arraySize);
-    }
-    dec += ";";
-    return dec;
+  dec += " " + nks(type);
+  dec += " " + nameString();
+  if (arraySize) {
+    dec += String::format("[%d]", arraySize);
   }
+  dec += ";";
+  return dec;
+}
 
 #pragma mark - BINDING UNIFORMS
 
-  void ShaderVariable::bindI1(I1t data) {
-    glUniform1i(glLocation, data);
-    nkGetGLError();
-  }
+void ShaderVariable::bindI1(I1t data) {
+  glUniform1i(glLocation, data);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindF1(F1t data) {
-    glUniform1f(glLocation, data);
-    nkGetGLError();
-  }
+void ShaderVariable::bindF1(F1t data) {
+  glUniform1f(glLocation, data);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindV2(V2t data) {
-    glUniform2fv(glLocation, 1, data.v);
-    nkGetGLError();
-  }
+void ShaderVariable::bindV2(V2t data) {
+  glUniform2fv(glLocation, 1, data.v);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindV3(V3t data) {
-    glUniform3fv(glLocation, 1, data.v);
-    nkGetGLError();
-  }
+void ShaderVariable::bindV3(V3t data) {
+  glUniform3fv(glLocation, 1, data.v);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindV4(V4t data) {
-    glUniform4fv(glLocation, 1, data.v);
-    nkGetGLError();
-  }
+void ShaderVariable::bindV4(V4t data) {
+  glUniform4fv(glLocation, 1, data.v);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindM9(M9t data) {
-    glUniformMatrix3fv(glLocation, 1, GL_FALSE, data.m);
-    nkGetGLError();
-  }
+void ShaderVariable::bindM9(M9t data) {
+  glUniformMatrix3fv(glLocation, 1, GL_FALSE, data.m);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindM16(M16t data) {
-    glUniformMatrix4fv(glLocation, 1, GL_FALSE, data.m);
-    nkGetGLError();
-  }
+void ShaderVariable::bindM16(M16t data) {
+  glUniformMatrix4fv(glLocation, 1, GL_FALSE, data.m);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindF1Array(F1t *data, int count) {
-    glUniform1fv(glLocation, count, data);
-//    std::cout << "bind location " << glLocation << " count " << count << std::endl;
-    nkGetGLError();
-  }
+void ShaderVariable::bindF1Array(F1t *data, int count) {
+  glUniform1fv(glLocation, count, data);
+  //    std::cout << "bind location " << glLocation << " count " << count <<
+  //    std::endl;
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindV2Array(V2t *data, int count) {
-    glUniform2fv(glLocation, count, data->v);
-    nkGetGLError();
-  }
+void ShaderVariable::bindV2Array(V2t *data, int count) {
+  glUniform2fv(glLocation, count, data->v);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindV3Array(V3t *data, int count) {
-    glUniform3fv(glLocation, count, data->v);
-    nkGetGLError();
-  }
+void ShaderVariable::bindV3Array(V3t *data, int count) {
+  glUniform3fv(glLocation, count, data->v);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindV4Array(V4t *data, int count) {
-    glUniform4fv(glLocation, count, data->v);
-    nkGetGLError();
-  }
+void ShaderVariable::bindV4Array(V4t *data, int count) {
+  glUniform4fv(glLocation, count, data->v);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindM9Array(M9t *data, int count) {
-    glUniformMatrix3fv(glLocation, count, GL_FALSE, data->m);
-    nkGetGLError();
-  }
+void ShaderVariable::bindM9Array(M9t *data, int count) {
+  glUniformMatrix3fv(glLocation, count, GL_FALSE, data->m);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindM16Array(M16t *data, int count) {
-    glUniformMatrix4fv(glLocation, count, GL_FALSE, data->m);
-    nkGetGLError();
-  }
+void ShaderVariable::bindM16Array(M16t *data, int count) {
+  glUniformMatrix4fv(glLocation, count, GL_FALSE, data->m);
+  nkGetGLError();
+}
 
-  void ShaderVariable::bindLightProperties(LightProperties &data, int index) {
-    int numUniforms = 11;
-    int base = glLocation + (index * numUniforms);
-    glUniform3fv(base + 0, 1, data.position.v);
-    glUniform3fv(base + 1, 1, data.color.v);
-    glUniform3fv(base + 2, 1, data.halfVector.v);
-    glUniform3fv(base + 3, 1, data.coneDirection.v);
+void ShaderVariable::bindLightProperties(LightProperties &data, int index) {
+  int numUniforms = 11;
+  int base = glLocation + (index * numUniforms);
+  glUniform3fv(base + 0, 1, data.position.v);
+  glUniform3fv(base + 1, 1, data.color.v);
+  glUniform3fv(base + 2, 1, data.halfVector.v);
+  glUniform3fv(base + 3, 1, data.coneDirection.v);
 
-    glUniform1fv(base + 4, 1, &data.spotCosCutoff);
-    glUniform1fv(base + 5, 1, &data.spotExponent);
-    glUniform1fv(base + 6, 1, &data.ambient);
-    glUniform1fv(base + 7, 1, &data.linearAttenuation);
-    glUniform1fv(base + 8, 1, &data.quadraticAttenuation);
+  glUniform1fv(base + 4, 1, &data.spotCosCutoff);
+  glUniform1fv(base + 5, 1, &data.spotExponent);
+  glUniform1fv(base + 6, 1, &data.ambient);
+  glUniform1fv(base + 7, 1, &data.linearAttenuation);
+  glUniform1fv(base + 8, 1, &data.quadraticAttenuation);
 
-    glUniform1i(base + 9, data.isLocal);
-    glUniform1i(base + 10, data.isSpot);
-  }
-
+  glUniform1i(base + 9, data.isLocal);
+  glUniform1i(base + 10, data.isSpot);
+}
 }

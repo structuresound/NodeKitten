@@ -37,7 +37,6 @@ public:
   Label(std::string fontName, double fontSize = 12, Color color = Color(1.0));
 
   void setText(std::string text);
-  void setText(std::wstring text);
   V2t sizeForText();
   void genVertices();
   void genTexture();

@@ -18,9 +18,9 @@ class File
     unsigned char	*_buffer {nullptr};
 
 public:
-
     static std::string appDirectory();
     static std::string pathForFileNamed(std::string name);
+    static std::string pathForResource(std::string name, std::string ext);
 
     File(std::string& filename, bool relative_path);
     ~File();

@@ -1,5 +1,5 @@
 #include "examples.h"
-#include <nodeKitten/core/platform/sdl/nkSDLView.hpp>
+#include <nodeKitten/platform/sdl/sdl.hpp>
 
 NKSDLView *sdlView;
 

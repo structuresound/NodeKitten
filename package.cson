@@ -31,10 +31,10 @@ deps: [
         to: 'include/png'
       ]
 ,
-  git: "rougier/freetype-gl"
+  git: "structuresound/freetype-gl"
   build:
     with: "ninja"
-    sources: matching: ['*.c']
+    sources: matching: ['edtaa3func.c', 'platform.c', 'text-buffer.c', 'texture-atlas.c', 'vector.c']
   path:
     install:
       headers: [
