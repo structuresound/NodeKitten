@@ -76,7 +76,7 @@ public:
     width = width_;
     height = height_;
 
-    genGLTexture(width, height);
+    genGLTexture();
 #ifdef GL_UNSIGNED_INT_8_8_8_8_REV
     glTexImage2D( target, 0, GL_RGBA, width, height,
                  0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, NULL );
@@ -104,7 +104,7 @@ public:
 
   bool shouldResizeToTexture {false};
   bool keepInMemory {false};
-  void genGLTexture(int width, int height);
+  void genGLTexture();
 
 
   //+(instancetype) textureWithImageNamed:(NSString*)name fromBundleNamed:(NSString*)bundleName;

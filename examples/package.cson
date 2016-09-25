@@ -9,19 +9,18 @@ build:
         to: ""
   mac:
     frameworks:
-      AudioUnit: 1
-      CoreAudio: 1
-      CoreVideo: 1
-      Carbon: 1
-      Cocoa: 1
-      ForceFeedback: 1
-      IOKit: 1
-      OpenGL: 1
+      AudioUnit: true
+      CoreAudio: true
+      CoreVideo: true
+      Carbon: true
+      Cocoa: true
+      ForceFeedback: true
+      IOKit: true
+      OpenGL: true
   cxxFlags:
     std: "c++14"
   ldFlags:
-    liconv: 1
-    lbz2: 1
+    liconv: true
 path:
   install:
     mac:

@@ -32,7 +32,7 @@ shared_ptr<Texture> Texture::textureWithImageFile(string filePath, bool relative
     return nameCache[filePath] = make_shared<Texture>(filePath, relative_path, flags, filter, anistropicFilter);
 }
 
-void Texture::genGLTexture(int w, int h){
+void Texture::genGLTexture(){
 
     glActiveTexture(GL_TEXTURE0);
 

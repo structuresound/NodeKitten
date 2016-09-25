@@ -11,6 +11,5 @@ int main(int, char**){
 
     sdlView->setup();
     sdlView->setScene(make_shared<AnimationExample>(sdlView->size.get()));
-
     return sdlView->loop();
 }

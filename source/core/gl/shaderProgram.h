@@ -62,7 +62,7 @@ namespace Shader {
 
       static shared_ptr <Program> shaderNamed(string name, vector <ShaderModule> modules, int batchSize = 0);
 
-      static shared_ptr <Program> shaderNamed(string name, NKS_COLOR_MODE colorMode, U1t numTextures, int numLights,
+      static shared_ptr <Program> shaderNamed(string name, NKS_COLOR_MODE colorMode, U1t numTextures = 0, int numLights = 0,
                                              int batchSize = 0);
 
       Program();

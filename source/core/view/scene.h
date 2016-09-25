@@ -3,14 +3,6 @@
 #include "view.h"
 #include "../node/camera.h"
 
-//#import "NKAlertSprite.h"
-
-//#if NK_USE_MIDI
-//#import "MIKMIDI.h"
-//typedef void (^MidiReceivedBlock)(MIKMIDICommand* command);
-//#define newMidiReceivedBlock (MidiReceivedBlock)^(MIKMIDICommand* command)
-//#endif
-
 typedef std::function<void(void)> HitCallback;
 
 class SceneController;
@@ -106,14 +98,6 @@ public:
   VertexBuffer *boundVertexBuffer = nullptr;
   Texture *boundTexture = nullptr;
   bool fill {false};
-
-  // EXTERNAL MODULES
-#warning midi
-  //#if NK_USE_MIDI
-  //    void handleMidiCommand:(MIKMIDICommand*)command;
-  //    NSMutableDictionary* midiReceivedBlocks;//MidiReceivedBlock midiReceivedBlock;
-  //#endif
-
   void setView(SceneController* view);
 
   void bindMainFrameBuffer(Node* sender);

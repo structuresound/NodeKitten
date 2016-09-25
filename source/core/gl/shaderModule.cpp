@@ -384,7 +384,6 @@ namespace Shader {
       ShaderFunction texFunction;
 
       texFunction.name = "textureMultiplyAlpha";
-
       texFunction.inputType = NKS_TYPE_V4;
       texFunction.returnType = NKS_TYPE_V4;
 
@@ -406,11 +405,8 @@ namespace Shader {
           );
       }
 #endif
-
       module.fragFunctions.push_back(texFunction);
-
       return module;
-
   }
 
 #pragma mark - POST PROCESS MODULES
