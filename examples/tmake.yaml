@@ -1,0 +1,44 @@
+---
+name: nodeKittenExamples
+outputType: executable
+configure:
+  for: cmake
+build:
+  with: cmake
+  cmake:
+    clion:
+      copy:
+        from: assets
+        to: ''
+  mac:
+    frameworks:
+      AudioUnit: true
+      CoreAudio: true
+      CoreVideo: true
+      Carbon: true
+      Cocoa: true
+      ForceFeedback: true
+      IOKit: true
+      OpenGL: true
+  cxxFlags:
+    std: c++14
+  linkerFlags:
+    liconv: true
+path:
+  install:
+    mac:
+      assets:
+        from: assets
+        to: bin/Contents/Resources
+require:
+  nodeKitten:
+    link: '../'
+  sdl:
+    archive: https://www.libsdl.org/release/SDL2-2.0.4.tar.gz
+    build:
+      with: cmake
+    path:
+      install:
+        headers:
+          from: source/include
+          to: include/sdl

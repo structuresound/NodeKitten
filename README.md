@@ -1,5 +1,11 @@
 # nodeKitten
 
+```
+tmake
+cd examples && tmake
+bin/nodeKittenExamples
+```
+
 nodeKitten is an experimental cross-platform openGL toolkit
 
 It is designed to be light-weight and be embedded into a GL Context, rather than a windowing platform.

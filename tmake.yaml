@@ -1,0 +1,131 @@
+---
+name: nodeKitten
+target: static
+configure:
+  for: cmake
+build:
+  mac, ios:
+    sources:
+    - core/**/*.cpp
+    - ext/**/*.cpp
+    - ext/**/*.c
+    - "!core/**/*tests*.cpp"
+    - "!core/platform/android/**/*.*"
+    - "!core/platform/emscripten/**/*.*"
+    cxxFlags:
+      std: c++14
+      fobjc-arc: true
+  with: cmake
+path:
+  install:
+    headers:
+    - from: source
+      to: include/nodeKitten
+require:
+  png:
+    git:
+      repository: glennrp/libpng
+      archive: v1.6.25
+    build:
+      with: cmake
+    path:
+      project: source
+      install:
+        headers:
+        - from: source
+          to: include/png
+        - from: source/build
+          to: include/png
+  freetype-gl:
+    git: rougier/freetype-gl
+    configure:
+      for: ninja
+    build:
+      with: ninja
+      sources:
+        - "*.c"
+    path:
+      install:
+        headers:
+        - from: source
+          to: include/freetype-gl
+    require:
+      freetype:
+        name: freetype
+        archive: http://download.savannah.gnu.org/releases/freetype/freetype-2.7.tar.gz
+        configure:
+          for: ninja
+        build:
+          with: ninja
+          mac:
+            sources:
+            - src/autofit/autofit.c
+            - src/base/*.c
+            - src/bdf/bdf.c
+            - src/bzip2/ftbzip2.c
+            - src/cache/ftcache.c
+            - src/cff/cff.c
+            - src/cid/type1cid.c
+            - src/gzip/ftgzip.c
+            - src/lzw/ftlzw.c
+            - src/pcf/pcf.c
+            - src/pfr/pfr.c
+            - src/psaux/psaux.c
+            - src/pshinter/pshinter.c
+            - src/psnames/psnames.c
+            - src/raster/raster.c
+            - src/sfnt/sfnt.c
+            - src/smooth/smooth.c
+            - src/truetype/truetype.c
+            - src/type1/type1.c
+            - src/type42/type42.c
+            - src/winfonts/winfnt.c
+          cFlags:
+            DFT2_BUILD_LIBRARY: 1
+        require:
+          zlib:
+            git:
+              repository: madler/zlib
+              tag: v1.2.8
+            configure:
+              for: ninja
+              replace:
+                gzguts:
+                  sources:
+                    - "gzguts.h"
+                  inputs:
+                    unistd:
+                    - "\n\n#ifdef _LARGEFILE64_SOURCE"
+                    - "\n\n#include <unistd.h>\n#ifdef _LARGEFILE64_SOURCE"
+            build:
+              with: ninja
+              sources:
+                - "*.c"
+              compilerFlags:
+                ios:
+                  miphoneos-version-min: "=6.0"
+              cFlags:
+                O: 3
+                Wall: true
+                Wwrite-strings: true
+                Wpointer-arith: true
+                Wconversion: true
+                ios:
+                  "fembed-bitcode": true
+          bz2:
+            name: bz2
+            archive: http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
+            configure:
+              for: ninja
+            build:
+              with: ninja
+              sources:
+              - "*.c"
+              cFlags:
+                O: 2
+                g: true
+                Wall: true
+                D_FILE_OFFSET_BITS: 64
+                Winline: true
+                Wconversion: true
+
