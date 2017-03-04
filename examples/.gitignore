@@ -4,3 +4,4 @@
 /build
 /cmake
 trie_modules
+/CMakeLists.txt

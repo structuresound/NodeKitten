@@ -25,6 +25,7 @@ build:
   linkerFlags:
     liconv: true
 path:
+  project: .
   install:
     mac:
       assets:
@@ -42,3 +43,4 @@ require:
         headers:
           from: source/include
           to: include/sdl
+  osc: kaoskorobase/oscpp
