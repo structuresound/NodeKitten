@@ -5,7 +5,7 @@ configure:
   for: cmake
 build:
   mac, ios:
-    sources:
+    matching:
     - core/**/*.cpp
     - ext/**/*.cpp
     - ext/**/*.c
@@ -34,7 +34,7 @@ require:
         headers:
         - from: source
           to: include/png
-        - from: source/build
+        - from: build/x64
           to: include/png
   freetype-gl:
     git: rougier/freetype-gl
@@ -42,7 +42,7 @@ require:
       for: ninja
     build:
       with: ninja
-      sources:
+      matching:
         - "*.c"
     path:
       install:
@@ -58,7 +58,7 @@ require:
         build:
           with: ninja
           mac:
-            sources:
+            matching:
             - src/autofit/autofit.c
             - src/base/*.c
             - src/bdf/bdf.c
@@ -91,7 +91,7 @@ require:
               for: ninja
               replace:
                 gzguts:
-                  sources:
+                  matching:
                     - "gzguts.h"
                   inputs:
                     unistd:
@@ -99,7 +99,7 @@ require:
                     - "\n\n#include <unistd.h>\n#ifdef _LARGEFILE64_SOURCE"
             build:
               with: ninja
-              sources:
+              matching:
                 - "*.c"
               compilerFlags:
                 ios:
@@ -119,7 +119,7 @@ require:
               for: ninja
             build:
               with: ninja
-              sources:
+              matching:
               - "*.c"
               cFlags:
                 O: 2
